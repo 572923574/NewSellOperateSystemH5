@@ -1,6 +1,12 @@
 <template>
-    <div>
-		<div></div>
+    <div class="vuePage">
+		<div class="headDiv">
+			<div class="searchDiv">
+				<el-input :placeholder="searchPlaceholder" prefix-icon="el-icon-search" v-model="searchKey">
+  				</el-input>
+			</div>
+			
+		</div>
 		<div>
 			<TableDemo :tableData="tableData"></TableDemo>
 		</div>
@@ -111,7 +117,9 @@ export default {
 					border:true,
 					showRightBtnColumn:true,
 				}
-			}
+			},
+			searchPlaceholder:"请输入名称或手机号码查询",//搜索提示
+			searchKey:"",//搜索输入内容
 		};
 	},
 	methods:{
@@ -121,3 +129,13 @@ export default {
 	}
 };
 </script>
+<style lang="less" scoped>
+.vuePage{
+	padding: 10px;
+	.headDiv{
+		padding: 0px 10px;
+		margin-bottom:10px;
+	}
+	
+}
+</style>

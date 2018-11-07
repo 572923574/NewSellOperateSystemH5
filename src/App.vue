@@ -13,32 +13,42 @@
 import Menu from "@/views/menu/Menu.vue";
 
 export default {
-  name: "app",
-  components: {
-    Menu
-  }
+	name: "app",
+	components: {
+		Menu
+	}
 };
 </script>
 
 <style lang="less">
-html,body {
-  height: 100%;
-  overflow: hidden;
+html,
+body {
+	height: 100%;
+	overflow: hidden;
 }
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  height: 100%;
-  font-size: 12px;
-  >div{
-    height: 100%;
-  }
+	font-family: "Avenir", Helvetica, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-align: center;
+	color: #2c3e50;
+	height: 100%;
+	font-size: 12px;
+	> div {
+		height: 100%;
+  	}
+	.el-input__inner {
+		//覆盖原生的input输入框样式
+		height: 30px;
+		line-height: 30px;
+	}
+	.el-input__icon {
+		// input输入框图标
+		line-height: 30px;
+	}
 }
 * {
-  margin: 0px;
-  padding: 0px;
+	margin: 0px;
+	padding: 0px;
 }
 </style>
