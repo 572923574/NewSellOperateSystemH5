@@ -1,10 +1,11 @@
 <template>
+    <!-- 表格组件 -->
     <el-table class="tableDemo" :data="tbodyData" style="width: 100%" :maxHeight="tableInfo.maxHeight" border>
 		<el-table-column type="index" width="50" label="No" :fixed="true"></el-table-column>
         <el-table-column v-for="(headerItem,key) in theadData" :fixed="headerItem.fixed" :label="headerItem.label" :prop="headerItem.prop" :width="headerItem.width" :key="key" ></el-table-column>
         <el-table-column v-if="tableInfo.showRightBtnColumn" :fixed="rightBtnObj.fixed" min-width="30" :label="rightBtnObj.label" :width="rightBtnObj.width">
       		<template slot-scope="scope">
-        		<el-button @click="tableClick(scope.row,btn.clickFunction)" :type="btn.type" :size="btn.size" v-for="(btn,btnKey) in rightBtnObj.btns" :key="btnKey">{{btn.btnText}}</el-button>
+        		<el-button class="tableBtn" @click="tableClick(scope.row,btn.clickFunction)" :type="btn.type" :size="btn.size" v-for="(btn,btnKey) in rightBtnObj.btns" :key="btnKey">{{btn.btnText}}</el-button>
       		</template>
     	</el-table-column>
     </el-table>
@@ -12,7 +13,7 @@
 
 <script>
 export default {
-    props:['tableData'],
+    props:['tableData'],//表格数据
 	data() {
 		return {
             tableInfoDefaults:{
@@ -23,7 +24,7 @@ export default {
             rightBtnObjDefaults:{
                 fixed:"left",
                 label:"操作",
-                width:"100",
+                width:"122",
                 btns:[
                     {
                         btnText:"编辑",
@@ -97,11 +98,17 @@ export default {
 					div.cell{
 	// 					padding:0px;
 	// 					padding-left: 0px !important;
-						    overflow: hidden;
-							white-space: nowrap;
-							text-overflow: ellipsis;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        .tableBtn{
+                            padding:0px 10px !important;
+                        }
 					}
-				}
+                }
+                th{
+                    text-align:center;
+                }
 			}
 		}
 		

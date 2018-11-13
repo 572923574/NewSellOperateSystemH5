@@ -41,10 +41,21 @@ body {
 		//覆盖原生的input输入框样式
 		height: 30px;
 		line-height: 30px;
+		font-size: 12px;
 	}
 	.el-input__icon {
 		// input输入框图标
 		line-height: 30px;
+	}
+	.el-button{
+		height: 30px;
+		padding: 0px 15px;
+	}
+	.el-table__fixed-body-wrapper{
+		top: 31px !important;
+	}
+	.el-table__header tr{
+		height: 31px;
 	}
 }
 * {

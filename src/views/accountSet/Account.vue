@@ -5,19 +5,28 @@
 				<el-input :placeholder="searchPlaceholder" prefix-icon="el-icon-search" v-model="searchKey">
   				</el-input>
 			</div>
+			<div class="searchBtnDiv">
+				<el-button icon="el-icon-search" >查询</el-button>
+			</div>
+			<div class="addBtnDiv">
+				<el-button icon="el-icon-plus" @click="addAccountFn">新增</el-button>
+			</div>
 			
 		</div>
 		<div>
 			<TableDemo :tableData="tableData"></TableDemo>
 		</div>
+		<Dialog :dialogData="dialogData" ref="AccountDialog"></Dialog>
 	</div>
 </template>
 
 <script>
 import TableDemo from '@/components/table/tableDemo.vue';
+import Dialog from '@/components/dialog/Dialog.vue';
 export default {
 	components:{
-		TableDemo
+		TableDemo,
+		Dialog
 	},
 	data() {
 		return {
@@ -118,14 +127,18 @@ export default {
 					showRightBtnColumn:true,
 				}
 			},
-			searchPlaceholder:"请输入名称或手机号码查询",//搜索提示
+			searchPlaceholder:"输入名称或手机号查询",//搜索提示
 			searchKey:"",//搜索输入内容
+			dialogData:{	
+				title:"新增账号",//显示弹框
+			},//新增账号
 		};
 	},
 	methods:{
-		tableClick(){
-			console.log();
-		}
+		addAccountFn(){
+			// 新增账号方法
+			this.$refs.AccountDialog.show();
+		},
 	}
 };
 </script>
@@ -134,7 +147,20 @@ export default {
 	padding: 10px;
 	.headDiv{
 		padding: 0px 10px;
+		height: 30px;
 		margin-bottom:10px;
+		.searchDiv{
+			width: 180px;
+			float: left;
+		}
+		.searchBtnDiv{
+			float: left;
+			margin-left: 10px;
+		}
+		.addBtnDiv{
+			float: left;
+			margin-left: 10px;
+		}
 	}
 	
 }
