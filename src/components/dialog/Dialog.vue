@@ -1,10 +1,6 @@
 <template>
     <el-dialog custom-class="DialogCss" :title="dialogData.title" :visible.sync="showDialog">
-        
-        <div slot-scope="">
-            
-            <span>需要注意的是内容是默认不居中的</span>
-        </div>
+        <slot name="dialogContent"></slot>
         <div slot="footer" class="dialog-footer">
             <el-button @click="cancelFn">取 消</el-button>
             <el-button class="dialogOk" type="primary" @click="okFn">确 定</el-button>

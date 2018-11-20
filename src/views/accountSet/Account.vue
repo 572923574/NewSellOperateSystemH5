@@ -16,17 +16,21 @@
 		<div>
 			<TableDemo :tableData="tableData"></TableDemo>
 		</div>
-		<Dialog :dialogData="dialogData" ref="AccountDialog"></Dialog>
+		<Dialog :dialogData="dialogData" ref="AccountDialog">
+			<AccountForm slot="dialogContent">我是呵呵</AccountForm>
+		</Dialog>
 	</div>
 </template>
 
 <script>
 import TableDemo from '@/components/table/tableDemo.vue';
 import Dialog from '@/components/dialog/Dialog.vue';
+import AccountForm from '@/components/form/AccountForm.vue';
 export default {
 	components:{
 		TableDemo,
-		Dialog
+		Dialog,
+		AccountForm
 	},
 	data() {
 		return {
