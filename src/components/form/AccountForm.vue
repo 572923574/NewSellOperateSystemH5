@@ -3,7 +3,7 @@
         <div class="formRow">
             <div class="formRowItem">
                 <div class="rowItemLabel">{{accountLabel.nameLabel}}</div>
-                <el-input class="nameInput rowInput" v-model="input" placeholder="请输入内容"></el-input>
+                <el-input class="nameInput rowInput" v-model="accountData.name" placeholder="请输入内容"></el-input>
             </div>
         </div>
     </div>
@@ -12,8 +12,12 @@
 export default {
     data(){
         return{
+            // label对象
             accountLabel:{
                 nameLabel:"名称",
+            },
+            accountData:{
+                name:'',
             }
         }
     }
@@ -27,6 +31,7 @@ export default {
     float: left;
     line-height: 30px;
     text-align: right;
+    padding: 0 10px;
 }
 .rowInput{
     width: 200px;
