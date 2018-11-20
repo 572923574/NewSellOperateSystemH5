@@ -141,6 +141,7 @@ export default {
 	methods:{
 		addAccountFn(){
 			// 新增账号方法
+			debugger
 			this.$refs.AccountDialog.show();
 		},
 	}
