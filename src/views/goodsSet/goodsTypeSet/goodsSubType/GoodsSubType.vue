@@ -1,5 +1,5 @@
 <template>
     <!-- 商品子类型 -->
-    <div></div>
+    <div>商品子类型</div>
     
 </template>

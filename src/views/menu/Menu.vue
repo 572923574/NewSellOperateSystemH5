@@ -17,20 +17,20 @@
             <!-- 推出登陆 -->
             <div class="exitBtn">{{exitText}}</div>
         </div>
-        <el-menu :default-active="pathObj.goods" class="leftMenuDiv" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" :router="true">
+        <el-menu :default-active="pathObj.goodsTable" class="leftMenuDiv" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" :router="true">
             <el-submenu index="1">
                 <template slot="title">
                     <i class="el-icon-location"></i>
                     <span>{{titleObj.goodsSet}}</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item :index="pathObj.goods">{{titleObj.goodsTable}}</el-menu-item>
-                    <el-menu-item index="1-2">{{titleObj.goodsCompany}}</el-menu-item>
+                    <el-menu-item :index="pathObj.goodsTable">{{titleObj.goodsTable}}</el-menu-item>
+                    <el-menu-item :index="pathObj.goodsCompany">{{titleObj.goodsCompany}}</el-menu-item>
                 </el-menu-item-group>
                 <el-submenu index="1-4">
                     <template slot="title">{{titleObj.goodsTypeSet}}</template>
-                    <el-menu-item index="1-4-1">{{titleObj.goodsType}}</el-menu-item>
-                    <el-menu-item index="1-4-2">{{titleObj.goodsSubType}}</el-menu-item>
+                    <el-menu-item :index="pathObj.goodsType">{{titleObj.goodsType}}</el-menu-item>
+                    <el-menu-item :index="pathObj.goodsSubType">{{titleObj.goodsSubType}}</el-menu-item>
                 </el-submenu>
             </el-submenu>
             <el-menu-item index="2">
@@ -68,7 +68,10 @@ export default {
             //   路径对象
             pathObj: {
                 account: "/Account",//账号设置
-                goods:"/goods",//商品列表
+                goodsTable:"/GoodsTable",//商品列表
+                goodsCompany:"/GoodsCompany",//产品公司
+                goodsType:"/GoodsType",//商品类型
+                goodsSubType:"/GoodsSubType",//商品小类型
             }
         };
     },

@@ -1,24 +1,51 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import Account from '@/views/accountSet/Account.vue';
+import GoodsTable from '@/views/goodsSet/goodsTable/GoodsTable.vue';
+import GoodsCompany from '@/views/goodsSet/goodsCompany/GoodsCompany.vue';
+import GoodsType from '@/views/goodsSet/goodsTypeSet/goodsType/GoodsType.vue';
+import GoodsSubType from '@/views/goodsSet//goodsTypeSet/goodsSubType/GoodsSubType.vue';
+
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes: [
-    {
-      path: '/',
-      name: 'Account',
-      component: () => import(/* webpackChunkName: "about" */ './views/accountSet/Account.vue')
-    },
-    // {
-    //   path: '/Account',
-    //   name: 'Account',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import(/* webpackChunkName: "about" */ './views/accountSet/Account.vue')
-    // }
-  ]
+	mode: 'history',
+	base: process.env.BASE_URL,
+	routes: [{
+			path: '/',
+			name: 'Account',
+			component: () => import( /* webpackChunkName: "about" */ './views/accountSet/Account.vue')
+		},
+		{
+			// 账号列表
+			path: '/Account',
+			name: 'Account',
+			component:Account,
+		},
+		{
+			// 商品列表
+			path: '/GoodsTable',
+			name: 'GoodsTable',
+			component:GoodsTable,
+		},
+		{
+			//产品公司
+			path: '/GoodsCompany',
+			name: 'GoodsCompany',
+			component:GoodsCompany,
+		},
+		{
+			//商品类型
+			path: '/GoodsType',
+			name: 'GoodsType',
+			component:GoodsType,
+		},
+		{
+			//商品小类型
+			path: '/GoodsSubType',
+			name: 'GoodsSubType',
+			component:GoodsSubType,
+		},
+	]
 })
