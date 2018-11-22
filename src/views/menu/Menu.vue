@@ -17,14 +17,14 @@
             <!-- 推出登陆 -->
             <div class="exitBtn">{{exitText}}</div>
         </div>
-        <el-menu default-active="2" class="leftMenuDiv" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+        <el-menu :default-active="pathObj.goods" class="leftMenuDiv" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" :router="true">
             <el-submenu index="1">
                 <template slot="title">
                     <i class="el-icon-location"></i>
                     <span>{{titleObj.goodsSet}}</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="1-1">{{titleObj.goodsTable}}</el-menu-item>
+                    <el-menu-item :index="pathObj.goods">{{titleObj.goodsTable}}</el-menu-item>
                     <el-menu-item index="1-2">{{titleObj.goodsCompany}}</el-menu-item>
                 </el-menu-item-group>
                 <el-submenu index="1-4">
@@ -41,7 +41,7 @@
                 <i class="el-icon-document"></i>
                 <span slot="title">库存设置</span>
             </el-menu-item>
-            <el-menu-item index="4" @click="changePage(pathObj.account)">
+            <el-menu-item :index="pathObj.account">
                 <i class="el-icon-setting"></i>
                 <span slot="title">账号设置</span>
             </el-menu-item>
@@ -68,6 +68,7 @@ export default {
             //   路径对象
             pathObj: {
                 account: "/Account",//账号设置
+                goods:"/goods",//商品列表
             }
         };
     },
