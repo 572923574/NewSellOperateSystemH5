@@ -1,5 +1,4 @@
 <template>
-    <!-- 产品公司 -->
+    <!-- 新增编辑商品 -->
     <div></div>
-    
 </template>
