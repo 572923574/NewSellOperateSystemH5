@@ -9,7 +9,7 @@ import GoodsSubType from '@/views/goodsSet//goodsTypeSet/goodsSubType/GoodsSubTy
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
 	mode: 'history',
 	base: process.env.BASE_URL,
 	routes: [{
@@ -21,31 +21,41 @@ export default new Router({
 			// 账号列表
 			path: '/Account',
 			name: 'Account',
-			component:Account,
+			component: Account,
 		},
 		{
 			// 商品列表
 			path: '/GoodsTable',
 			name: 'GoodsTable',
-			component:GoodsTable,
+			component: GoodsTable,
 		},
 		{
 			//产品公司
 			path: '/GoodsCompany',
 			name: 'GoodsCompany',
-			component:GoodsCompany,
+			component: GoodsCompany,
 		},
 		{
 			//商品类型
 			path: '/GoodsType',
 			name: 'GoodsType',
-			component:GoodsType,
+			component: GoodsType,
 		},
 		{
 			//商品小类型
 			path: '/GoodsSubType',
 			name: 'GoodsSubType',
-			component:GoodsSubType,
+			component: GoodsSubType,
 		},
 	]
 })
+router.beforeEach((to, from, next) => {
+	if(to.path ==="/"){
+		// /访问goodsTable页面
+		next({ path: '/GoodsTable' });
+	}else{
+		next();
+	}
+})
+
+export default router;
