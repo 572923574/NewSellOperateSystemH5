@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import Login from '@/views/login/Login.vue';
 import Account from '@/views/accountSet/Account.vue';
 import GoodsTable from '@/views/goodsSet/goodsTable/GoodsTable.vue';
 import GoodsCompany from '@/views/goodsSet/goodsCompany/GoodsCompany.vue';
@@ -16,6 +17,12 @@ const router = new Router({
 			path: '/',
 			name: 'Account',
 			component: () => import( /* webpackChunkName: "about" */ './views/accountSet/Account.vue')
+		},
+		{
+			// 登陆Spa页面
+			path: '/Login',
+			name: 'Login',
+			component: Login,
 		},
 		{
 			// 账号列表
