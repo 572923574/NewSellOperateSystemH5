@@ -8,7 +8,7 @@
                 </el-input>
             </div>
             <div class="passwordDiv">
-                <el-input :placeholder="placeholderObj.password" prefix-icon="el-icon-password" v-model="body.password">
+                <el-input :placeholder="placeholderObj.password" prefix-icon="el-icon-password" type="password" v-model="body.password">
                 </el-input>
             </div>
             <div class="btnDiv">
