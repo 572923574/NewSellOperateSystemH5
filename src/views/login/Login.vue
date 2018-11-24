@@ -12,12 +12,13 @@
                 </el-input>
             </div>
             <div class="btnDiv">
-
+                <el-button class="btnClass" @click="loginFn" :loading="btnLoad">{{textObj.login}}</el-button>
             </div>
         </div>
     </div>
 </template>
 <script>
+import Api from '@/common/api/api.js';
 export default {
     data() {
         return {
@@ -27,12 +28,33 @@ export default {
                 mobile:"请输入手机号码",
                 password:"请输入登录密码",
             },
+            textObj:{
+                login:"登录",
+            },
             body:{
                 mobile:"",
                 password:"",
-            }
+            },
+            btnLoad:false,//登陆按钮是否loading
         };
     },
+    methods:{
+        loginFn(){debugger
+            let that = this;//声明全局this指针
+            // 登录
+            this.btnLoad = true;
+            Api.Login({
+                body:this.body
+            },function(resp){debugger
+                that.btnLoad = false;
+                if(resp.result == 0){
+                    that.$store.commit('setSpaAccount',resp.body);
+                    //登陆成功，跳转到商品列表界面
+                    that.$router.push({ path: "/GoodsTable" });
+                }
+            });
+        }
+    }
 };
 </script>
 
@@ -80,6 +102,10 @@ export default {
             height: 30px;
             line-height: 30px;
             margin-top: 10px;
+            font-size: 12px;
+            .btnClass{
+                font-size: 12px;
+            }
         }
     }
 }
