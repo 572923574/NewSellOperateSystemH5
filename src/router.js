@@ -8,6 +8,8 @@ import GoodsCompany from '@/views/goodsSet/goodsCompany/GoodsCompany.vue';
 import GoodsType from '@/views/goodsSet/goodsTypeSet/goodsType/GoodsType.vue';
 import GoodsSubType from '@/views/goodsSet//goodsTypeSet/goodsSubType/GoodsSubType.vue';
 
+import store from './store';
+
 Vue.use(Router)
 
 const router = new Router({
@@ -56,7 +58,12 @@ const router = new Router({
 		},
 	]
 })
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {debugger
+	console.log(store.state.spaAccount.authToken);
+	if(!store.state.spaAccount.authToken && to.path !="/Login"){
+		next({ path: '/Login' });
+		return;
+	}
 	if(to.path ==="/"){
 		// /访问goodsTable页面
 		next({ path: '/GoodsTable' });

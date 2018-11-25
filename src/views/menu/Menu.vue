@@ -7,10 +7,10 @@
             <!-- 店铺图片 -->
             <div class="nameDiv">
                 <!-- 店铺名称 -->
-                <div class="shopName">{{shopName}}</div>
+                <div class="shopName" :title="shopName">{{shopName}}</div>
                 <div class="accountDiv">
                     <!-- 账号名称 -->
-                    <div class="accountName">{{accountName}}</div>
+                    <div class="accountName" :title="accountName">{{accountName}}</div>
 
                 </div>
             </div>
@@ -111,7 +111,10 @@ export default {
                 // 店铺名称
 				height: 20px;
 				line-height: 20px;
-				text-align: left;
+                text-align: left;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
 			}
 			.accountDiv {
                 // 账号div
@@ -119,7 +122,9 @@ export default {
 				.accountName {
                     // 账号名称
 					float: left;
-					max-width: calc(100% - 20px);
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
 				}
 			}
 		}
@@ -128,7 +133,6 @@ export default {
 			float: right;
 			width: 40px;
 			text-align: right;
-			padding-right: 10px;
 			height: 100%;
 			line-height: 40px;
 			font-size: 14px;

@@ -1,7 +1,7 @@
 <template>
     <!-- 登陆spa页面 -->
     <div class="loginPage">
-        <div class="loginDiv">
+        <div class="loginDiv" v-loading="btnLoad">
             <div class="titleDiv">{{spaTitle}}</div>
             <div class="mobileDiv">
                 <el-input :placeholder="placeholderObj.mobile" prefix-icon="el-icon-phone" v-model="body.mobile">
@@ -52,7 +52,9 @@ export default {
                     //登陆成功，跳转到商品列表界面
                     that.$router.push({ path: "/GoodsTable" });
                 }
-            });
+            },function(error){
+                that.btnLoad = false;
+            },that);
         }
     }
 };
@@ -65,7 +67,7 @@ export default {
     right: 0px;
     top: 0px;
     bottom: 0px;
-    z-index: 9999;
+    z-index: 199;
     background-color: #545c64;
     .loginDiv {
         height: 170px;
