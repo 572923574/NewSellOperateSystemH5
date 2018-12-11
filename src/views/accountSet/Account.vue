@@ -6,7 +6,7 @@
   				</el-input>
 			</div>
 			<div class="searchBtnDiv">
-				<el-button icon="el-icon-search" >查询</el-button>
+				<el-button icon="el-icon-search" @click="queryAccountList">查询</el-button>
 			</div>
 			<div class="addBtnDiv">
 				<el-button icon="el-icon-plus" @click="addAccountFn">新增</el-button>
@@ -14,10 +14,10 @@
 			
 		</div>
 		<div>
-			<TableDemo :tableData="tableData"></TableDemo>
+			<TableDemo :tableData="tableData" v-loading="loading"></TableDemo>
 		</div>
-		<Dialog :dialogData="dialogData" ref="AccountDialog">
-			<AccountForm slot="dialogContent">我是呵呵</AccountForm>
+		<Dialog :dialogData="dialogData" ref="AccountDialog" @emitSaveFn="saveAccount">
+			<AccountForm slot="dialogContent" :accountData="accountData">我是呵呵</AccountForm>
 		</Dialog>
 	</div>
 </template>
@@ -26,6 +26,8 @@
 import TableDemo from '@/components/table/tableDemo.vue';
 import Dialog from '@/components/dialog/Dialog.vue';
 import AccountForm from '@/components/form/AccountForm.vue';
+
+import Api from '@/common/api/api.js';
 export default {
 	components:{
 		TableDemo,
@@ -68,62 +70,7 @@ export default {
 					}
 				],
 				tbodyData: [
-					{
-					date: "2016-05-03",
-					name: "王小虎",
-					mobile: "18123456789",
-					status: "0",
-					address: "上海市普陀区金沙江路 1518 弄",
-					zip: 200333
-					},
-					{
-					date: "2016-05-02",
-					name: "chali",
-					mobile: "18123456789",
-					status: "0",
-					address: "上海市普陀区金沙江路 1518 弄",
-					zip: 200333
-					},
-					{
-					date: "2016-05-04",
-					name: "xl",
-					mobile: "18123456789",
-					status: "0",
-					address: "上海市普陀区金沙江路 1518 弄",
-					zip: 200333
-					},
-					{
-					date: "2016-05-01",
-					name: "王小虎1",
-					mobile: "18123456789",
-					status: "0",
-					address: "上海市普陀区金沙江路 1518 弄",
-					zip: 200333
-					},
-					{
-					date: "2016-05-08",
-					name: "王小虎2",
-					mobile: "18123456789",
-					status: "0",
-					address: "上海市普陀区金沙江路 1518 弄",
-					zip: 200333
-					},
-					{
-					date: "2016-05-06",
-					name: "王小虎3",
-					mobile: "18123456789",
-					status: "0",
-					address: "上海市普陀区金沙江路 1518 弄",
-					zip: 200333
-					},
-					{
-					date: "2016-05-07",
-					name: "王小虎4",
-					mobile: "18123456789",
-					status: "0",
-					address: "上海市普陀区金沙江路 1518 弄",
-					zip: 200333
-					}
+					
 				],
 				tableInfo:{
 					maxHeight:"100%",
@@ -136,14 +83,63 @@ export default {
 			dialogData:{	
 				title:"新增账号",//显示弹框
 			},//新增账号
+			// 数据对象
+			accountData:{
+				id:"",
+				name:'',
+				mobile:"",
+				password:"",
+				status:"0",
+				memuStr:"",
+				optStr:"",
+			},
+			loading:false,//加载
 		};
+	},
+	beforeMount(){
+		this.queryAccountList();//查询数据
 	},
 	methods:{
 		addAccountFn(){
-			// 新增账号方法
+			// 新增账号弹框
 			debugger
 			this.$refs.AccountDialog.show();
 		},
+		queryAccountList(){
+			let that = this;
+			// 查询账号列表
+			this.loading = true;
+			Api.spaAccountList({
+                body:{
+					name:this.searchKey,
+					mobile:this.searchKey,
+				}
+			},function(resp){debugger
+                that.btnLoad = false;
+                if(resp.result == 0){
+					that.tableData.tbodyData = resp.body;
+					that.loading= false;
+                }
+            },function(error){
+                that.btnLoad = false;
+            },that);
+		},
+		saveAccount(){
+			// 新增账号
+			let that = this;
+			this.loading = true;
+			Api.spaAccountSave({
+                body:this.accountData
+			},function(resp){debugger
+                that.btnLoad = false;
+                if(resp.result == 0){
+					that.loading= false;
+					that.queryAccountList();
+                }
+            },function(error){
+                that.btnLoad = false;
+            },that);
+		}
 	}
 };
 </script>

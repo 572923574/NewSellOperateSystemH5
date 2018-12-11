@@ -58,15 +58,15 @@ const router = new Router({
 		},
 	]
 })
-router.beforeEach((to, from, next) => {debugger
-	console.log(store.state.spaAccount.authToken);
-	if(!store.state.spaAccount.authToken && to.path !="/Login"){
+router.beforeEach((to, from, next) => {
+	console.log(store.state.spaAccount.token);
+	if(!store.state.spaAccount.token && to.path !="/Login"){
 		next({ path: '/Login' });
 		return;
 	}
 	if(to.path ==="/"){
 		// /访问goodsTable页面
-		next({ path: '/GoodsTable' });
+		next({ path: '/Account' });
 	}else{
 		next();
 	}

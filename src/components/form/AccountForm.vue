@@ -24,12 +24,19 @@
         </div>
         <div class="formRow">
             <div class="formRowItem">
-                <!-- 权限 -->
-                <div class="rowItemLabel">{{accountLabel.rightLabel}}</div>
-                <el-input class="nameInput rowInput" v-model="accountData.right" :placeholder="placeholderObj.right"></el-input>
+                <!-- 菜单权限 -->
+                <div class="rowItemLabel">{{accountLabel.memuLabel}}</div>
+                <el-input class="nameInput rowInput" v-model="accountData.memuStr" :placeholder="placeholderObj.memuStr"></el-input>
             </div>
         </div>
         <div class="formRow">
+            <div class="formRowItem">
+                <!-- 操作权限 -->
+                <div class="rowItemLabel">{{accountLabel.optLabel}}</div>
+                <el-input class="nameInput rowInput" v-model="accountData.optStr" :placeholder="placeholderObj.optStr"></el-input>
+            </div>
+        </div>
+        <div class="formRow" v-if="accountData.id">
             <div class="formRowItem">
                 <!-- 状态 -->
                 <div class="rowItemLabel">{{accountLabel.statusLabel}}</div>
@@ -42,31 +49,30 @@
 export default {
     data(){
         return{
-            // label对象
-            accountLabel:{
-                nameLabel:"名称",
-                mobileLabel:"手机",
-                passwordLabel:"密码",
-                rightLabel:"权限",
-                statusLabel:"状态",
-            },
-            // 数据对象
-            accountData:{
-                name:'',
-                mobile:"",
-                password:"",
-                right:"",
-                status:"",
-            },
-            // placeholder提示对象
-            placeholderObj:{
-                name:'请输入名称',
-                mobile:"请输入手机",
-                password:"请输入密码",
-                right:"请选择权限",
-                status:"请输入名称",
-            }
+          // label对象
+                accountLabel:{
+                    nameLabel:"名称",
+                    mobileLabel:"手机",
+                    passwordLabel:"密码",
+                    memuLabel:"菜单权限",
+                    optLabel:"操作权限",
+                    statusLabel:"状态",
+                },
+                // placeholder提示对象
+                placeholderObj:{
+                    name:'请输入名称',
+                    mobile:"请输入手机",
+                    password:"请输入密码",
+                    memuStr:"请选择菜单权限",
+                    optStr:"请选择操作权限",
+                    status:"请输入名称",
+                }
+            
         }
+    },
+    props:['accountData'],
+    computed:{
+
     }
 }
 </script>

@@ -27,39 +27,42 @@ export default {
         okFn(){
             //确定方法
             this.showDialog = false;
+            this.$emit("emitSaveFn")
         }
     }, 
     
 };
 </script>
 <style lang="less">
-.DialogCss{
-    position: fixed;
-    z-index: 999;
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
-    margin-top: 0px !important;
-    margin-bottom: 0px;
-    .el-dialog__header{
-        text-align: left;
-        border-bottom: 1px solid #eeeeee;
-        font-weight: 500;
-    }
-    .el-dialog__body{
-        height: calc(100% - 141px);
-        padding: 10px 30px;
-    }
-    .el-dialog__footer{
-        border-top: 1px solid #eeeeee;
-        position: absolute;
-        bottom: 0px;
-        left: 0px;
+.vuePage{
+    .DialogCss{
+        position: fixed;
+        z-index: 999;
         right: 0px;
-        text-align: center;
-        padding:15px 20px 20px 20px;
-        .dialogOk{
-            margin-left: 20%;
+        top: 0px;
+        bottom: 0px;
+        margin-top: 0px !important;
+        margin-bottom: 0px;
+        .el-dialog__header{
+            text-align: left;
+            border-bottom: 1px solid #eeeeee;
+            font-weight: 500;
+        }
+        .el-dialog__body{
+            height: calc(100% - 141px);
+            padding: 10px 30px;
+        }
+        .el-dialog__footer{
+            border-top: 1px solid #eeeeee;
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            text-align: center;
+            padding:15px 20px 20px 20px;
+            .dialogOk{
+                margin-left: 20%;
+            }
         }
     }
 }
