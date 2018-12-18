@@ -152,6 +152,16 @@ Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message;
+
+// const Loading = this.$loading({
+//   lock: true,
+//   text: 'Loading',
+//   spinner: 'el-icon-loading',
+//   background: 'rgba(0, 0, 0, 0.7)'
+// });
+// setTimeout(() => {
+//   loading.close();
+// }, 2000);
 new Vue({
   router,
   store,

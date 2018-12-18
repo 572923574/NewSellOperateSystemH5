@@ -39,13 +39,13 @@ export default {
         };
     },
     methods:{
-        loginFn(){debugger
+        loginFn(){
             let that = this;//声明全局this指针
             // 登录
             this.btnLoad = true;
             Api.Login({
                 body:this.body
-            },function(resp){debugger
+            },function(resp){
                 that.btnLoad = false;
                 if(resp.result == 0){
                     that.$store.commit('setSpaAccount',resp.body);

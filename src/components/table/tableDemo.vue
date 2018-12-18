@@ -2,10 +2,10 @@
     <!-- 表格组件 -->
     <el-table class="tableDemo" :data="tbodyData" style="width: 100%" :maxHeight="tableInfo.maxHeight" border>
 		<el-table-column type="index" width="50" label="No" :fixed="true"></el-table-column>
-        <el-table-column v-for="(headerItem,key) in theadData" :fixed="headerItem.fixed" :label="headerItem.label" :prop="headerItem.prop" :width="headerItem.width" :key="key" ></el-table-column>
-        <el-table-column v-if="tableInfo.showRightBtnColumn" :fixed="rightBtnObj.fixed" min-width="30" :label="rightBtnObj.label" :width="rightBtnObj.width">
+        <el-table-column v-for="(headerItem,key) in theadData" :fixed="headerItem.fixed" :label="headerItem.label" :prop="headerItem.prop" :width="headerItem.width" :key="key" :formatter="formatter"></el-table-column>
+        <el-table-column v-if="tableInfo.showRightBtnColumn" :fixed="rightBtnObj.fixed" min-width="30" :label="rightBtnObj.label" :width="rightBtnObj.width" >
       		<template slot-scope="scope">
-        		<el-button class="tableBtn" @click="tableClick(scope.row,btn.clickFunction)" :type="btn.type" :size="btn.size" v-for="(btn,btnKey) in rightBtnObj.btns" :key="btnKey">{{btn.btnText}}</el-button>
+        		<el-button class="tableBtn" @click="tableClick(scope.row,btn.clickFunction)"  :type="btn.type" :size="btn.size" v-for="(btn,btnKey) in rightBtnObj.btns" :key="btnKey">{{btn.btnText}}</el-button>
       		</template>
     	</el-table-column>
     </el-table>
@@ -73,13 +73,21 @@ export default {
         this.initTableData();
     },
 	methods:{
-		tableClick(data,callFn){
+		tableClick(data,callFn){debugger
             // 触发父组件监听方法
-            this.$emit(callFn,data);
+            this.$emit("emitTableFn",callFn,data);
         },
         initTableData(){
 
-        }
+        },
+		formatter(row,col){
+            // 格式化日期
+            let value = row[col.property];                   
+            if(col.property.indexOf('Date') != -1){
+                return new Date(value).toLocaleDateString();
+            }               
+            return value;
+		}
 	}
 };
 </script>

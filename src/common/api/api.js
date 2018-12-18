@@ -14,7 +14,6 @@ function requestFn(method, url, data, callback, errorFn, that) {
         url: winUrl + url,
         data: data
     }).then(function (response) {
-        debugger
         if (response.data && response.data.result) {
             that.$message({
                 showClose: true,
@@ -50,16 +49,21 @@ let Api = {
         let url = "/account/login";
         requestFn(method, url, data, callback, error, that);
     },
-    spaAccountList: function (data, callback, error, that, method) {debugger
+    spaAccountList: function (data, callback, error, that, method) {
         // 获取账号列表
         let url = "/account/list";
         requestFn(method, url, data, callback, error, that);
     },
-    spaAccountSave: function (data, callback, error, that, method) {debugger
+    spaAccountSave: function (data, callback, error, that, method) {
         // 获取账号列表
         let url = "/account/save";
         requestFn(method, url, data, callback, error, that);
     },
+    spaDelete: function (data, callback, error, that, method) {
+        // 删除账号
+        let url = "/account/delete";
+        requestFn(method, url, data, callback, error, that);
+    }
 
 }
 export default Api;

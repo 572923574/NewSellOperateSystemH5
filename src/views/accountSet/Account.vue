@@ -11,10 +11,9 @@
 			<div class="addBtnDiv">
 				<el-button icon="el-icon-plus" @click="addAccountFn">新增</el-button>
 			</div>
-			
 		</div>
 		<div>
-			<TableDemo :tableData="tableData" v-loading="loading"></TableDemo>
+			<TableDemo :tableData="tableData" v-loading="loading" @emitTableFn="emitTableFn"></TableDemo>
 		</div>
 		<Dialog :dialogData="dialogData" ref="AccountDialog" @emitSaveFn="saveAccount">
 			<AccountForm slot="dialogContent" :accountData="accountData">我是呵呵</AccountForm>
@@ -59,7 +58,8 @@ export default {
 					{
 					label: "加入日期",
 					width: "150",
-					prop: "date",
+					prop: "createDate",
+					formatter:"formatterDate",
 					fixed: true
 					},
 					{
@@ -102,26 +102,28 @@ export default {
 	methods:{
 		addAccountFn(){
 			// 新增账号弹框
-			debugger
 			this.$refs.AccountDialog.show();
 		},
 		queryAccountList(){
 			let that = this;
 			// 查询账号列表
 			this.loading = true;
+			const $loading = this.$loading();
 			Api.spaAccountList({
                 body:{
 					name:this.searchKey,
 					mobile:this.searchKey,
 				}
-			},function(resp){debugger
+			},function(resp){
                 that.btnLoad = false;
                 if(resp.result == 0){
 					that.tableData.tbodyData = resp.body;
 					that.loading= false;
-                }
-            },function(error){
-                that.btnLoad = false;
+				}
+				$loading.close();
+            },function(){
+				that.btnLoad = false;
+				$loading.close();
             },that);
 		},
 		saveAccount(){
@@ -130,14 +132,41 @@ export default {
 			this.loading = true;
 			Api.spaAccountSave({
                 body:this.accountData
-			},function(resp){debugger
+			},function(resp){
                 that.btnLoad = false;
                 if(resp.result == 0){
 					that.loading= false;
 					that.queryAccountList();
                 }
-            },function(error){
+            },function(){
                 that.btnLoad = false;
+            },that);
+		},
+		emitTableFn(fn,data){debugger
+			// 监听表格方法
+			if(fn){
+				this[fn](data);
+					debugger
+				
+			}
+		},
+		editClick(data){
+			// 编辑账号
+			this.accountData = data;
+			this.$refs.AccountDialog.show();
+		},
+		deleteClick(data){
+			let that = this;
+			// 删除账号
+			const $loading = this.$loading();
+			Api.spaDelete({
+                body:data
+			},function(){
+				$loading.close();
+				that.queryAccountList();//查询数据
+            },function(){
+				$loading.close();
+				that.queryAccountList();//查询数据
             },that);
 		}
 	}
