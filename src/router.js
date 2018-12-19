@@ -58,9 +58,17 @@ const router = new Router({
 		},
 	]
 })
+
 router.beforeEach((to, from, next) => {
-	console.log(store.state.spaAccount.token);
-	if(!store.state.spaAccount.token && to.path !="/Login"){
+	var token = '';
+	if(store.state.spaAccount && store.state.spaAccount.token){
+		token = store.state.spaAccount.token;
+	}else{
+		let spaAccount = sessionStorage.getItem('spaAccount');
+		token = spaAccount ?JSON.parse(spaAccount).token:'';
+	}
+	console.log(token);
+	if(!token && to.path !="/Login"){
 		next({ path: '/Login' });
 		return;
 	}

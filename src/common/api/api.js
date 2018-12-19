@@ -4,9 +4,16 @@ let winUrl = window.document.location.origin + ":8080/mts-spa/spa"; //文跟路�
 
 function requestFn(method, url, data, callback, errorFn, that) {
     if (data && typeof data == "object") {
-        data.token = store.state.spaAccount && store.state.spaAccount.token;
-        data.body.eid = store.state.spaAccount && store.state.spaAccount.eid;
-        data.body.sid = store.state.spaAccount && store.state.spaAccount.sid;
+        let spaAccount = {};
+        if(store.state.spaAccount && store.state.spaAccount.token){
+            spaAccount = store.state.spaAccount;
+        }else{
+            spaAccount = sessionStorage.getItem('spaAccount');
+            spaAccount = spaAccount ?JSON.parse(spaAccount):{};
+        }
+        data.token = spaAccount.token;
+        data.body.eid = spaAccount.eid;
+        data.body.sid = spaAccount.sid;
     }
     // 封装request请求方法
     axios({

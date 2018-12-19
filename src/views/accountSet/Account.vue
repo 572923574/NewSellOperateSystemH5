@@ -49,12 +49,12 @@ export default {
 					prop: "mobile",
 					fixed: true
 					},
-					{
-					label: "角色",
-					width: "150",
-					prop: "role",
-					fixed: true
-					},
+					// {
+					// label: "角色",
+					// width: "150",
+					// prop: "role",
+					// fixed: true
+					// },
 					{
 					label: "加入日期",
 					width: "150",
@@ -90,8 +90,8 @@ export default {
 				mobile:"",
 				password:"",
 				status:"0",
-				memuStr:"",
-				optStr:"",
+				menuStr:"",
+				optStr:[],
 			},
 			loading:false,//加载
 		};
@@ -130,8 +130,11 @@ export default {
 			// 新增账号
 			let that = this;
 			this.loading = true;
+			let accountData = JSON.parse(JSON.stringify(this.accountData));
+			accountData.optStr = this.accountData.optStr && typeof this.accountData.optStr == 'object'?JSON.stringify(this.accountData.optStr):"[]";
+			accountData.menuStr = this.accountData.menuStr && typeof this.accountData.menuStr == 'object'?JSON.stringify(this.accountData.menuStr):"[]";
 			Api.spaAccountSave({
-                body:this.accountData
+                body:accountData
 			},function(resp){
                 that.btnLoad = false;
                 if(resp.result == 0){
@@ -142,17 +145,17 @@ export default {
                 that.btnLoad = false;
             },that);
 		},
-		emitTableFn(fn,data){debugger
+		emitTableFn(fn,data){
 			// 监听表格方法
 			if(fn){
 				this[fn](data);
-					debugger
-				
 			}
 		},
 		editClick(data){
 			// 编辑账号
 			this.accountData = data;
+			this.accountData.optStr = this.accountData.optStr && typeof this.accountData.optStr == 'string'?JSON.parse(this.accountData.optStr):[];
+			this.accountData.menuStr = this.accountData.menuStr && typeof this.accountData.menuStr == 'string'?JSON.parse(this.accountData.menuStr):[];
 			this.$refs.AccountDialog.show();
 		},
 		deleteClick(data){

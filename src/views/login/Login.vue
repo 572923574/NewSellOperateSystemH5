@@ -47,8 +47,9 @@ export default {
                 body:this.body
             },function(resp){
                 that.btnLoad = false;
-                if(resp.result == 0){
+                if(resp.result == 0){debugger
                     that.$store.commit('setSpaAccount',resp.body);
+                    sessionStorage.setItem('spaAccount',JSON.stringify(resp.body));
                     //登陆成功，跳转到商品列表界面
                     that.$router.push({ path: "/GoodsTable" });
                 }

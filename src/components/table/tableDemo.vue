@@ -73,20 +73,28 @@ export default {
         this.initTableData();
     },
 	methods:{
-		tableClick(data,callFn){debugger
+		tableClick(data,callFn){
             // 触发父组件监听方法
             this.$emit("emitTableFn",callFn,data);
         },
         initTableData(){
 
         },
-		formatter(row,col){
-            // 格式化日期
-            let value = row[col.property];                   
+		formatter(row,col,cellValue,i){
+            // 格式化日期                
             if(col.property.indexOf('Date') != -1){
-                return new Date(value).toLocaleDateString();
-            }               
-            return value;
+                return new Date(cellValue).toLocaleDateString();
+            }else if(col.property.indexOf('status') != -1){
+                switch (cellValue){
+                    case '0':
+                        return '正常';
+                        break;
+                    case '1':
+                        return '禁用';
+                        break;
+                }
+            }
+            return cellValue;
 		}
 	}
 };
