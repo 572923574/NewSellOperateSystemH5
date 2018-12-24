@@ -17,7 +17,7 @@ function requestFn(method, url, data, callback, errorFn, that) {
     }
     // 封装request请求方法
     axios({
-        method: 'POST',
+        method: method?method:'POST',
         url: winUrl + url,
         data: data
     }).then(function (response) {
@@ -70,7 +70,12 @@ let Api = {
         // 删除账号
         let url = "/account/delete";
         requestFn(method, url, data, callback, error, that);
-    }
+    },
+    goodsList: function (data, callback, error, that, method) {
+        // 查询商品资料列表
+        let url = "/goods/list";
+        requestFn(method, url, data, callback, error, that);
+    },
 
 }
 export default Api;
