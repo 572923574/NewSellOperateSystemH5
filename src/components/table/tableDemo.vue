@@ -92,6 +92,9 @@ export default {
                     case '1':
                         return '禁用';
                         break;
+                    case '2':
+                        return '删除';
+                        break;
                 }
             }
             return cellValue;

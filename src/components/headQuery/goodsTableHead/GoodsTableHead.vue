@@ -14,10 +14,18 @@
 </template>
 <script>
 export default {
-    date(){
+    data(){
         return{
-            searchText:"输入名称或手机号查询",//搜索提示
+            searchText:"输入名称或编号查询",//搜索提示
 			searchKey:"",//搜索输入内容
+        }
+    },
+    methods:{
+        queryList:function(){
+            this.$emit("queryList",this.searchKey);
+        },
+        addFn:function(){
+            this.$emit("addFn");
         }
     }
 }

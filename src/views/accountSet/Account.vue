@@ -102,6 +102,7 @@ export default {
 	methods:{
 		addAccountFn(){
 			// 新增账号弹框
+			this.accountData = Object.assign(this.$options.data().accountData, this.$options.data());//重置数组
 			this.$refs.AccountDialog.show();
 		},
 		queryAccountList(){

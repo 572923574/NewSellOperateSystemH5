@@ -2,19 +2,20 @@
     <!-- 商品列表 -->
     <div class="vuePage">
         <HeadQuery>
-            <GoodsTableHead slot="headDiv" ></GoodsTableHead>
+            <GoodsTableHead slot="headDiv" @queryList="queryGoodsList" @addFn="addGoodsFn"></GoodsTableHead>
         </HeadQuery>
 		<div class="spaTable">
 			<TableDemo :tableData="tableData" @emitTableFn="emitTableFn"></TableDemo>
 		</div>
-		<!-- <Dialog :dialogData="dialogData" ref="AccountDialog" @emitSaveFn="saveAccount">
-			<AccountForm slot="dialogContent" :accountData="accountData">我是呵呵</AccountForm>
-		</Dialog> -->
+		<Dialog :dialogData="dialogData" ref="GoodsDialog" @emitSaveFn="saveGoods">
+			<GoodsForm slot="dialogContent" :propsData="propsData">我是呵呵</GoodsForm>
+		</Dialog>
 	</div>
 </template>
 <script>
 import HeadQuery from '@/components/headQuery/HeadQuery.vue';
 import GoodsTableHead from '@/components/headQuery/goodsTableHead/GoodsTableHead.vue';
+import GoodsForm from '@/components/form/GoodsForm.vue';
 import TableDemo from '@/components/table/tableDemo.vue';
 import Dialog from '@/components/dialog/Dialog.vue';
 import Api from '@/common/api/api.js';
@@ -23,7 +24,8 @@ export default {
 		TableDemo,
 		Dialog,
         GoodsTableHead,
-        HeadQuery
+		HeadQuery,
+		GoodsForm
 	},
     data() {
 		return {
@@ -32,7 +34,7 @@ export default {
                     {
 					label: "编号",
 					width: "150",
-					prop: "No",
+					prop: "no",
 					fixed: true
 					},
 					{
@@ -81,6 +83,29 @@ export default {
 					showRightBtnColumn:true,
 				}
 			},
+			dialogData:{	
+				title:"新增商品",//显示弹框
+			},//新增账号
+			propsData:{
+				id:null,
+				eid:null,
+				sid:null,
+				name:null,
+                no:null,
+                bar_code:null,
+				numStart:null,
+				type:null,
+				son_type:null,
+                num:null,
+                buyingPrice:null,
+                costPrice:null,
+                salePrice:null,
+                unit:null,
+                spec:null,
+                goodsCompanyId:null,
+                supplierId:null,
+                status:"0",
+			},
         }
     
     },
@@ -88,19 +113,19 @@ export default {
 		this.queryGoodsList();//查询数据
     },
     methods:{
-		addAccountFn(){
+		addGoodsFn(){
 			// 新增账号弹框
-			this.$refs.AccountDialog.show();
+			this.propsData = Object.assign(this.$options.data().propsData, this.$options.data());//重置数组
+			this.$refs.GoodsDialog.show();
 		},
-		queryGoodsList(){
+		queryGoodsList(searchKey){
 			let that = this;
-			// 查询账号列表
-			this.loading = true;
+			// 查询商品列表
 			const $loading = this.$loading();
 			Api.goodsList({
                 body:{
-					name:this.searchKey,
-					mobile:this.searchKey,
+					name:searchKey,
+					No:searchKey,
 				}
 			},function(resp){
                 that.btnLoad = false;
@@ -118,14 +143,13 @@ export default {
 			// 新增账号
 			let that = this;
 			this.loading = true;
-			let accountData = JSON.parse(JSON.stringify(this.accountData));
-			accountData.optStr = this.accountData.optStr && typeof this.accountData.optStr == 'object'?JSON.stringify(this.accountData.optStr):"[]";
-			accountData.menuStr = this.accountData.menuStr && typeof this.accountData.menuStr == 'object'?JSON.stringify(this.accountData.menuStr):"[]";
+			let propsData = JSON.parse(JSON.stringify(this.propsData)); 
 			Api.goodsSave({
-                body:accountData
+                body:propsData
 			},function(resp){
                 that.btnLoad = false;
                 if(resp.result == 0){
+					that.tableData.tbodyData = resp.body;
 					that.loading= false;
                 }
             },function(){
@@ -139,19 +163,18 @@ export default {
 			}
 		},
 		editClick(data){
-			// 编辑账号
-			this.accountData = data;
-			this.accountData.optStr = this.accountData.optStr && typeof this.accountData.optStr == 'string'?JSON.parse(this.accountData.optStr):[];
-			this.accountData.menuStr = this.accountData.menuStr && typeof this.accountData.menuStr == 'string'?JSON.parse(this.accountData.menuStr):[];
-			this.$refs.AccountDialog.show();
+			// 编辑
+			this.propsData = data;
+			this.$refs.GoodsDialog.show();
 		},
 		deleteClick(data){
 			let that = this;
-			// 删除账号
+			// 删除
 			const $loading = this.$loading();
-			Api.spaDelete({
+			Api.goodsDelete({
                 body:data
-			},function(){
+			},function(resp){
+				that.tableData.tbodyData = resp.body;
 				$loading.close();
             },function(){
 				$loading.close();

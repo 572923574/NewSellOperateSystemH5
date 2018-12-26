@@ -28,6 +28,11 @@ function requestFn(method, url, data, callback, errorFn, that) {
                 type: 'error',
                 duration: 2000
             });
+            if(response.data.result ==2){
+                that.$store.commit('setSpaAccount',{});
+                sessionStorage.setItem('spaAccount',{});
+                that.$router.push({ path: "/Login" });
+            }
             errorFn && errorFn(error);
             return;
         } else {
@@ -74,6 +79,16 @@ let Api = {
     goodsList: function (data, callback, error, that, method) {
         // 查询商品资料列表
         let url = "/goods/list";
+        requestFn(method, url, data, callback, error, that);
+    },
+    goodsSave: function (data, callback, error, that, method) {
+        // 保存商品资料
+        let url = "/goods/save";
+        requestFn(method, url, data, callback, error, that);
+    },
+    goodsDelete: function (data, callback, error, that, method) {
+        // 删除商品
+        let url = "/goods/delete";
         requestFn(method, url, data, callback, error, that);
     },
 
