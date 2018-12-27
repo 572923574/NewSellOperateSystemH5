@@ -33,7 +33,7 @@ function requestFn(method, url, data, callback, errorFn, that) {
                 sessionStorage.setItem('spaAccount',{});
                 that.$router.push({ path: "/Login" });
             }
-            errorFn && errorFn(error);
+            errorFn && errorFn(response);
             return;
         } else {
             // 请求成功，触发回调

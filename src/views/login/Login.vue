@@ -53,7 +53,7 @@ export default {
                     //登陆成功，跳转到商品列表界面
                     that.$router.push({ path: "/GoodsTable" });
                 }
-            },function(error){
+            },function(resp){
                 that.btnLoad = false;
             },that);
         }
