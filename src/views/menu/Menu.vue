@@ -17,7 +17,7 @@
             <!-- 推出登陆 -->
             <div class="exitBtn">{{exitText}}</div>
         </div>
-        <el-menu :default-active="pathObj.goodsTable" class="leftMenuDiv" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" :router="true">
+        <el-menu :default-active="defaultActive" class="leftMenuDiv" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" :router="true">
             <el-submenu index="1">
                 <template slot="title">
                     <i class="el-icon-location"></i>
@@ -72,7 +72,9 @@ export default {
                 goodsCompany:"/GoodsCompany",//产品公司
                 goodsType:"/GoodsType",//商品类型
                 goodsSubType:"/GoodsSubType",//商品小类型
-            }
+            },
+            // 默认选择
+            defaultActive:"/GoodsTable",
         };
     },
     methods: {
@@ -81,7 +83,12 @@ export default {
             this.$router.push({ path: path });
         },
         handleClose() { }
-    }
+    },
+    beforeMount(){
+        if(this.$router.history && this.$router.history.current && this.$router.history.current.path){
+            this.defaultActive = this.$router.history.current.path;
+        }
+    },
 };
 </script>
 <style lang="less" scoped>

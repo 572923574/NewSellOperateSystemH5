@@ -2,20 +2,20 @@
     <!-- 商品类型 -->
     <div class="vuePage">
         <HeadQuery>
-            <GoodsTableHead slot="headDiv" @queryList="queryList" @addFn="addGoodsFn"></GoodsTableHead>
+            <GoodsTypeHead slot="headDiv" @queryList="queryList" @addFn="addGoodsFn"></GoodsTypeHead>
         </HeadQuery>
 		<div class="spaTable">
 			<TableDemo :tableData="tableData" @emitTableFn="emitTableFn"></TableDemo>
 		</div>
 		<Dialog :dialogData="dialogData" ref="GoodsTypeDialog" @emitSaveFn="saveFn">
-			<GoodsForm slot="dialogContent" :propsData="propsData">我是呵呵</GoodsForm>
+			<GoodsTypeForm slot="dialogContent" :propsData="propsData">我是呵呵</GoodsTypeForm>
 		</Dialog>
 	</div>
 </template>
 <script>
 import HeadQuery from '@/components/headQuery/HeadQuery.vue';
-import GoodsTableHead from '@/components/headQuery/goodsTableHead/GoodsTableHead.vue';
-import GoodsForm from '@/components/form/GoodsForm.vue';
+import GoodsTypeHead from '@/components/headQuery/GoodsTypeHead/GoodsTypeHead.vue';
+import GoodsTypeForm from '@/components/form/GoodsTypeForm.vue';
 import TableDemo from '@/components/table/tableDemo.vue';
 import Dialog from '@/components/dialog/Dialog.vue';
 import Api from '@/common/api/api.js';
@@ -23,9 +23,9 @@ export default {
     components:{
 		TableDemo,
 		Dialog,
-        GoodsTableHead,
+        GoodsTypeHead,
 		HeadQuery,
-		GoodsForm
+		GoodsTypeForm
 	},
     data() {
 		return {
