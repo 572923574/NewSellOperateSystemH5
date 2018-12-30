@@ -91,6 +91,21 @@ let Api = {
         let url = "/goods/delete";
         requestFn(method, url, data, callback, error, that);
     },
+    goodsTypeList: function (data, callback, error, that, method) {
+        // 查询商品类型集合
+        let url = "/goodsType/list";
+        requestFn(method, url, data, callback, error, that);
+    },
+    goodsTypeSave: function (data, callback, error, that, method) {
+        // 保存商品类型
+        let url = "/goodsType/save";
+        requestFn(method, url, data, callback, error, that);
+    },
+    goodsTypeDelete: function (data, callback, error, that, method) {
+        // 删除商品类型
+        let url = "/goodsType/delete";
+        requestFn(method, url, data, callback, error, that);
+    },
 
 }
 export default Api;
