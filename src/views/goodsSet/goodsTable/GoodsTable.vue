@@ -32,46 +32,47 @@ export default {
             tableData:{
 				theadData: [
                     {
-					label: "编号",
-					width: "150",
-					prop: "no",
-					fixed: true
+						label: "编号",
+						width: "150",
+						prop: "no",
+						fixed: true
 					},
 					{
-					label: "名称",
-					width: "150",
-					prop: "name",
-					fixed: true
+						label: "名称",
+						width: "150",
+						prop: "name",
+						fixed: true
 					},
 					{
-					label: "销售价",
-					width: "150",
-					prop: "salePrice",
-					fixed: true
+						label: "销售价",
+						width: "150",
+						prop: "salePrice",
+						fixed: true
                     },
                     {
-					label: "进货价",
-					width: "150",
-					prop: "buyingPrice",
-					fixed: true
+						label: "进货价",
+						width: "150",
+						prop: "buyingPrice",
+						fixed: true
                     },
                     {
-					label: "成本价",
-					width: "150",
-					prop: "costPrice",
-					fixed: true
+						label: "成本价",
+						width: "150",
+						prop: "costPrice",
+						fixed: true
 					},
 					{
-					label: "数量",
-					width: "150",
-					prop: "num",
-					fixed: true
+						label: "数量",
+						width: "150",
+						prop: "num",
+						fixed: true
 					},
 					{
-					label: "状态",
-					width: "150",
-					prop: "status",
-					fixed: true
+						label: "状态",
+						width: "150",
+						prop: "status",
+						fixed: true,
+						formatter:true,
 					}
 				],
 				tbodyData: [
@@ -81,7 +82,10 @@ export default {
 					maxHeight:"100%",
 					border:true,
 					showRightBtnColumn:true,
-				}
+				},
+				formatterCol:{
+					status:"formatterStatus",
+				},
 			},
 			dialogData:{	
 				title:"新增商品",//显示弹框

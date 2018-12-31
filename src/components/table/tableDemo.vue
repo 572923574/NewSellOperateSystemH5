@@ -2,10 +2,10 @@
     <!-- 表格组件 -->
     <el-table class="tableDemo" :data="tbodyData" style="width: 100%" :maxHeight="tableInfo.maxHeight" border>
 		<el-table-column type="index" width="50" label="No" :fixed="true"></el-table-column>
-        <el-table-column v-for="(headerItem,key) in theadData" :fixed="headerItem.fixed" :label="headerItem.label" :prop="headerItem.prop" :width="headerItem.width" :key="key" :formatter="formatter"></el-table-column>
+        <el-table-column v-for="(headerItem,key) in theadData" :fixed="headerItem.fixed" :label="headerItem.label" :prop="headerItem.prop" :width="headerItem.width" :key="key" :formatter="headerItem.formatter?formatter:noFormatter"></el-table-column>
         <el-table-column v-if="tableInfo.showRightBtnColumn" :fixed="rightBtnObj.fixed" min-width="30" :label="rightBtnObj.label" :width="rightBtnObj.width" >
       		<template slot-scope="scope">
-        		<el-button class="tableBtn" @click="tableClick(scope.row,btn.clickFunction)"  :type="btn.type" :size="btn.size" v-for="(btn,btnKey) in rightBtnObj.btns" :key="btnKey">{{btn.btnText}}</el-button>
+        		<el-button class="tableBtn" @click="tableClick(scope.row,btn.clickFunction)" :type="btn.type" :size="btn.size" v-for="(btn,btnKey) in rightBtnObj.btns" :key="btnKey">{{btn.btnText}}</el-button>
       		</template>
     	</el-table-column>
     </el-table>
@@ -60,6 +60,11 @@ export default {
             tableInfo.maxHeight = tableInfo.maxHeight?tableInfo.maxHeight:"300";
             return tableInfo;
         },
+        formatterCol:function(){
+            // 格式化列
+            let formatterCol = this.tableData.formatterCol;
+            return formatterCol;
+        },
         rightBtnObj:function(){
 			// 表格右边按钮组
 			let rightBtnObj = this.tableData.rightBtnObj;
@@ -67,7 +72,13 @@ export default {
 				rightBtnObj = rightBtnObj?rightBtnObj:this.rightBtnObjDefaults;
 			}
             return rightBtnObj;
-        }
+        },
+        goodsTypeList:function(){
+            // 商品大类
+            let meta = this.$store.state.spaAccount.meta;
+            meta = meta || {goodsTypeList:[]};
+            return meta.goodsTypeList;
+        },
     },
     beforeMount:function(){
         this.initTableData();
@@ -80,25 +91,51 @@ export default {
         initTableData(){
 
         },
-		formatter(row,col,cellValue,i){
-            // 格式化日期                
-            if(col.property.indexOf('Date') != -1){
-                return new Date(cellValue).toLocaleDateString();
-            }else if(col.property.indexOf('status') != -1){
-                switch (cellValue){
-                    case '0':
-                        return '正常';
-                        break;
-                    case '1':
-                        return '禁用';
-                        break;
-                    case '2':
-                        return '删除';
-                        break;
+		formatter(row,col,cellValue){
+            // 格式化方法
+            let formatValue = cellValue;
+            if(this.formatterCol){
+                let formatterFn = this.formatterCol[col.property];
+                if(formatterFn){
+                    formatValue = this[formatterFn](cellValue);
+                }
+            }      
+            return formatValue;
+        },
+        noFormatter(row,col,cellValue){
+            // 无格式化
+            return cellValue;
+        },
+        formatterTypeName(cellValue){
+            // 格式化商品类型名称
+            let goodsType = {};
+            for(let i = 0;i< this.goodsTypeList.length;i++){
+                let type = this.goodsTypeList[i];
+                if(type.id == cellValue){
+                    goodsType = type;
+                    break;
                 }
             }
-            return cellValue;
-		}
+            return goodsType.typeName;
+        },
+        formatterStatus(cellValue){
+            // 格式化状态
+            switch (cellValue){
+                case '0':
+                    return '正常';
+                    break;
+                case '1':
+                    return '禁用';
+                    break;
+                case '2':
+                    return '删除';
+                    break;
+            }
+        },
+        formatDate(cellValue){
+            // 格式化日期
+            return new Date(cellValue).toLocaleDateString();
+        }
 	}
 };
 </script>

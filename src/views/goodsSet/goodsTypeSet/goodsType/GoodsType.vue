@@ -47,7 +47,8 @@ export default {
                         label: "状态",
                         width: "150",
                         prop: "status",
-                        fixed: true
+                        fixed: true,
+						formatter:true,
 					}
 				],
 				tbodyData: [
@@ -57,7 +58,10 @@ export default {
 					maxHeight:"100%",
 					border:true,
 					showRightBtnColumn:true,
-				}
+				},
+				formatterCol:{
+					status:"formatterStatus",
+				},
 			},
 			dialogData:{	
 				title:"新增类型",//显示弹框

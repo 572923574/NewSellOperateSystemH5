@@ -160,17 +160,10 @@ export default {
 		text-align: left;
 		border-right: none;
 		width: 100%;
-		.el-submenu__title {
-			// text-align: left;
-		}
 		.el-submenu {
-			// text-align: left;
 			.el-menu-item {
 				min-width: auto;
 			}
-		}
-		.el-menu-item {
-			// text-align: left;
 		}
 	}
 }

@@ -9,7 +9,9 @@ function requestFn(method, url, data, callback, errorFn, that) {
             spaAccount = store.state.spaAccount;
         }else{
             let state = sessionStorage.getItem('state');
-            state = state ?JSON.parse(state):{};
+            // sessionStorage.setItem('state',JSON.stringify(that.$store.state));
+            state = state ?JSON.parse(state):{spaAccount:{}};
+            that.$store.commit("updateState",state);
             spaAccount = state.spaAccount || {};
         }
         data.token = spaAccount.token;

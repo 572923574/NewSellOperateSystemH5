@@ -2,8 +2,7 @@
     <div class="vuePage">
 		<div class="headDiv">
 			<div class="searchDiv">
-				<el-input :placeholder="searchPlaceholder" prefix-icon="el-icon-search" v-model="searchKey">
-  				</el-input>
+				<el-input :placeholder="searchPlaceholder" prefix-icon="el-icon-search" v-model="searchKey"></el-input>
 			</div>
 			<div class="searchBtnDiv">
 				<el-button icon="el-icon-search" @click="queryAccountList">查询</el-button>
@@ -36,16 +35,16 @@ export default {
 			tableData:{
 				theadData: [
 					{
-					label: "名称",
-					width: "150",
-					prop: "name",
-					fixed: true
+						label: "名称",
+						width: "150",
+						prop: "name",
+						fixed: true
 					},
 					{
-					label: "手机",
-					width: "150",
-					prop: "mobile",
-					fixed: true
+						label: "手机",
+						width: "150",
+						prop: "mobile",
+						fixed: true
 					},
 					// {
 					// label: "角色",
@@ -54,17 +53,19 @@ export default {
 					// fixed: true
 					// },
 					{
-					label: "加入日期",
-					width: "150",
-					prop: "createDate",
-					formatter:"formatterDate",
-					fixed: true
+						label: "加入日期",
+						width: "150",
+						prop: "createDate",
+						formatter:"formatterDate",
+						fixed: true,
+						formatter:true,
 					},
 					{
-					label: "状态",
-					width: "150",
-					prop: "status",
-					fixed: true
+						label: "状态",
+						width: "150",
+						prop: "status",
+						fixed: true,
+						formatter:true,
 					}
 				],
 				tbodyData: [
@@ -74,7 +75,11 @@ export default {
 					maxHeight:"100%",
 					border:true,
 					showRightBtnColumn:true,
-				}
+				},
+				formatterCol:{
+					createDate:"formatDate",
+					status:"formatterStatus",
+				},
 			},
 			searchPlaceholder:"输入名称或手机号查询",//搜索提示
 			searchKey:"",//搜索输入内容

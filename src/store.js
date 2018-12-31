@@ -14,7 +14,13 @@ export default new Vuex.Store({
 		},
 		changeObj(state, key, objKey, objValue) { //默认第一个参数是state
 			// 修改内容
-			state[key].objKey = objValue;
+			state[key][objKey] = objValue;
+		},
+		updateState(state,newState){
+			for(var key in newState){
+				state[key] = newState[key];
+			}
+			
 		}
 	},
 	actions: {

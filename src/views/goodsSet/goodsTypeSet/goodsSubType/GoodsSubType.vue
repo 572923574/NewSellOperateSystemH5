@@ -34,8 +34,9 @@ export default {
                     {
                         label: "类型",
                         width: "150",
-                        prop: "typeName",
-                        fixed: true
+                        prop: "typeId",
+						fixed: true,
+						formatter:true,
 					},
                     {
                         label: "子类型编号",
@@ -53,7 +54,8 @@ export default {
                         label: "状态",
                         width: "150",
                         prop: "status",
-                        fixed: true
+						fixed: true,
+						formatter:true,
 					}
 				],
 				tbodyData: [
@@ -63,7 +65,11 @@ export default {
 					maxHeight:"100%",
 					border:true,
 					showRightBtnColumn:true,
-				}
+				},
+				formatterCol:{
+					typeId:"formatterTypeName",
+					status:"formatterStatus",
+				},
 			},
 			dialogData:{	
 				title:"新增类型",//显示弹框
@@ -92,7 +98,7 @@ export default {
 			let that = this;
 			// 查询商品列表
 			const $loading = this.$loading();
-			Api.goodsTypeList({
+			Api.goodsSubTypeList({
                 body:{
 					typeName:searchKey,
 					typeNo:searchKey,
@@ -114,7 +120,7 @@ export default {
 			let that = this;
 			this.loading = true;
 			let propsData = JSON.parse(JSON.stringify(this.propsData)); 
-			Api.goodsTypeSave({
+			Api.goodsSubTypeSave({
                 body:propsData
 			},function(resp){
                 that.btnLoad = false;
@@ -141,7 +147,7 @@ export default {
 			let that = this;
 			// 删除
 			const $loading = this.$loading();
-			Api.goodsTypeDelete({
+			Api.goodsSubTypeDelete({
                 body:data
 			},function(resp){
 				that.tableData.tbodyData = resp.body;
