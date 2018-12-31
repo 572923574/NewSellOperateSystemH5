@@ -8,10 +8,12 @@ function requestFn(method, url, data, callback, errorFn, that) {
         if(store.state.spaAccount && store.state.spaAccount.token){
             spaAccount = store.state.spaAccount;
         }else{
-            spaAccount = sessionStorage.getItem('spaAccount');
-            spaAccount = spaAccount ?JSON.parse(spaAccount):{};
+            let state = sessionStorage.getItem('state');
+            state = state ?JSON.parse(state):{};
+            spaAccount = state.spaAccount || {};
         }
         data.token = spaAccount.token;
+        data.body = data.body || {};
         data.body.eid = spaAccount.eid;
         data.body.sid = spaAccount.sid;
     }
@@ -30,7 +32,7 @@ function requestFn(method, url, data, callback, errorFn, that) {
             });
             if(response.data.result ==2){
                 that.$store.commit('setSpaAccount',{});
-                sessionStorage.setItem('spaAccount',{});
+                sessionStorage.clear();
                 that.$router.push({ path: "/Login" });
             }
             errorFn && errorFn(response);
@@ -59,6 +61,11 @@ let Api = {
     Login: function (data, callback, error, that, method) {
         // 登录方法
         let url = "/account/login";
+        requestFn(method, url, data, callback, error, that);
+    },
+    loginOut: function (data, callback, error, that, method) {
+        // 退出登录方法
+        let url = "/account/loginOut";
         requestFn(method, url, data, callback, error, that);
     },
     spaAccountList: function (data, callback, error, that, method) {

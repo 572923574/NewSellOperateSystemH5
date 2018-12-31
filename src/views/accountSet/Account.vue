@@ -20,12 +20,10 @@
 		</Dialog>
 	</div>
 </template>
-
 <script>
 import TableDemo from '@/components/table/tableDemo.vue';
 import Dialog from '@/components/dialog/Dialog.vue';
 import AccountForm from '@/components/form/AccountForm.vue';
-
 import Api from '@/common/api/api.js';
 export default {
 	components:{

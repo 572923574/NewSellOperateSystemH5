@@ -48,8 +48,16 @@ export default {
             },function(resp){
                 that.btnLoad = false;
                 if(resp.result == 0){
+                    // 储存账号信息
                     that.$store.commit('setSpaAccount',resp.body);
-                    sessionStorage.setItem('spaAccount',JSON.stringify(resp.body));
+                    sessionStorage.setItem('state',JSON.stringify(that.$store.state));
+                    // 获取商品类型、子类型信息
+                    Api.goodsSubTypeList({body:{}},function(){
+
+                    });debugger
+                    Api.goodsTypeList({body:{}},function(){
+
+                    });
                     //登陆成功，跳转到商品列表界面
                     that.$router.push({ path: "/GoodsTable" });
                 }

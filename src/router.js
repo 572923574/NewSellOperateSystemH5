@@ -64,11 +64,13 @@ router.beforeEach((to, from, next) => {
 	if(store.state.spaAccount && store.state.spaAccount.token){
 		token = store.state.spaAccount.token;
 	}else{
-		let spaAccount = sessionStorage.getItem('spaAccount');
-		token = spaAccount ?JSON.parse(spaAccount).token:'';
+		let state = sessionStorage.getItem('state');
+		state = state ?JSON.parse(state):{};
+		token = state.spaAccount?state.spaAccount.token:'';
 	}
 	console.log(token);
 	if(!token && to.path !="/Login"){
+		sessionStorage.clear();
 		next({ path: '/Login' });
 		return;
 	}

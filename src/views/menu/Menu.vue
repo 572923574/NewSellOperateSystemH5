@@ -15,7 +15,7 @@
                 </div>
             </div>
             <!-- 推出登陆 -->
-            <div class="exitBtn">{{exitText}}</div>
+            <div class="exitBtn" @click="loginOut">{{exitText}}</div>
         </div>
         <el-menu :default-active="defaultActive" class="leftMenuDiv" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" :router="true">
             <el-submenu index="1">
@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import Api from '@/common/api/api.js';
 export default {
     data() {
         return {
@@ -79,10 +80,19 @@ export default {
     },
     methods: {
         handleOpen() { },
-        changePage(path) {            debugger
+        changePage(path) {
             this.$router.push({ path: path });
         },
-        handleClose() { }
+        handleClose() { },
+        loginOut(){
+            let that = this;
+            // 退出登录
+            Api.loginOut({},function(){
+                that.$store.commit('setSpaAccount',{});
+                sessionStorage.clear();
+                that.$router.push({ path: "/Login" });
+            });
+        },
     },
     beforeMount(){
         if(this.$router.history && this.$router.history.current && this.$router.history.current.path){
