@@ -27,7 +27,7 @@
                 <!-- 商品类型 -->
                 <div class="rowItemLabel">{{Label.type}}</div>
                 <el-select class="nameInput rowInput" v-model="propsData.type" :placeholder="placeholderObj.type" >
-                    <el-option v-for="type in goodsTypeList" :key="type.value" :label="type.label" :value="type.value"> </el-option>
+                    <el-option v-for="type in goodsTypeList" :key="type.id" :label="type.typeName" :value="type.id"> </el-option>
                 </el-select>
             </div>
         </div>
@@ -36,7 +36,7 @@
                 <!-- 商品子类型 -->
                 <div class="rowItemLabel">{{Label.son_type}}</div>
                 <el-select class="nameInput rowInput" v-model="propsData.son_type" :placeholder="placeholderObj.son_type" >
-                    <el-option v-for="item in sonTypeList" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+                    <el-option v-for="item in goodsSubTypeList" :key="item.id" :label="item.subTypeName" :value="item.id"> </el-option>
                 </el-select>
             </div>
         </div>
@@ -172,13 +172,40 @@ export default {
             specList:[],//规格数组
             supplierList:[],//供货商集合
             goodsCompanyList:[],//品牌公司集合
-            goodsTypeList:[{label:'洗发类',value:1}],//商品类型集合
-            sonTypeList:[{label:'店用洗发',value:1},{label:'家用洗发',value:2}],//商品子类型集合
+            showSubType:true,//展示子类型选择框
         }
     },
     props:['propsData'],
     computed:{
-
+        goodsTypeList:function(){
+            // 商品大类
+            let meta = this.$store.state.spaAccount.meta;
+            meta = meta || {goodsTypeList:[]};
+            return meta.goodsTypeList;
+        },
+        goodsSubTypeList:function(){
+            // 商品小类
+            let meta = this.$store.state.spaAccount.meta;
+            let that = this;
+            meta = meta || {goodsSubTypeList:[]};
+            let allSubTypes = meta.goodsSubTypeList;
+            if(allSubTypes && allSubTypes.length){
+                this.showSubType = true;
+            }else{
+                this.showSubType = false;
+            }
+            let bool = false;
+            let sonTypes = allSubTypes.filter(function(subType){
+            if(subType.typeId == that.propsData.type && subType.id == that.propsData.son_type){
+                bool = true;
+            }
+                return subType.typeId == that.propsData.type;
+            })
+            if(!bool){
+                that.propsData.son_type = null;
+            }
+            return sonTypes;
+        },
     },
     beforeMount:function(){
         this.unitList = Constant.unitList;

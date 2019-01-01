@@ -98,6 +98,7 @@ export default {
         if(this.$router.history && this.$router.history.current && this.$router.history.current.path){
             this.defaultActive = this.$router.history.current.path;
         }
+        this.defaultActive = this.defaultActive || "/GoodsTable";
     },
 };
 </script>

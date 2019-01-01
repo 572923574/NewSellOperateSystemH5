@@ -119,18 +119,20 @@ export default {
             return goodsType.typeName;
         },
         formatterStatus(cellValue){
+            let Str = cellValue;
             // 格式化状态
             switch (cellValue){
                 case '0':
-                    return '正常';
+                    Str = '正常';
                     break;
                 case '1':
-                    return '禁用';
+                    Str = '禁用';
                     break;
                 case '2':
-                    return '删除';
+                    Str = '删除';
                     break;
             }
+            return Str;
         },
         formatDate(cellValue){
             // 格式化日期
@@ -139,12 +141,7 @@ export default {
 	}
 };
 </script>
-<style lang="less" scoped>
-
-
-</style>
 <style lang="less">
-
 	.tableDemo{
 		div{
 			table{
@@ -152,8 +149,6 @@ export default {
 					padding:0px; 
 					font-size:12px;
 					div.cell{
-	// 					padding:0px;
-	// 					padding-left: 0px !important;
                         overflow: hidden;
                         white-space: nowrap;
                         text-overflow: ellipsis;

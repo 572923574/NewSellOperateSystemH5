@@ -70,7 +70,7 @@ export default {
     },
     props:['propsData'],
     computed:{
-        goodsTypeList:function(){debugger
+        goodsTypeList:function(){
             // 商品大类
             let meta = this.$store.state.spaAccount.meta;
             meta = meta || {goodsTypeList:[]};
