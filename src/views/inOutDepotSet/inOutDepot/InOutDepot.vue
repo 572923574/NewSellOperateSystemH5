@@ -1,21 +1,21 @@
 <template>
-    <!-- 商品列表 -->
+    <!-- 商品类型 -->
     <div class="vuePage">
         <HeadQuery>
-            <GoodsTableHead slot="headDiv" @queryList="queryGoodsList" @addFn="addGoodsFn"></GoodsTableHead>
+            <InOutHead slot="headDiv" @queryList="queryList" @addFn="addGoodsFn"></InOutHead>
         </HeadQuery>
 		<div class="spaTable">
 			<TableDemo :tableData="tableData" @emitTableFn="emitTableFn"></TableDemo>
 		</div>
-		<Dialog :dialogData="dialogData" ref="GoodsDialog" @emitSaveFn="saveGoods">
-			<GoodsForm slot="dialogContent" :propsData="propsData">我是呵呵</GoodsForm>
+		<Dialog :dialogData="dialogData" ref="InOutFormDialog" @emitSaveFn="saveFn">
+			<InOutForm slot="dialogContent" :propsData="propsData"></InOutForm>
 		</Dialog>
 	</div>
 </template>
 <script>
 import HeadQuery from '@/components/headQuery/HeadQuery.vue';
-import GoodsTableHead from '@/components/headQuery/goodsTableHead/GoodsTableHead.vue';
-import GoodsForm from '@/components/form/GoodsForm.vue';
+import InOutHead from '@/components/headQuery/InOutHead/InOutHead.vue';
+import InOutForm from '@/components/form/InOutForm.vue';
 import TableDemo from '@/components/table/tableDemo.vue';
 import Dialog from '@/components/dialog/Dialog.vue';
 import Api from '@/common/api/api.js';
@@ -23,50 +23,54 @@ export default {
     components:{
 		TableDemo,
 		Dialog,
-        GoodsTableHead,
+        InOutHead,
 		HeadQuery,
-		GoodsForm
+		InOutForm
 	},
     data() {
 		return {
             tableData:{
 				theadData: [
                     {
-						label: "编号",
-						width: "150",
-						prop: "no",
-						fixed: true
+                        label: "单号",
+                        width: "150",
+                        prop: "no",
+                        fixed: true
+					},{
+                        label: "出入库类型",
+                        width: "150",
+                        prop: "inOutDepotTypeId",
+                        fixed: true,
+						formatter:true,
+                    },{
+                        label: "单据金额",
+                        width: "150",
+                        prop: "money",
+                        fixed: true
 					},
 					{
-						label: "名称",
-						width: "150",
-						prop: "name",
-						fixed: true
+                        label: "类型",
+                        width: "150",
+                        prop: "inOutDepotType",
+						formatter:true,
 					},
 					{
-						label: "销售价",
-						width: "150",
-						prop: "salePrice",
-                    },
-                    {
-						label: "进货价",
-						width: "150",
-						prop: "buyingPrice",
-                    },
-                    {
-						label: "成本价",
-						width: "150",
-						prop: "costPrice",
-					},
-					{
-						label: "数量",
-						width: "150",
-						prop: "num",
-					},
-					{
-						label: "状态",
-						width: "150",
-						prop: "status",
+                        label: "创建日期",
+                        width: "150",
+                        prop: "createDate",
+						formatter:true,
+					},{
+                        label: "审核人",
+                        width: "150",
+                        prop: "accountName",
+					},{
+                        label: "备注",
+                        width: "150",
+                        prop: "remark",
+					},{
+                        label: "状态",
+                        width: "150",
+                        prop: "status",
 						formatter:true,
 					}
 				],
@@ -83,48 +87,40 @@ export default {
 				},
 			},
 			dialogData:{	
-				title:"新增商品",//显示弹框
+				title:"出入库",//显示弹框
 			},//新增账号
 			propsData:{
 				id:null,
 				eid:null,
 				sid:null,
-				name:null,
                 no:null,
-                bar_code:null,
-				numStart:null,
-				type:null,
-				son_type:null,
-                num:null,
-                buyingPrice:null,
-                costPrice:null,
-                salePrice:null,
-                unit:null,
-                spec:null,
-                goodsCompanyId:null,
-                supplierId:null,
+                money:null,
+                inOutDepotTypeId:null,
+                type:'2',//1出库，2入库
+                createDate:null,
                 status:"0",
+                remark:null,
 			},
         }
     
     },
     beforeMount(){
-		this.queryGoodsList();//查询数据
+		this.queryList();//查询数据
     },
     methods:{
 		addGoodsFn(){
 			// 新增账号弹框
 			this.propsData = Object.assign(this.$options.data().propsData, this.$options.data());//重置数组
-			this.$refs.GoodsDialog.show();
+			this.$refs.InOutFormDialog.show();
 		},
-		queryGoodsList(searchKey){
+		queryList(searchKey){
 			let that = this;
 			// 查询商品列表
 			const $loading = this.$loading();
-			Api.goodsList({
+			Api.goodsTypeList({
                 body:{
-					name:searchKey,
-					No:searchKey,
+					typeName:searchKey,
+					typeNo:searchKey,
 				}
 			},function(resp){
                 that.btnLoad = false;
@@ -138,12 +134,12 @@ export default {
 				$loading.close();
             },that);
 		},
-		saveGoods(){
+		saveFn(){
 			// 新增账号
 			let that = this;
 			this.loading = true;
 			let propsData = JSON.parse(JSON.stringify(this.propsData)); 
-			Api.goodsSave({
+			Api.goodsTypeSave({
                 body:propsData
 			},function(resp){
                 that.btnLoad = false;
@@ -164,13 +160,13 @@ export default {
 		editClick(data){
 			// 编辑
 			this.propsData = data;
-			this.$refs.GoodsDialog.show();
+			this.$refs.GoodsTypeDialog.show();
 		},
 		deleteClick(data){
 			let that = this;
 			// 删除
 			const $loading = this.$loading();
-			Api.goodsDelete({
+			Api.goodsTypeDelete({
                 body:data
 			},function(resp){
 				that.tableData.tbodyData = resp.body;

@@ -7,6 +7,8 @@ import GoodsTable from '@/views/goodsSet/goodsTable/GoodsTable.vue';
 import GoodsCompany from '@/views/goodsSet/goodsCompany/GoodsCompany.vue';
 import GoodsType from '@/views/goodsSet/goodsTypeSet/goodsType/GoodsType.vue';
 import GoodsSubType from '@/views/goodsSet//goodsTypeSet/goodsSubType/GoodsSubType.vue';
+import InOutDepot from '@/views/inOutDepotSet/inOutDepot/InOutDepot.vue';
+import InOutDepotType from '@/views/inOutDepotSet/inOutDepotType/InOutDepotType.vue';
 
 import store from './store';
 
@@ -55,6 +57,18 @@ const router = new Router({
 			path: '/GoodsSubType',
 			name: 'GoodsSubType',
 			component: GoodsSubType,
+		},
+		{
+			//出入库表
+			path: '/InOutDepot',
+			name: 'InOutDepot',
+			component: InOutDepot,
+		},
+		{
+			//出入库类型
+			path: '/InOutDepotType',
+			name: 'InOutDepotType',
+			component: InOutDepotType,
 		},
 	]
 })

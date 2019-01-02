@@ -22,7 +22,7 @@ export default {
                 showRightBtnColumn:false,
             },
             rightBtnObjDefaults:{
-                fixed:"left",
+                fixed:"right",
                 label:"操作",
                 width:"122",
                 btns:[

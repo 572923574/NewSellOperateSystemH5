@@ -27,7 +27,7 @@ export default {
         okFn(){
             //确定方法
             this.showDialog = false;
-            this.$emit("emitSaveFn")
+            this.$emit("emitSaveFn");
         }
     }, 
     

@@ -33,10 +33,21 @@
                     <el-menu-item :index="pathObj.goodsSubType">{{titleObj.goodsSubType}}</el-menu-item>
                 </el-submenu>
             </el-submenu>
+            <el-submenu index="2">
+                <template slot="title">
+                    <i class="el-icon-location"></i>
+                    <span>{{titleObj.inOutDepotSet}}</span>
+                </template>
+                <el-menu-item-group>
+                    <el-menu-item :index="pathObj.inOutDepot">{{titleObj.inOutDepot}}</el-menu-item>
+                    <el-menu-item :index="pathObj.inOutDepotType">{{titleObj.inOutDepotType}}</el-menu-item>
+                </el-menu-item-group>
+            </el-submenu>
+            <!-- 
             <el-menu-item index="2">
                 <i class="el-icon-menu"></i>
                 <span slot="title">导航二</span>
-            </el-menu-item>
+            </el-menu-item> -->
             <el-menu-item index="3">
                 <i class="el-icon-document"></i>
                 <span slot="title">库存设置</span>
@@ -65,6 +76,9 @@ export default {
                 goodsTypeSet:"商品类型",
                 goodsType:"商品大类",
                 goodsSubType:"商品小类",
+                inOutDepotSet:"出入库设置",
+                inOutDepot:"出入库表",//出入库类型
+                inOutDepotType:"出入库类型",//出入库类型
             },
             //   路径对象
             pathObj: {
@@ -73,6 +87,8 @@ export default {
                 goodsCompany:"/GoodsCompany",//产品公司
                 goodsType:"/GoodsType",//商品类型
                 goodsSubType:"/GoodsSubType",//商品小类型
+                inOutDepot:"/InOutDepot",//出入库类型
+                inOutDepotType:"/InOutDepotType",//出入库类型
             },
             // 默认选择
             defaultActive:"/GoodsTable",

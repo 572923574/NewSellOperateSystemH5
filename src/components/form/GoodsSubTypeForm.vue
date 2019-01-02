@@ -15,7 +15,7 @@
                 <el-input class="nameInput rowInput" v-model="propsData.subTypeName" :placeholder="placeholderObj.name"></el-input>
             </div>
         </div>
-        <div class="formRow" v-if="propsData.id">
+        <div class="formRow">
             <div class="formRowItem">
                 <!-- 所属类型 -->
                 <div class="rowItemLabel">{{Label.typeName}}</div>
