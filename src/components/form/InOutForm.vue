@@ -44,15 +44,19 @@
             </div>
         </div>
         <Dialog :dialogData="dialogData" ref="selectGoodsDialog" @emitSaveFn="selectGoodsFn">
+            <InOutDetailTable :slot="dialogData.dialogContent" ></InOutDetailTable>
 		</Dialog>
     </div>
 </template>
 <script>
 import Constant from "@/common/constant/constant.js";
 import Dialog from '@/components/dialog/Dialog.vue';
+import InOutDetailTable from '@/components/table/InOutDetailTable.vue';
+
 export default {
     components:{
-		Dialog,
+        Dialog,
+        InOutDetailTable,
 	},
     data(){
         return{
@@ -94,7 +98,9 @@ export default {
             }],
             seleteGoodsBtn:"选择商品",
             dialogData:{	
-				title:"选择商品",//显示弹框
+                title:"选择商品",//显示弹框
+                appendToBody:true,//弹框内嵌套弹框
+                dialogContent:"inOutTable",
 			},
         }
     },

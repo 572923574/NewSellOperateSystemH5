@@ -1,6 +1,6 @@
 <template>
-    <el-dialog custom-class="DialogCss" :title="dialogData.title" :visible.sync="showDialog">
-        <slot name="dialogContent"></slot>
+    <el-dialog custom-class="DialogCss" :title="dialogData.title" :visible.sync="showDialog" :append-to-body="dialogData.appendToBody">
+        <slot :name="dialogData.dialogContent"></slot>
         <div slot="footer" class="dialog-footer">
             <el-button @click="cancelFn">取 消</el-button>
             <el-button class="dialogOk" type="primary" @click="okFn">确 定</el-button>
@@ -14,6 +14,10 @@ export default {
         return {
             showDialog: false,//显示弹窗
         };
+    },
+    beforeMount(){
+        this.dialogData.appendToBody = !!this.dialogData.appendToBody;//弹框是否加载到body上，用于嵌套弹框
+        this.dialogData.dialogContent = this.dialogData.dialogContent?this.dialogData.dialogContent:"dialogContent";
     },
     methods:{
         show(){
