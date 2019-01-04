@@ -36,15 +36,35 @@
             </div>
         </div>
         <div class="formRow">
-            <div class="formRowItem">
+            <div class="formRowItem ">
                 <!-- 选择商品 -->
                 <div class="rowItemLabel">
                     <el-button @click="showGoodsFn">{{seleteGoodsBtn}}</el-button>
                 </div>
             </div>
         </div>
-        <Dialog :dialogData="dialogData" ref="selectGoodsDialog" @emitSaveFn="selectGoodsFn">
-            <InOutDetailTable :slot="dialogData.dialogContent" ></InOutDetailTable>
+        <div class="detailMaxHeight">
+            <div class="detailHead">
+                <div class="no">编号</div>
+                <div class="name">名称</div>
+                <div class="barCode">条码</div>
+                <div class="salePrice">单价</div>
+                <div class="num">数量</div>
+                <div class="sum">小计</div>
+                <div class="sum">操作</div>
+            </div>
+            <div v-for="detail in InoutDetailList" :key="detail.id" class="detailHead">
+                <div class="no">{{detail.no}}</div>
+                <div class="name">{{detail.name}}</div>
+                <div class="barCode">{{detail.barCode}}</div>
+                <div class="salePrice">{{detail.salePrice}}</div>
+                <div class="num">{{detail.num}}</div>
+                <div class="sum">{{detail.sum}}</div>
+                <div class="sum">删除</div>
+            </div>
+        </div>
+        <Dialog :dialogData="dialogData" ref="selectGoodsDialog" @emitSaveFn="getTableDataFn">
+            <InOutDetailTable ref="InOutDetailTable" :slot="dialogData.dialogContent"></InOutDetailTable>
 		</Dialog>
     </div>
 </template>
@@ -101,7 +121,8 @@ export default {
                 title:"选择商品",//显示弹框
                 appendToBody:true,//弹框内嵌套弹框
                 dialogContent:"inOutTable",
-			},
+            },
+            InoutDetailList:[],//出入库明细
         }
     },
     props:['propsData'],
@@ -142,9 +163,11 @@ export default {
             //展示选择商品弹框
             this.$refs.selectGoodsDialog.show();
         },
-        selectGoodsFn:function(){
+        getTableDataFn:function(){debugger
+            // 获取选择的商品明细
+            this.InoutDetailList = this.$refs.InOutDetailTable.getTableDataFn();
+        },
 
-        }
     }
 }
 </script>
@@ -174,7 +197,27 @@ export default {
             text-align: left;
         }
     }
-    
+}
+.detailMaxHeight{
+    .detailHead{
+        height: 30px;
+        .no,.name,.barCode,.salePrice,.num,.sum{
+            float: left;
+        }
+        .no{
+            width: 50px;
+        }.name{
+            width: 100px;
+        }.barCode{
+            width: 100px;
+        }.salePrice{
+            width: 100px;
+        }.num{
+            width: 100px;
+        }.sum{
+            width: 100px;
+        }
+    }
 }
 </style>
 

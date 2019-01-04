@@ -91,7 +91,7 @@ export default {
 				sid:null,
 				name:null,
                 no:null,
-                bar_code:null,
+                barCode:null,
 				numStart:null,
 				type:null,
 				son_type:null,

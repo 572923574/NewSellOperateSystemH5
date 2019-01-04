@@ -45,7 +45,7 @@ export default {
             this.btnLoad = true;
             Api.Login({
                 body:this.body
-            },function(resp){debugger
+            },function(resp){
                 that.btnLoad = false;
                 if(resp.result == 0){
                     // 储存账号信息

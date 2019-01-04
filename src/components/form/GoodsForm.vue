@@ -18,8 +18,8 @@
         <div class="formRow">
             <div class="formRowItem">
                 <!-- 商品编码 -->
-                <div class="rowItemLabel">{{Label.bar_code}}</div>
-                <el-input class="nameInput rowInput" v-model="propsData.bar_code" :placeholder="placeholderObj.bar_code"></el-input>
+                <div class="rowItemLabel">{{Label.barCode}}</div>
+                <el-input class="nameInput rowInput" v-model="propsData.barCode" :placeholder="placeholderObj.barCode"></el-input>
             </div>
         </div>
         <div class="formRow">
@@ -126,7 +126,7 @@ export default {
                 no:"商品编号",
                 type:"商品类型",
                 son_type:"商品子类型",
-                bar_code:"商品条码",
+                barCode:"商品条码",
                 numStart:"初始数量",
                 num:"商品数量",
                 buyingPrice:"进货价",
@@ -144,7 +144,7 @@ export default {
                 no:"请输入商品编号",
                 type:"请选择商品类型",
                 son_type:"请选择商品子类型",
-                bar_code:"请输入商品条码",
+                barCode:"请输入商品条码",
                 numStart:"请输入初始数量",
                 num:"请输入商品数量",
                 buyingPrice:"请输入进货价",
