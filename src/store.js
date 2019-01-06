@@ -5,7 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
-		spaAccount: {}, //储存账号
+        spaAccount: {}, //储存账号
+        goodsTypeList: [],//商品大类
+        goodsSubTypeList: [],//商品小类
+        inoutDepotTypeList:[],//出入库类型
 	},
 	mutations: {
 		setSpaAccount(state, spaAccount) {
