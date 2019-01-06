@@ -201,8 +201,11 @@ export default {
 .detailMaxHeight{
     .detailHead{
         height: 30px;
+        line-height: 30px;
         .no,.name,.barCode,.salePrice,.num,.sum{
             float: left;
+            height: 30px;
+            line-height: 30px;
         }
         .no{
             width: 50px;

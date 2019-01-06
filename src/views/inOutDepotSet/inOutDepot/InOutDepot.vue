@@ -117,7 +117,7 @@ export default {
 			let that = this;
 			// 查询商品列表
 			const $loading = this.$loading();
-			Api.goodsTypeList({
+			Api.InOutDepotList({
                 body:{
 					typeName:searchKey,
 					typeNo:searchKey,

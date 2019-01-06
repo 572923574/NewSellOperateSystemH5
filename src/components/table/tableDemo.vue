@@ -137,7 +137,20 @@ export default {
         formatDate(cellValue){
             // 格式化日期
             return new Date(cellValue).toLocaleDateString();
-        }
+        },
+        formatInOutDepotType(cellValue){
+            let Str = cellValue;
+            // 格式化出、入库
+            switch (cellValue){
+                case '1':
+                    Str = '出库';
+                    break;
+                case '2':
+                    Str = '入库';
+                    break;
+            }
+            return Str;
+        },
 	}
 };
 </script>
