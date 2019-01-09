@@ -145,6 +145,11 @@ let Api = {
         let url = "/inoutDepot/list";
         requestFn(method, url, data, callback, error, that,loading);
     },
+    InOutDepotSave:function (data, callback, error, that,loading, method) {
+        // 查询出入库列表
+        let url = "/inoutDepot/save";
+        requestFn(method, url, data, callback, error, that,loading);
+    },
     InOutDepotTypeList:function (data, callback, error, that,loading, method) {
         // 查询出入库类型列表
         let url = "/inoutDepotType/list";

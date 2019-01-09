@@ -8,7 +8,7 @@
 			<TableDemo :tableData="tableData" @emitTableFn="emitTableFn"></TableDemo>
 		</div>
 		<Dialog :dialogData="dialogData" ref="InOutFormDialog" @emitSaveFn="saveFn">
-			<InOutForm slot="dialogContent" :propsData="propsData"></InOutForm>
+			<InOutForm slot="dialogContent"  ref="InOutForm" :propsData="propsData"></InOutForm>
 		</Dialog>
 	</div>
 </template>
@@ -40,6 +40,7 @@ export default {
                         label: "出入库类型",
                         width: "150",
                         prop: "inOutDepotTypeId",
+                        // prop: "no",
                         fixed: true,
 						formatter:true,
                     },{
@@ -51,7 +52,7 @@ export default {
 					{
                         label: "类型",
                         width: "150",
-                        prop: "inOutDepotType",
+                        prop: "type",
 						formatter:true,
 					},
 					{
@@ -83,12 +84,16 @@ export default {
 					showRightBtnColumn:true,
 				},
 				formatterCol:{
-					status:"formatterStatus",
+                    status:"formatterStatus",
+                    createDate:"formatDate",
+                    type:"formatInOutDepotType",
+                    inOutDepotTypeId:"formatterInOutTypeName",
 				},
 			},
 			dialogData:{	
 				title:"出入库",//显示弹框
-			},//新增账号
+            },
+            //新增对象数据
 			propsData:{
 				id:null,
 				eid:null,
@@ -100,6 +105,7 @@ export default {
                 createDate:null,
                 status:"0",
                 remark:null,
+                goodsList:[],//明细
 			},
         }
     
@@ -111,7 +117,8 @@ export default {
 		addGoodsFn(){
 			// 新增账号弹框
 			this.propsData = Object.assign(this.$options.data().propsData, this.$options.data());//重置数组
-			this.$refs.InOutFormDialog.show();
+            this.$refs.InOutFormDialog.show();
+            // this.$refs.InOutForm.initData();
 		},
 		queryList(searchKey){
 			let that = this;
@@ -138,8 +145,8 @@ export default {
 			// 新增账号
 			let that = this;
 			this.loading = true;
-			let propsData = JSON.parse(JSON.stringify(this.propsData)); 
-			Api.goodsTypeSave({
+            let propsData = JSON.parse(JSON.stringify(this.propsData)); 
+			Api.InOutDepotSave({
                 body:propsData
 			},function(resp){
                 that.btnLoad = false;

@@ -18,12 +18,7 @@
 		</el-table-column>
 		<el-table-column label="数量" width="120" class-name="noPadingClass">
 			<template slot-scope="scope">
-				<el-input v-model="scope.row.num" class="offBorder"></el-input>
-			</template>
-		</el-table-column>
-		<el-table-column label="小计" width="120" class-name="noPadingClass">
-			<template slot-scope="scope">
-				<el-input v-model="scope.row.sum" class="offBorder"></el-input>
+				<el-input v-model="scope.row.num" class="offBorder"  @change="getSumFn"></el-input>
 			</template>
 		</el-table-column>
 	</el-table>
@@ -53,7 +48,10 @@ export default {
 		getTableDataFn:function(){
 			// 将商品明细传出
 			return this.InoutDetailList;
-		}
+        },
+        getSumFn:function(row,k,m,j){
+            
+        }
   }
 };
 </script>

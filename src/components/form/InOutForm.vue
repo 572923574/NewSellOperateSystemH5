@@ -22,7 +22,7 @@
                 <!-- 出入库类型名称 -->
                 <div class="rowItemLabel">{{Label.inOutDepotTypeId}}</div>
                 <el-select class="nameInput rowInput" v-model="propsData.inOutDepotTypeId" :placeholder="placeholderObj.inOutDepotTypeId" >
-                    <el-option v-for="item in inOutDepotTypeList" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+                    <el-option v-for="item in inOutDepotTypeList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
                 </el-select>
             </div>
         </div>
@@ -59,7 +59,7 @@
                 <div class="barCode">{{detail.barCode}}</div>
                 <div class="salePrice">{{detail.salePrice}}</div>
                 <div class="num">{{detail.num}}</div>
-                <div class="sum">{{detail.sum}}</div>
+                <div class="sum">{{detail.salePrice * detail.num}}</div>
                 <div class="sum">删除</div>
             </div>
         </div>
@@ -128,20 +128,21 @@ export default {
     props:['propsData'],
     computed:{
         inOutDepotTypeList:function(){
-            return [{
-                value:'1',
-                label:'购买出库',
-            },{
-                value:'2',
-                label:'进货入库',
-            }];
+            let that = this;
+            let inOutDepotTypeData= this.$store.state.inOutDepotTypeList;
+            // 出入库类型名称集合
+            let inOutDepotTypeList = inOutDepotTypeData.filter(function(inOutDepotType){
+                return that.propsData.type == inOutDepotType.type;
+            });
+            return inOutDepotTypeList;
         }
     },
-    beforeMount:function(){debugger
-        if(!this.propsData.no){
-            //新增单据时自动生成出入库单号 
-            this.propsData.no = "No" + new Date().getTime();
-        }
+    
+    beforeMount(){
+        this.initData();
+    },
+    beforeUpdate:function(){
+        this.initData();
     },
     methods:{
         selectInOutTypeFn:function(value){
@@ -157,16 +158,28 @@ export default {
                 this.Label.no = "入库单号";
                 this.placeholderObj.inOutDepotTypeId = "请输入入库单号";
             }
-            this.propsData.inOutDepotTypeId = null;
+            // 重置选择的出入库类型
+            this.propsData.inOutDepotTypeId = this.inOutDepotTypeList&&this.inOutDepotTypeList.length ? this.inOutDepotTypeList[0].id:"";
         },
         showGoodsFn:function(){
             //展示选择商品弹框
             this.$refs.selectGoodsDialog.show();
         },
-        getTableDataFn:function(){debugger
+        getTableDataFn:function(){
             // 获取选择的商品明细
             this.InoutDetailList = this.$refs.InOutDetailTable.getTableDataFn();
+            this.propsData.goodsList = this.InoutDetailList;
         },
+        initData(){
+            if(!this.propsData.no){
+                //新增单据时自动生成出入库单号 
+                this.propsData.no = "No" + new Date().getTime();
+            }
+            if(!this.propsData.inOutDepotTypeId){
+                //新增单据时默认选择一个出入库类型
+                this.propsData.inOutDepotTypeId =this.inOutDepotTypeList&&this.inOutDepotTypeList.length ? this.inOutDepotTypeList[0].id:"";
+            }
+        }
 
     }
 }

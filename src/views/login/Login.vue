@@ -51,9 +51,7 @@ export default {
                     // 储存账号信息
                     that.$store.commit('setSpaAccount',resp.body);
                     let meta = resp.body.meta;
-                    for(let key in meta){
-                        that.$store.commit(key,meta[key]);
-                    }
+                    that.$store.commit("updateState",meta);
                     sessionStorage.setItem('state',JSON.stringify(that.$store.state));
                     //登陆成功，跳转到商品列表界面
                     that.$router.push({ path: "/GoodsTable" });

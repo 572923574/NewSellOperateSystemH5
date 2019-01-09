@@ -79,8 +79,13 @@ export default {
             meta = meta || {goodsTypeList:[]};
             return meta.goodsTypeList;
         },
+        inOutDepotTypeList:function(){
+            // 出入库类型
+            return this.$store.state.inOutDepotTypeList;
+        },
     },
     beforeMount:function(){
+        this.tableData;
         this.initTableData();
     },
 	methods:{
@@ -151,6 +156,17 @@ export default {
             }
             return Str;
         },
+        formatterInOutTypeName(cellValue){
+            let Str = cellValue;
+            // 格式化出入库类型
+            for(let i = 0;i<this.inOutDepotTypeList.length;i++){
+                let obj = this.inOutDepotTypeList[i];
+                if(obj.id == cellValue){
+                    Str = obj.name;
+                }
+            }
+            return Str;
+        }
 	}
 };
 </script>

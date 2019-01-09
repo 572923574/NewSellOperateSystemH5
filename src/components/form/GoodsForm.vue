@@ -196,9 +196,9 @@ export default {
             }
             let bool = false;
             let sonTypes = allSubTypes.filter(function(subType){
-            if(subType.typeId == that.propsData.type && subType.id == that.propsData.son_type){
-                bool = true;
-            }
+                if(subType.typeId == that.propsData.type && subType.id == that.propsData.son_type){
+                    bool = true;
+                }
                 return subType.typeId == that.propsData.type;
             })
             if(!bool){
@@ -208,6 +208,7 @@ export default {
         },
     },
     beforeMount:function(){
+        // 获取单位、规格
         this.unitList = Constant.unitList;
         this.specList = Constant.specList;
     }
