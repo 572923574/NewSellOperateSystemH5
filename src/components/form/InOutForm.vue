@@ -64,7 +64,7 @@
             </div>
         </div>
         <Dialog :dialogData="dialogData" ref="selectGoodsDialog" @emitSaveFn="getTableDataFn">
-            <InOutDetailTable ref="InOutDetailTable" :slot="dialogData.dialogContent"></InOutDetailTable>
+            <InOutDetailTable ref="InOutDetailTable" :slot="dialogData.dialogContent" :goodsList="goodsList" :detailArray="InoutDetailList"></InOutDetailTable>
 		</Dialog>
     </div>
 </template>
@@ -72,7 +72,7 @@
 import Constant from "@/common/constant/constant.js";
 import Dialog from '@/components/dialog/Dialog.vue';
 import InOutDetailTable from '@/components/table/InOutDetailTable.vue';
-
+import Api from '@/common/api/api.js';
 export default {
     components:{
         Dialog,
@@ -123,6 +123,7 @@ export default {
                 dialogContent:"inOutTable",
             },
             InoutDetailList:[],//出入库明细
+            goodsList:[],//商品数据
         }
     },
     props:['propsData'],
@@ -141,9 +142,9 @@ export default {
     beforeMount(){
         this.initData();
     },
-    beforeUpdate:function(){
-        this.initData();
-    },
+    // beforeUpdate:function(){
+    //     this.initData();
+    // },
     methods:{
         selectInOutTypeFn:function(value){
             //选择单据类型
@@ -170,15 +171,63 @@ export default {
             this.InoutDetailList = this.$refs.InOutDetailTable.getTableDataFn();
             this.propsData.goodsList = this.InoutDetailList;
         },
+        getInoutDetailList:function(){
+            // 传递商品明细
+            return this.InoutDetailList;
+        },
         initData(){
-            if(!this.propsData.no){
-                //新增单据时自动生成出入库单号 
-                this.propsData.no = "No" + new Date().getTime();
-            }
-            if(!this.propsData.inOutDepotTypeId){
-                //新增单据时默认选择一个出入库类型
-                this.propsData.inOutDepotTypeId =this.inOutDepotTypeList&&this.inOutDepotTypeList.length ? this.inOutDepotTypeList[0].id:"";
-            }
+            let that = this;
+            Api.goodsList({
+
+            },
+            function(data) {
+                that.goodsList = data.body.map(function(goods){
+                    goods.num = null;
+                    return goods;
+                });
+                if(!that.propsData.no){
+                    //新增单据时自动生成出入库单号 
+                    that.propsData.no = "No" + new Date().getTime();
+                }
+                if(!that.propsData.inOutDepotTypeId){
+                    //新增单据时默认选择一个出入库类型
+                    that.propsData.inOutDepotTypeId =that.inOutDepotTypeList&&that.inOutDepotTypeList.length ? this.inOutDepotTypeList[0].id:"";
+                }else{
+                    Api.InOutDetailQueryByInOutNo({
+                        body:{
+                            inOutNo:that.propsData.no,
+                        }
+                    },function(resp){debugger
+                        let detailList = resp.body;//出入库明细
+                        that.InoutDetailList = detailList.map(function(item,i){
+                            for(let j = 0;j<that.goodsList.length;j++){
+                                let goods = that.goodsList[j];
+                                if(item.goodsId == goods.id){
+                                    item.no = goods.no;
+                                    item.name = goods.name;
+                                    item.barCode = goods.barCode;
+                                    goods.num = item.num;
+                                }
+                            }
+                            // that.goodsList.map(function(goods){
+                            //      if(item.goodsId == goods.id){
+                            //         item.no = goods.no;
+                            //         item.name = goods.name;
+                            //         item.barCode = goods.barCode;
+                            //         goods.num = item.num;
+                            //         goods.salePrice = item.salePrice;
+                            //     }
+                            //     return goods;
+                            // });
+                            return item;
+                        });
+                    },null,that);
+                }
+            },
+            null,
+            that,
+            true
+            );
         }
 
     }

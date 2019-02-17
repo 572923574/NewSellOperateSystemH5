@@ -1,13 +1,26 @@
 <template>
     <!-- 表格组件 -->
-    <el-table class="tableDemo" :data="tbodyData" style="width: 100%" :maxHeight="tableInfo.maxHeight" border>
-		<el-table-column type="index" width="50" label="No" :fixed="true"></el-table-column>
-        <el-table-column v-for="(headerItem,key) in theadData" :fixed="headerItem.fixed" :label="headerItem.label" :prop="headerItem.prop" :width="headerItem.width" :key="key" :formatter="headerItem.formatter?formatter:noFormatter"></el-table-column>
-        <el-table-column v-if="tableInfo.showRightBtnColumn" :fixed="rightBtnObj.fixed" min-width="30" :label="rightBtnObj.label" :width="rightBtnObj.width" >
+    <el-table :class="[{ tableWidth: fullWidth }, 'tableDemo']" :data="tableData1" :maxHeight="tableInfo.maxHeight" border>
+		<el-table-column prop="name"  label="name"  width="180"></el-table-column>
+        <el-table-column prop="address"  label="address" width="180"></el-table-column>
+       <el-table-column v-for="(head,key) in theadData1" :prop="head.prop" :label="head.label"  width="190" :key="key">
+    </el-table-column>
+     <!-- <el-table-column
+      prop="name"
+      label="姓名"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="address"
+      label="地址">
+    </el-table-column> -->
+        <!-- <el-table-column prop="name" label="姓名" width="180"></el-table-column> -->
+        <!-- <el-table-column v-for="(headerItem,key) in theadData" :fixed="false?headerItem.fixed:false" :label="headerItem.label" :prop="headerItem.prop" :width="headerItem.width" :key="key" :formatter="headerItem.formatter?formatter:noFormatter"></el-table-column> -->
+        <!-- <el-table-column v-if="tableInfo.showRightBtnColumn" :fixed="fullWidth?rightBtnObj.fixed:fullWidth" min-width="30" :label="rightBtnObj.label" :width="rightBtnObj.width" >
       		<template slot-scope="scope">
         		<el-button class="tableBtn" @click="tableClick(scope.row,btn.clickFunction)" :type="btn.type" :size="btn.size" v-for="(btn,btnKey) in rightBtnObj.btns" :key="btnKey">{{btn.btnText}}</el-button>
       		</template>
-    	</el-table-column>
+    	</el-table-column> -->
     </el-table>
 </template>
 
@@ -16,6 +29,28 @@ export default {
     props:['tableData'],//表格数据
 	data() {
 		return {
+            theadData1:[{prop:'date',label:'date',width:190},{prop:'sex',label:'sex',width:190}],
+             tableData1: [{
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄',
+          sex:"m"
+        }, {
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1517 弄',
+          sex:"m"
+        }, {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄',
+          sex:"m"
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1516 弄',
+          sex:"m"
+        }],
             tableInfoDefaults:{
                 maxHeight:"300",
                 border:true,
@@ -39,7 +74,8 @@ export default {
                         clickFunction:"deleteClick",
                     }
                 ]
-            }
+            },
+            fullWidth:false,//宽度100%
 		};
     },
     computed:{

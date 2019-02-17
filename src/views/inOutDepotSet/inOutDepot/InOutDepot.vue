@@ -126,8 +126,7 @@ export default {
 			const $loading = this.$loading();
 			Api.InOutDepotList({
                 body:{
-					typeName:searchKey,
-					typeNo:searchKey,
+					no:searchKey,
 				}
 			},function(resp){
                 that.btnLoad = false;
@@ -144,7 +143,8 @@ export default {
 		saveFn(){
 			// 新增账号
 			let that = this;
-			this.loading = true;
+            this.loading = true;
+            this.propsData.goodsList = this.$refs.InOutForm.getInoutDetailList();
             let propsData = JSON.parse(JSON.stringify(this.propsData)); 
 			Api.InOutDepotSave({
                 body:propsData
@@ -166,8 +166,9 @@ export default {
 		},
 		editClick(data){
 			// 编辑
-			this.propsData = data;
-			this.$refs.GoodsTypeDialog.show();
+            this.propsData = data;
+            // this.$refs.InOutForm.initData()
+			this.$refs.InOutFormDialog.show();
 		},
 		deleteClick(data){
 			let that = this;

@@ -4,9 +4,9 @@
         <HeadQuery>
             <InOutTypeHead slot="headDiv" @queryList="queryList" @addFn="addFn"></InOutTypeHead>
         </HeadQuery>
-		<div class="spaTable">
+		<!-- <div class="spaTable"> -->
 			<TableDemo :tableData="tableData" @emitTableFn="emitTableFn"></TableDemo>
-		</div>
+		<!-- </div> -->
 		<Dialog :dialogData="dialogData" ref="InOutTypeFormDialog" @emitSaveFn="saveFn">
 			<InOutTypeForm slot="dialogContent" :propsData="propsData"></InOutTypeForm>
 		</Dialog>
@@ -35,23 +35,23 @@ export default {
                         label: "编号",
                         width: "150",
                         prop: "no",
-                        fixed: true
+                        // fixed: true
 					},{
                         label: "出入库类型名称",
                         width: "150",
                         prop: "name",
-                        fixed: true,
+                        // fixed: true,
 						formatter:true,
                     },{
                         label: "类型",
                         width: "150",
                         prop: "type",
-						formatter:true,
+						// formatter:true,
 					},{
                         label: "状态",
                         width: "150",
                         prop: "status",
-						formatter:true,
+						// formatter:true,
 					}
 				],
 				tbodyData: [

@@ -1,57 +1,63 @@
 <template>
-	<el-table
-		ref="multipleTable"
-		:data="goodsList"
-		tooltip-effect="dark"
-		style="width: 100%"
-		@selection-change="selectGoods"
-		class="InoutDetailTable"
-	>
-		<el-table-column type="selection" width="55"></el-table-column>
-		<el-table-column prop="no" label="编号" width="120"></el-table-column>
-		<el-table-column prop="name" label="名称" width="120"></el-table-column>
-		<el-table-column prop="barCode" label="条码" width="120"></el-table-column>
-		<el-table-column label="单价" width="120" class-name="noPadingClass">
-			<template slot-scope="scope">
-				<el-input v-model="scope.row.salePrice" class="offBorder"></el-input>
-			</template>
-		</el-table-column>
-		<el-table-column label="数量" width="120" class-name="noPadingClass">
-			<template slot-scope="scope">
-				<el-input v-model="scope.row.num" class="offBorder"  @change="getSumFn"></el-input>
-			</template>
-		</el-table-column>
-	</el-table>
+    <el-table
+        ref="multipleTable"
+        :data="goodsList"
+        tooltip-effect="dark"
+        style="width: 100%"
+        @selection-change="selectGoods"
+        class="InoutDetailTable"
+    >
+        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column prop="no" label="编号" width="120"></el-table-column>
+        <el-table-column prop="name" label="名称" width="120"></el-table-column>
+        <el-table-column prop="barCode" label="条码" width="120"></el-table-column>
+        <el-table-column label="单价" width="120" class-name="noPadingClass">
+            <template slot-scope="scope">
+                <el-input v-model="scope.row.salePrice" class="offBorder"></el-input>
+            </template>
+        </el-table-column>
+        <el-table-column label="数量" width="120" class-name="noPadingClass">
+            <template slot-scope="scope">
+                <el-input v-model="scope.row.num" class="offBorder" @change="getSumFn"></el-input>
+            </template>
+        </el-table-column>
+    </el-table>
 </template>
 <script>
-import Api from '@/common/api/api.js';
+import Api from "@/common/api/api.js";
 export default {
+  props: ["goodsList","detailArray"], //弹框数据
   data() {
     return {
-      goodsList: [
-      ],
-      InoutDetailList: [],//出入库明细
+      //   goodsList: [
+      //   ],
+      InoutDetailList: [] //出入库明细
     };
-	},
-	beforeMount(){
-		let that = this;
-		Api.goodsList({},function(data){
-				that.goodsList = data.body;
-		},null,that,true);
-	},
+  },
+  beforeMount() {
+  },
+  mounted(){
+      
+      let that = this;
+    this.InoutDetailList = this.detailArray;debugger
+    if (this.InoutDetailList) {
+        this.InoutDetailList.forEach(row => {debugger
+        that.$refs.multipleTable.toggleRowSelection(row);
+        });
+    } else {
+        this.$refs.multipleTable.clearSelection();
+    }
+  },
   methods: {
     selectGoods: function(arr) {
-			//选择商品
-			this.InoutDetailList = arr;
-			
-		},
-		getTableDataFn:function(){
-			// 将商品明细传出
-			return this.InoutDetailList;
-        },
-        getSumFn:function(row,k,m,j){
-            
-        }
+      //选择商品
+      this.InoutDetailList = arr;
+    },
+    getTableDataFn: function() {
+      // 将商品明细传出
+      return this.InoutDetailList;
+    },
+    getSumFn: function(row, k, m, j) {}
   }
 };
 </script>

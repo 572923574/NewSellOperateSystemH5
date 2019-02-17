@@ -20,7 +20,7 @@ function requestFn(method, url, data, callback, errorFn, that,loading) {
         data.body.sid = spaAccount.sid;
     }
     let $loading = "";
-    if(!!loading){
+    if(loading){
         $loading = that.$loading();
     }
     // 封装request请求方法
@@ -29,7 +29,7 @@ function requestFn(method, url, data, callback, errorFn, that,loading) {
         url: winUrl + url,
         data: data
     }).then(function (response) {
-        if(!!loading){
+        if(loading){
             $loading.close();
         }
         if (response.data && response.data.result) {
@@ -53,7 +53,7 @@ function requestFn(method, url, data, callback, errorFn, that,loading) {
             return;
         }
     }, function (response) {
-        if(!!loading){
+        if(loading){
             $loading.close();
         }
         // 请求失败
@@ -131,12 +131,12 @@ let Api = {
         requestFn(method, url, data, callback, error,  that,loading);
     },
     goodsSubTypeSave: function (data, callback, error, that,loading, method) {
-        // 保存商品类型
+        // 保存商品子类型
         let url = "/goodsSubType/save";
         requestFn(method, url, data, callback, error,  that,loading);
     },
     goodsSubTypeDelete: function (data, callback, error, that,loading, method) {
-        // 删除商品类型
+        // 删除商品子类型
         let url = "/goodsSubType/delete";
         requestFn(method, url, data, callback, error, that,loading);
     },
@@ -146,8 +146,13 @@ let Api = {
         requestFn(method, url, data, callback, error, that,loading);
     },
     InOutDepotSave:function (data, callback, error, that,loading, method) {
-        // 查询出入库列表
+        // 保存出入库
         let url = "/inoutDepot/save";
+        requestFn(method, url, data, callback, error, that,loading);
+    },
+    InOutDetailQueryByInOutNo:function (data, callback, error, that,loading, method) {
+        // 保存出入库
+        let url = "/inoutDepotDetail/queryByInOutNo";
         requestFn(method, url, data, callback, error, that,loading);
     },
     InOutDepotTypeList:function (data, callback, error, that,loading, method) {
