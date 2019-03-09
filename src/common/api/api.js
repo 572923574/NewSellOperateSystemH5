@@ -1,24 +1,35 @@
 import axios from 'axios';
 import store from '@/store'
+
 let winUrl = window.document.location.origin + ":8080/mts-spa/spa"; //文跟路径
-// winUrl="http://localhost:8080/mts-spa/spa"
-function requestFn(method, url, data, callback, errorFn, that,loading) {
-    if (data && typeof data == "object") {
-        let spaAccount = {};
-        if(store.state.spaAccount && store.state.spaAccount.token){
-            spaAccount = store.state.spaAccount;
-        }else{
-            let state = sessionStorage.getItem('state');
-            // sessionStorage.setItem('state',JSON.stringify(that.$store.state));
-            state = state ?JSON.parse(state):{spaAccount:{}};
-            that.$store.commit("updateState",state);
-            spaAccount = state.spaAccount || {};
-        }
-        data.token = spaAccount.token;
-        data.body = data.body || {};
-        data.body.eid = spaAccount.eid;
-        data.body.sid = spaAccount.sid;
+// winUrl = "https://dev.sentree.shop/mts-spa/spa";
+function requestFn(method, url, data, callback, errorFn, that, loading) {
+    let req = {
+        body: {},
+        eid: "",
+        appid: "",
+        token:"",
+    };//请求参数
+    // 封装请求token 、eid 、appid
+    let spaAccount = {};
+    if(store.state.spaAccount && store.state.spaAccount.token){
+        spaAccount = store.state.spaAccount;
+    }else{
+        let state = sessionStorage.getItem('state');
+        state = state ?JSON.parse(state):{spaAccount:{}};
+        that.$store.commit("updateState",state);
+        spaAccount = state.spaAccount || {};
     }
+    if (data && typeof data == "object") {
+        data.eid = spaAccount.eid;
+        data.appid = spaAccount.appid;
+    }
+    
+    req.eid = spaAccount.eid;
+    req.appid = spaAccount.appid;
+    req.token = spaAccount.token;
+    req.body = data || { eid: spaAccount.eid, appid: spaAccount.appid };//请求body部分
+    //请求loading
     let $loading = "";
     if(loading){
         $loading = that.$loading();
@@ -27,7 +38,7 @@ function requestFn(method, url, data, callback, errorFn, that,loading) {
     axios({
         method: method?method:'POST',
         url: winUrl + url,
-        data: data
+        data: req
     }).then(function (response) {
         if(loading){
             $loading.close();

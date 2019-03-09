@@ -1,12 +1,9 @@
 <template>
     <div id="app">
-        <el-col :span="3">
-            <Menu></Menu>
-        </el-col>
-        <el-col :span="21">
-            <router-view></router-view>
-        </el-col>
-    </div>
+		<transition name="fade" mode="out-in">
+			<router-view></router-view>
+		</transition>
+	</div>
 </template>
 
 <script>
@@ -21,45 +18,48 @@ export default {
 </script>
 
 <style lang="less">
-html,
 body {
-	height: 100%;
-	overflow: hidden;
-}
-#app {
-	font-family: "Avenir", Helvetica, Arial, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
-	color: #2c3e50;
-	height: 100%;
-	font-size: 12px;
-	> div {
-		height: 100%;
-  	}
-	.el-input__inner {
-		//覆盖原生的input输入框样式
-		height: 30px;
-		line-height: 30px;
-		font-size: 12px;
-	}
-	.el-input__icon {
-		// input输入框图标
-		line-height: 30px;
-	}
-	.el-button{
-		height: 30px;
-		padding: 0px 15px;
-	}
-	.el-table__fixed-body-wrapper{
-		top: 31px !important;
-	}
-	.el-table__header tr{
-		height: 31px;
-	}
-}
-* {
 	margin: 0px;
 	padding: 0px;
+	font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+	font-size: 14px;
+	-webkit-font-smoothing: antialiased;
+}
+
+#app {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	width: 100%;
+}
+
+.el-submenu [class^=fa] {
+	vertical-align: baseline;
+	margin-right: 10px;
+}
+
+.el-menu-item [class^=fa] {
+	vertical-align: baseline;
+	margin-right: 10px;
+}
+
+.toolbar {
+	background: #f2f2f2;
+	padding: 10px;
+	//border:1px solid #dfe6ec;
+	margin: 10px 0px;
+	.el-form-item {
+		margin-bottom: 10px;
+	}
+}
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: all .2s ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+	opacity: 0;
 }
 </style>
