@@ -6,7 +6,7 @@ import Home from '@/views/Home.vue';
 // import Account from '@/views/accountSet/Account.vue';
 import GoodsTable from '@/views/goodsSet/goodsTable/GoodsTable.vue';
 // import GoodsCompany from '@/views/goodsSet/goodsCompany/GoodsCompany.vue';
-// import GoodsType from '@/views/goodsSet/goodsTypeSet/goodsType/GoodsType.vue';
+import GoodsType from '@/views/goodsSet/goodsTypeSet/goodsType/GoodsType.vue';
 // import GoodsSubType from '@/views/goodsSet//goodsTypeSet/goodsSubType/GoodsSubType.vue';
 // import InOutDepot from '@/views/inOutDepotSet/inOutDepot/InOutDepot.vue';
 // import InOutDepotType from '@/views/inOutDepotSet/inOutDepotType/InOutDepotType.vue';
@@ -50,7 +50,7 @@ const router = new Router({
             iconCls: 'el-icon-message',//图标样式class
             children: [
                 // { path: '/Account', component: Account, name: '账号列表' },
-                // { path: '/GoodsType', component: GoodsType, name: '商品类型' },
+                { path: '/GoodsType', component: GoodsType, name: '商品类型' },
                 // { path: '/InOutDepotType', component: InOutDepotType, name: '出入库类型' },
             ]
         },

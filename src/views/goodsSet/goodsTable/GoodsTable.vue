@@ -1,19 +1,8 @@
 <template>
+<!-- 商品列表 -->
     <section>
         <!--工具条-->
-        <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-            <el-form :inline="true" :model="filters">
-                <el-form-item>
-                    <el-input v-model="filters.searchKey" placeholder="输入名称或编号"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" v-on:click="queryListFn">查询</el-button>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="addFn">新增</el-button>
-                </el-form-item>
-            </el-form>
-        </el-col>
+        <TableQuery :queryObj="queryObj" @queryListFn="queryListFn" @addFn="addFn"></TableQuery>
         <!--列表-->
         <el-table
             :data="dataList"
@@ -24,7 +13,7 @@
         >
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="no" label="编号" width="120" sortable></el-table-column>
-            <el-table-column prop="name" label="姓名" width="120" sortable></el-table-column>
+            <el-table-column prop="name" label="名称" width="120" sortable></el-table-column>
             <el-table-column prop="buyingPrice" label="进货价" width="120" sortable></el-table-column>
             <el-table-column prop="costPrice" label="成本价" width="120" sortable></el-table-column>
             <el-table-column prop="salePrice" label="销售原价" width="120" sortable></el-table-column>
@@ -72,16 +61,19 @@
 import Api from "@/common/api/api.js";
 import GoodsForm from "@/components/form/GoodsForm.vue";
 import Dialog from "@/components/dialog/Dialog.vue";
+import TableQuery from "@/components/headQuery/TableQuery.vue";
 export default {
   components: {
     Dialog,
-    GoodsForm
+    GoodsForm,
+    TableQuery
   },
   data() {
     return {
       //查询条件
-      filters: {
-        searchKey: ""
+      queryObj: {
+        searchKey: "",
+        searchText:"名称或编号"
       },
       dialogData: {
         title: "新增商品" //显示弹框
@@ -126,8 +118,8 @@ export default {
       this.listLoading = true;
       Api.goodsList(
         {
-          name: this.filters.searchKey,
-          No: this.filters.searchKey
+          name: this.queryObj.searchKey,
+          no: this.queryObj.searchKey
         },
         resp => {
           that.btnLoad = false;
@@ -192,13 +184,14 @@ export default {
     },
     //显示编辑界面
     editClick: function(index, row) {
-      debugger;
       // 编辑
+      this.dialogData.title="编辑商品";
       this.propsData = Object.assign({}, row);
       this.$refs.GoodsDialog.show();
     },
     //显示新增界面
     addFn: function() {
+      this.dialogData.title="新增商品";
       this.$refs.GoodsDialog.show();
       this.propsData = Object.assign({}, this.$options.data().propsData); //重置数组
     },
