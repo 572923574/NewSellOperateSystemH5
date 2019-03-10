@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import util from "@/common/js/util.js";
+// import util from "@/common/js/util.js";
 import Api from "@/common/api/api.js";
 import GoodsForm from "@/components/form/GoodsForm.vue";
 import Dialog from "@/components/dialog/Dialog.vue";
@@ -113,7 +113,7 @@ export default {
   },
   methods: {
     //性别显示转换
-    formatStatus: function(row, column) {
+    formatStatus: function(row) {
       return row.sex == 1 ? "男" : row.sex == 0 ? "女" : "未知";
     },
     handleCurrentChange(val) {
@@ -207,12 +207,26 @@ export default {
     },
     //批量删除
     batchRemove: function() {
-      var ids = this.sels.map(item => item.id).toString();
       this.$confirm("确认删除选中记录吗？", "提示", {
         type: "warning"
       })
         .then(() => {
           this.listLoading = true;
+          Api.goodsDelete(
+            this.sels,
+            (resp)=> {
+              this.dataList = resp.body;
+              this.$message({
+                message: "删除成功",
+                type: "success"
+              });
+
+              this.listLoading = false;
+            },()=>{
+              this.listLoading = false;
+            },
+            this
+          );
         })
         .catch(() => {});
     }
@@ -222,6 +236,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-</style>

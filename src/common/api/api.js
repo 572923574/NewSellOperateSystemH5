@@ -2,7 +2,7 @@ import axios from 'axios';
 import store from '@/store'
 
 let winUrl = window.document.location.origin + ":8080/mts-spa/spa"; //文跟路径
-// winUrl = "https://dev.sentree.shop/mts-spa/spa";
+winUrl = "https://dev.sentree.shop/mts-spa/spa";
 function requestFn(method, url, data, callback, errorFn, that, loading) {
     let req = {
         body: {},

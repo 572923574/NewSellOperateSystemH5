@@ -7,13 +7,8 @@
 </template>
 
 <script>
-import Menu from "@/views/menu/Menu.vue";
-
 export default {
 	name: "app",
-	components: {
-		Menu
-	}
 };
 </script>
 
@@ -46,7 +41,6 @@ body {
 .toolbar {
 	background: #f2f2f2;
 	padding: 10px;
-	//border:1px solid #dfe6ec;
 	margin: 10px 0px;
 	.el-form-item {
 		margin-bottom: 10px;

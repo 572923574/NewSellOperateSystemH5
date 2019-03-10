@@ -1,9 +1,111 @@
-.el-menu {
+#app .el-table {
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  background-color: #fff;
+  border: 1px solid #dfe6ec;
+  font-size: 14px;
+  color: #1f2d3d;
+}
+#app .el-table td {
+  box-sizing: border-box;
+  position: relative;
+  padding: auto 0px;
+}
+#app .el-table td,
+#app .el-table th {
+  box-sizing: border-box;
+  position: relative;
+  padding: initial;
+  overflow: hidden;
+  height: 40px;
+  min-width: 0;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+#app .el-table th {
+  background-color: #eef1f6;
+  text-align: left;
+  font-weight: bold;
+}
+#app .el-table .cell {
+  white-space: normal;
+  word-break: break-all;
+  line-height: 24px;
+}
+#app .el-button {
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #bfcbd9;
+  color: #1f2d3d;
+  -webkit-appearance: none;
+  text-align: center;
+  box-sizing: border-box;
+  outline: 0;
+  margin: 0;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+#app .el-button--primary {
+  color: #fff;
+  background-color: #20a0ff;
+  border-color: #20a0ff;
+}
+#app .el-button--danger {
+  color: #fff;
+  background-color: #ff4949;
+  border-color: #ff4949;
+}
+#app .el-button:focus,
+#app .el-button:hover {
+  color: #20a0ff;
+  border-color: #20a0ff;
+}
+#app .el-button--danger:focus,
+#app .el-button--danger:hover {
+  background: #ff6d6d;
+  border-color: #ff6d6d;
+  color: #fff;
+}
+#app .el-button--primary:focus,
+#app .el-button--primary:hover {
+  background: #4db3ff;
+  border-color: #4db3ff;
+  color: #fff;
+}
+#app .el-button.is-disabled,
+#app .el-button.is-disabled:focus,
+#app .el-button.is-disabled:hover {
+  color: #bfcbd9;
+  cursor: not-allowed;
+  background-image: none;
+  background-color: #eef1f6;
+  border-color: #d1dbe5;
+}
+#app .el-button--small {
+  padding: 7px 9px;
+  font-size: 12px;
+  border-radius: 4px;
+}
+#app .el-button + .el-button {
+  margin-left: 10px;
+}
+#app .el-menu {
   background-color: #eef1f6;
 }
-.el-menu .el-submenu__title:hover {
+#app .el-menu .el-submenu__title:hover {
   background-color: #d1dbe5;
 }
-.el-submenu .el-menu {
+#app .el-submenu .el-menu {
   background-color: #e4e8f1;
+}
+#app .el-table__fixed-header-wrapper thead div,
+#app .el-table__header-wrapper thead div {
+  color: #1f2d3d;
+  background-color: #eef1f6;
 }
