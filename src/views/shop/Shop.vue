@@ -16,10 +16,10 @@
             <el-table-column prop="createDate" label="创建日期" width="120" sortable></el-table-column>
             <el-table-column prop="endDate" label="失效日期" width="120" sortable></el-table-column>
             
-            <el-table-column prop="address" label="负责人" width="120" sortable></el-table-column>
-            <el-table-column prop="address" label="负责人电话" width="120" sortable></el-table-column>
-            <el-table-column prop="depotAddress" label="仓库联系人" width="120" sortable></el-table-column>
-            <el-table-column prop="depotAddress" label="仓库电话" width="120" sortable></el-table-column>
+            <el-table-column prop="address.userName" label="负责人" width="120" sortable></el-table-column>
+            <el-table-column prop="address.telNumber" label="负责人电话" width="120" sortable></el-table-column>
+            <el-table-column prop="depotAddress.userName" label="仓库联系人" width="120" sortable></el-table-column>
+            <el-table-column prop="depotAddress.telNumber" label="仓库电话" width="120" sortable></el-table-column>
             <el-table-column
                 prop="status"
                 label="状态"
