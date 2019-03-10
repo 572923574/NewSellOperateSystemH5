@@ -2,7 +2,7 @@ import axios from 'axios';
 import store from '@/store'
 
 let winUrl = window.document.location.origin + ":8080/mts-spa/spa"; //文跟路径
-winUrl = "https://dev.sentree.shop/mts-spa/spa";
+winUrl = "http://localhost:8080/mts-spa/spa";
 function requestFn(method, url, data, callback, errorFn, that, loading) {
     let req = {
         body: {},
@@ -179,6 +179,11 @@ let Api = {
     inoutDepotTypeDetele: function (data, callback, error, that, loading, method) {
         // 删除出入库类型
         let url = "/inoutDepotType/delete";
+        requestFn(method, url, data, callback, error, that,loading);
+    },
+    uploadImg: function (data, callback, error, that, loading, method) {
+        // 上传图片
+        let url = "/file/upload";
         requestFn(method, url, data, callback, error, that,loading);
     },
 
