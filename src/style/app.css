@@ -109,3 +109,31 @@
   color: #1f2d3d;
   background-color: #eef1f6;
 }
+#app .formRow {
+  width: 100%;
+  display: block;
+}
+#app .formRow .formRowItem {
+  height: 40px;
+  padding-bottom: 10px;
+}
+#app .formRow .formRowItem .rowItemLabel {
+  width: 100px;
+  float: left;
+  line-height: 40px;
+  text-align: right;
+  padding: 0 10px;
+  height: 40px;
+}
+#app .formRow .formRowItem .rowInput {
+  width: 200px;
+  float: left;
+  margin: 0 0px 0px 10px;
+}
+#app .formRow .formRowItem .optGroup,
+#app .formRow .formRowItem .menuGroup {
+  text-align: left;
+}
+#app .formRow .formRowItem.imageRow {
+  height: auto;
+}

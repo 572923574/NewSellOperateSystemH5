@@ -161,13 +161,10 @@ export default {
   },
   methods: {
     //退出登录
-    logout: function() {debugger
+    logout: function() {
       var that = this;
-      this.$confirm("确认退出吗?", "提示", {
-        //type: 'warning'
-      })
+      this.$confirm("确认退出吗?", "提示", {})
         .then(() => {
-          debugger;
           that.goLogin();
         })
         .catch(() => {});

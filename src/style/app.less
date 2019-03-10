@@ -11,12 +11,15 @@
         border: 1px solid #dfe6ec;
         font-size: 14px;
         color: #1f2d3d;
+
         td {
             box-sizing: border-box;
             position: relative;
             padding: auto 0px;
         }
-        td , th{
+
+        td,
+        th {
             box-sizing: border-box;
             position: relative;
             padding: initial;
@@ -27,6 +30,7 @@
             vertical-align: middle;
             white-space: nowrap;
         }
+
         th {
             background-color: #eef1f6;
             text-align: left;
@@ -39,6 +43,7 @@
             line-height: 24px;
         }
     }
+
     .el-button {
         display: inline-block;
         line-height: 1;
@@ -56,45 +61,59 @@
         font-size: 14px;
         border-radius: 4px;
     }
+
     .el-button--primary {
         color: #fff;
         background-color: #20a0ff;
         border-color: #20a0ff;
     }
+
     .el-button--danger {
         color: #fff;
         background-color: #ff4949;
         border-color: #ff4949;
     }
-    .el-button:focus, .el-button:hover {
+
+    .el-button:focus,
+    .el-button:hover {
         color: #20a0ff;
         border-color: #20a0ff;
     }
-    .el-button--danger:focus, .el-button--danger:hover {
+
+    .el-button--danger:focus,
+    .el-button--danger:hover {
         background: #ff6d6d;
         border-color: #ff6d6d;
         color: #fff;
     }
-    .el-button--primary:focus, .el-button--primary:hover {
+
+    .el-button--primary:focus,
+    .el-button--primary:hover {
         background: #4db3ff;
         border-color: #4db3ff;
         color: #fff;
     }
-    .el-button.is-disabled, .el-button.is-disabled:focus, .el-button.is-disabled:hover {
+
+    .el-button.is-disabled,
+    .el-button.is-disabled:focus,
+    .el-button.is-disabled:hover {
         color: #bfcbd9;
         cursor: not-allowed;
         background-image: none;
         background-color: #eef1f6;
         border-color: #d1dbe5;
     }
+
     .el-button--small {
         padding: 7px 9px;
         font-size: 12px;
         border-radius: 4px;
     }
+
     .el-button+.el-button {
         margin-left: 10px;
     }
+
     .el-menu {
         // 菜单默认背景色
         background-color: #eef1f6;
@@ -107,8 +126,46 @@
     .el-submenu .el-menu {
         background-color: #e4e8f1;
     }
-    .el-table__fixed-header-wrapper thead div, .el-table__header-wrapper thead div {
+
+    .el-table__fixed-header-wrapper thead div,
+    .el-table__header-wrapper thead div {
         color: #1f2d3d;
         background-color: #eef1f6;
+    }
+
+    .formRow {
+        // 表单行
+        width: 100%;
+        display: block;
+
+        .formRowItem {
+            height: 40px;
+            padding-bottom: 10px;
+
+            .rowItemLabel {
+                // 输入框label
+                width: 100px;
+                float: left;
+                line-height: 40px;
+                text-align: right;
+                padding: 0 10px;
+                height: 40px;
+            }
+
+            .rowInput {
+                width: 200px;
+                float: left;
+                margin: 0 0px 0px 10px;
+            }
+
+            .optGroup,
+            .menuGroup {
+                text-align: left;
+            }
+        }
+
+        .formRowItem.imageRow {
+            height: auto;
+        }
     }
 }

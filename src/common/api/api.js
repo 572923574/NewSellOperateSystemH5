@@ -1,8 +1,8 @@
 import axios from 'axios';
 import store from '@/store'
 
-let winUrl = window.document.location.origin + ":8080/mts-spa/spa"; //文跟路径
-winUrl = "http://localhost:8080/mts-spa/spa";
+let winUrl = window.document.location.origin + ":8080/mts-spa/spa"; //文跟路径winUrl = "https://dev.sentree.shop/mts-spa/spa";
+// winUrl = "https://dev.sentree.shop/mts-spa/spa";
 function requestFn(method, url, data, callback, errorFn, that, loading) {
     let req = {
         body: {},
@@ -186,6 +186,15 @@ let Api = {
         let url = "/file/upload";
         requestFn(method, url, data, callback, error, that,loading);
     },
-
+	shopList: function (data, callback, error, that, loading, method) {
+        // 查询门店列表
+        let url = "/shop/list";
+        requestFn(method, url, data, callback, error, that,loading);
+    },
+    shopEdit: function (data, callback, error, that, loading, method) {
+        // 编辑门店
+        let url = "/shop/edit";
+        requestFn(method, url, data, callback, error, that,loading);
+    },
 }
 export default Api;

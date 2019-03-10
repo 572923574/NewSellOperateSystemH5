@@ -52,7 +52,7 @@ export default {
                 label:'禁用',
             }
             ,{
-                value:'2',
+                value:'-1',
                 label:'删除',
             }],
         }
@@ -65,33 +65,3 @@ export default {
     }
 }
 </script>
-
-<style lang="less" scoped>
-.formRow{
-    // 表单行
-    width: 100%;
-    display: block;
-    .formRowItem{
-        height: 30px;
-        padding-bottom: 10px;
-        .rowItemLabel{
-            // 输入框label
-            width: 100px;
-            float: left;
-            line-height: 30px;
-            text-align: right;
-            padding: 0 10px;
-        }
-        .rowInput{
-            width: 200px;
-            float: left;
-            margin:0 10px;
-        }
-        .optGroup,.menuGroup{
-            text-align: left;
-        }
-    }
-    
-}
-</style>
-

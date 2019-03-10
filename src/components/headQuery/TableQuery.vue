@@ -8,7 +8,7 @@
             <el-form-item>
                 <el-button type="primary" v-on:click="queryListFn">查询</el-button>
             </el-form-item>
-            <el-form-item>
+            <el-form-item v-if="!queryObj.hideAdd">
                 <el-button type="primary" @click="addFn">新增</el-button>
             </el-form-item>
         </el-form>
