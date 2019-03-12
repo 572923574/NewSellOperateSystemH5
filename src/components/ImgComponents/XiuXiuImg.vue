@@ -30,7 +30,7 @@ export default {
       xiuxiu.embedSWF("xiuxiuEditor", 5, width, height);
       //修改为您自己的图片上传接口
       xiuxiu.setUploadURL(Api.xiuXiuUploadURL());
-      xiuxiu.setUploadType(1);
+      xiuxiu.setUploadType(3);
       xiuxiu.setUploadDataFieldName("upload_file");
       xiuxiu.onInit = function() {
         xiuxiu.loadPhoto("http://open.web.meitu.com/sources/images/1.jpg");
@@ -39,6 +39,9 @@ export default {
         debugger;
         //alert("上传响应" + data);  可以开启调试
       };
+      xiuxiu.onSaveBase64Image= function(data, fileName, fileType, id) {
+          debugger
+      }
       xiuxiu.onBeforeUpload = function(data, id) {
         debugger;
       };
