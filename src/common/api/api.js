@@ -2,7 +2,7 @@ import axios from 'axios';
 import store from '@/store'
 
 let winUrl = window.document.location.origin + ":8080/mts-spa/spa"; //文跟路径winUrl = "https://dev.sentree.shop/mts-spa/spa";
-// winUrl = "https://dev.sentree.shop/mts-spa/spa";
+winUrl = "https://dev.sentree.shop/mts-spa/spa";
 function requestFn(method, url, data, callback, errorFn, that, loading) {
     let req = {
         body: {},
@@ -195,6 +195,11 @@ let Api = {
         // 编辑门店
         let url = "/shop/edit";
         requestFn(method, url, data, callback, error, that,loading);
+    },
+    xiuXiuUploadURL: function () {
+        //获取美图秀秀上传链接  
+        let url = "/file/upload";
+        return winUrl + url;
     },
 }
 export default Api;
