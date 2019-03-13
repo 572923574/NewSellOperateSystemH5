@@ -104,7 +104,7 @@
           resp => {
             that.btnLoad = false;
             if (resp.result == 0) {
-              that.dataList = resp.body;
+              this.refeshData(resp.body);
               that.loading = false;
             }
             this.listLoading = false;
@@ -127,7 +127,7 @@
             Api.goodsDelete(
               [row],
               (resp) => {
-                this.dataList = resp.body;
+                this.refeshData(resp.body);
                 this.$message({
                   message: "删除成功",
                   type: "success"
@@ -151,7 +151,7 @@
           propsData,
           resp => {
             if (resp.result == 0) {
-              this.dataList = resp.body;
+              this.refeshData(resp.body);
               this.listLoading = false;
             }
           },
@@ -188,7 +188,7 @@
             Api.goodsDelete(
               this.sels,
               (resp) => {
-                this.dataList = resp.body;
+                this.refeshData(resp.body);
                 this.$message({
                   message: "删除成功",
                   type: "success"
@@ -217,6 +217,12 @@
         //返回data
         this.showCropper = false
         this.avatarUrl2 = data.url
+      },
+      //刷新数据
+      refeshData(data){
+          this.dataList = data;
+          this.$store.commit("updateState", {goodsTypeList:data});
+          sessionStorage.setItem("state", JSON.stringify(this.$store.state));
       }
     },
     mounted() {

@@ -1,5 +1,5 @@
 <template>
-    <div class="xiuXiuPage" v-show="showXiuXiu">
+    <div class="xiuXiuPage" v-show="showXiuXiu" @click="showXiuXiu = false">
         <!-- 图片上传遮罩层 -->
             <div id="xiuxiuEditor"></div>
     </div>
