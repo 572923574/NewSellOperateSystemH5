@@ -11,6 +11,7 @@
     "axios": "^0.18.0",
     "element-ui": "^2.4.9",
     "node-sass": "^4.11.0",
+    "qiniu-js": "^2.5.4",
     "sass-loader": "^7.1.0",
     "vue": "^2.5.17",
     "vue-cropper": "^0.4.8",

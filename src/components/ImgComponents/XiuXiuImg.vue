@@ -1,12 +1,16 @@
 <template>
     <div class="xiuXiuPage" v-show="showXiuXiu" @click="showXiuXiu = false">
         <!-- 图片上传遮罩层 -->
-            <div id="xiuxiuEditor"></div>
+        <div id="xiuxiuEditor"></div>
     </div>
 </template>
 
 <script>
 import Api from "@/common/api/api.js";
+var Qiniu = require("qiniu-js");
+var Base64 = require("js-base64").Base64;
+var URLSafeBase64 = require("urlsafe-base64");
+var hmacsha1 = require("hmacsha1");
 export default {
   data() {
     return {
@@ -23,8 +27,8 @@ export default {
       } else {
         xiuxiu.setLaunchVars("cropPresets", "750x350");
       }
-    xiuxiu.setLaunchVars("cameraEnabled", 0); //禁用摄像头
-    xiuxiu.setLaunchVars("customMenu", []); //隐藏左侧的优化
+      xiuxiu.setLaunchVars("cameraEnabled", 0); //禁用摄像头
+      xiuxiu.setLaunchVars("customMenu", []); //隐藏左侧的优化
       this.showXiuXiu = true;
       /*第1个参数是加载编辑器div容器，第2个参数是编辑器类型，第3个参数是div容器宽，第4个参数是div容器高*/
       xiuxiu.embedSWF("xiuxiuEditor", 5, width, height);
@@ -39,9 +43,9 @@ export default {
         debugger;
         //alert("上传响应" + data);  可以开启调试
       };
-      xiuxiu.onSaveBase64Image= function(data, fileName, fileType, id) {
-          debugger
-      }
+      xiuxiu.onSaveBase64Image = function(data, fileName, fileType, id) {
+        debugger;
+      };
       xiuxiu.onBeforeUpload = function(data, id) {
         debugger;
       };
@@ -49,7 +53,7 @@ export default {
         debugger;
         //   点击上传按钮
       };
-    }
+    },
   }
 };
 </script>
@@ -64,8 +68,8 @@ export default {
   overflow: hidden;
   z-index: 999;
   background: rgba(0, 0, 0, 0.5);
-    #xiuxiuEditor {
+  #xiuxiuEditor {
     //   background: #ffffff;
-    }
+  }
 }
 </style>

@@ -8,7 +8,8 @@ export default new Vuex.Store({
         spaAccount: {}, //储存账号
         goodsTypeList: [],//商品大类
         goodsSubTypeList: [],//商品小类
-        inOutDepotTypeList:[],//出入库类型
+        inOutDepotTypeList: [],//出入库类型
+        imgObject: {},//图片对象
 	},
 	mutations: {
 		setSpaAccount(state, spaAccount) {
