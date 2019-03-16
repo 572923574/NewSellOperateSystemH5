@@ -382,7 +382,7 @@ export default {
       return list;
     }
   },
-  beforeMount: function() {debugger
+  beforeMount: function() {
     axios({
       method: "GET",
       url:

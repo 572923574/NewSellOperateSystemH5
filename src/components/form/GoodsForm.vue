@@ -145,19 +145,27 @@
             <div class="formRowItem">
                 <!-- 商品照片 -->
                 <div class="rowItemLabel">{{Label.goodsImg}}</div>
-                <img :src="img">
-                <el-button size="small" type="primary" @click="uploadImg">点击上传</el-button>
+                <div class="rightImgDiv">
+                    <el-button
+                        class="addImg"
+                        size="small"
+                        type="primary"
+                        @click="xiuxiuFn"
+                    >{{Label.uploadImg}}</el-button>
+                    <div
+                        class="spaImgDiv"
+                        @mouseover="ImgOverFn"
+                        @mousemove="ImgMoveFn"
+                        v-for="(spaImg,index) in propsData.goodsImgs"
+                        :key="index"
+                    >
+                        <img :src="spaImg.imgUrl" alt="" class="spaImg">
+                        <div class="deleteImg" @click="deleteImg(spaImg,index)"></div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="formRow imageRow">
-            <div class="formRowItem">
-                <!-- 商品照片 -->
-                <div class="rowItemLabel">美图秀秀照片</div>
-                <img :src="img">
-                <el-button size="small" type="primary" @click="xiuxiuFn">点击上传美图秀秀图片</el-button>
-            </div>
-        </div>
-        <XiuXiu ref="xiuxiu" @returnImg="returnImg" :height="800" :width="800"></XiuXiu>
+        <XiuXiu ref="xiuxiu" @returnImg="returnImg" :height="800" :width="800" :pixel="'1500x1500'"></XiuXiu>
     </div>
 </template>
 <script>
@@ -192,6 +200,7 @@ export default {
         goodsCompanyId: "商品品牌",
         supplierId: "供货商",
         goodsImg: "商品照片",
+        uploadImg: "上传图片",
         status: "商品状态",
         describeText: "商品描述"
       },
@@ -270,12 +279,30 @@ export default {
     handlePreview(file) {
       console.log(file);
     },
-    xiuxiuFn:function(){
-        this.$refs.xiuxiu.xiuxiuShow();
+    xiuxiuFn: function() {
+      this.$refs.xiuxiu.xiuxiuShow();
     },
     //美图秀秀上传返回的图片
-    returnImg(spaImg){
+    returnImg(spaImg) {
+      spaImg.type = "1"; //商品主图
+      this.propsData.goodsImgs.push(spaImg); //上传图片
+    },
+    deleteImg(spaImg,index) {
+        // this.$confirm('此操作将删除, 是否继续?', '提示', {
+        //   confirmButtonText: '确定',
+        //   cancelButtonText: '取消',
+        //   type: 'warning'
+        // }).then(() => {
+          this.propsData.goodsImgs.splice(index,1);
+        // }).catch(() => {         
+        // });
         
+    },
+    ImgOverFn(spaImg) {
+      spaImg.detele = true;
+    },
+    ImgMoveFn(spaImg) {
+      spaImg.detele = false;
     }
   }
 };
@@ -315,6 +342,30 @@ export default {
 
   .formRowItem.imageRow {
     height: auto;
+  }
+  .rightImgDiv {
+    .addImg {
+      margin: 0px 10px !important;
+      float: left;
+    }
+    .spaImgDiv {
+      width: 150px;
+      height: 150px;
+      float: left;
+      margin: 0px 10px 10px 0px;
+      position: relative;
+      .spaImg {
+        width: 150px;
+      }
+      .deleteImg{
+          position: absolute;
+          top: 0px;
+          right: 0px;
+          width: 20px;
+          height: 20px;
+          background-color: red;
+      }
+    }
   }
 }
 </style>

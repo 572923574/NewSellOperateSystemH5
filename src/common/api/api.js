@@ -201,5 +201,10 @@ let Api = {
         let url = "/file/upload";
         return winUrl + url;
     },
+    deteleImgs: function (data, callback, error, that, loading, method) {
+        // 编辑门店
+        let url = "/shop/edit";
+        requestFn(method, url, data, callback, error, that,loading);
+    },
 }
 export default Api;
