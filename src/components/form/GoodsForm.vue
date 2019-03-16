@@ -1,6 +1,6 @@
 <template>
     <!-- 新增编辑商品 -->
-    <div>
+    <div class="formPage">
         <el-dialog :visible.sync="showCropper" title="上传图片" width="70%">
             <cropper id="avatarCrop" ref="cropper" v-on:getImg="getImgs"></cropper>
         </el-dialog>
@@ -165,7 +165,37 @@
                 </div>
             </div>
         </div>
-        <XiuXiu ref="xiuxiu" @returnImg="returnImg" :height="800" :width="800" :pixel="'1500x1500'"></XiuXiu>
+        <div class="formRow imageRow">
+            <div class="formRowItem">
+                <!-- 商品照片 -->
+                <div class="rowItemLabel">{{Label.goodsDetailImg}}</div>
+                <div class="rightImgDiv">
+                    <el-button
+                        class="addImg"
+                        size="small"
+                        type="primary"
+                        @click="xiuxiuFn"
+                    >{{Label.uploadImg}}</el-button>
+                    <div
+                        class="spaImgDiv"
+                        @mouseover="ImgOverFn"
+                        @mousemove="ImgMoveFn"
+                        v-for="(spaImg,index) in propsData.goodsDetailImgs"
+                        :key="index"
+                    >
+                        <img :src="spaImg.imgUrl" alt="" class="spaImg">
+                        <div class="deleteImg" @click="deleteDetailImg(spaImg,index)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <XiuXiu
+            ref="xiuxiu"
+            @returnImg="returnDetailImg"
+            :height="800"
+            :width="800"
+            :pixel="'1500x1500'"
+        ></XiuXiu>
     </div>
 </template>
 <script>
@@ -200,6 +230,7 @@ export default {
         goodsCompanyId: "商品品牌",
         supplierId: "供货商",
         goodsImg: "商品照片",
+        goodsDetailImg: "商品详情照片",
         uploadImg: "上传图片",
         status: "商品状态",
         describeText: "商品描述"
@@ -287,16 +318,15 @@ export default {
       spaImg.type = "1"; //商品主图
       this.propsData.goodsImgs.push(spaImg); //上传图片
     },
-    deleteImg(spaImg,index) {
-        // this.$confirm('此操作将删除, 是否继续?', '提示', {
-        //   confirmButtonText: '确定',
-        //   cancelButtonText: '取消',
-        //   type: 'warning'
-        // }).then(() => {
-          this.propsData.goodsImgs.splice(index,1);
-        // }).catch(() => {         
-        // });
-        
+    returnDetailImg(spaImg) {
+      spaImg.type = "2"; //商品详情图
+      this.propsData.goodsDetailImgs.push(spaImg); //上传图片
+    },
+    deleteImg(spaImg, index) {
+      this.propsData.goodsImgs.splice(index, 1);
+    },
+    deleteDetailImg(spaImg, index) {
+      this.propsData.goodsDetailImgs.splice(index, 1);
     },
     ImgOverFn(spaImg) {
       spaImg.detele = true;
@@ -340,12 +370,9 @@ export default {
     }
   }
 
-  .formRowItem.imageRow {
-    height: auto;
-  }
   .rightImgDiv {
     .addImg {
-      margin: 0px 10px !important;
+      margin: 6px 10px !important;
       float: left;
     }
     .spaImgDiv {
@@ -357,13 +384,13 @@ export default {
       .spaImg {
         width: 150px;
       }
-      .deleteImg{
-          position: absolute;
-          top: 0px;
-          right: 0px;
-          width: 20px;
-          height: 20px;
-          background-color: red;
+      .deleteImg {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        width: 20px;
+        height: 20px;
+        background-color: red;
       }
     }
   }

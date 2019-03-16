@@ -134,6 +134,12 @@
 #app .formRow .formRowItem .menuGroup {
   text-align: left;
 }
-#app .formRow .formRowItem.imageRow {
-  height: auto;
+#app .imageRow {
+  float: left;
+}
+#app .formPage {
+  float: left;
+  width: calc(-278%);
+  overflow-y: auto;
+  height: 100%;
 }

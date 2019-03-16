@@ -6,6 +6,7 @@
         :close-on-click-modal="false"
         :append-to-body="dialogData.appendToBody"
     >
+        <slot name="Mobile" v-if="showDialog"></slot>
         <slot :name="dialogData.dialogContent" v-if="showDialog"></slot>
         <div slot="footer" class="dialog-footer">
             <el-button @click="cancelFn">取 消</el-button>
@@ -53,6 +54,7 @@ export default {
   bottom: 0px;
   margin-top: 0px !important;
   margin-bottom: 0px;
+  width: calc(100% - 230px);
   .el-dialog__header {
     text-align: left;
     border-bottom: 1px solid #eeeeee;
@@ -61,7 +63,7 @@ export default {
   .el-dialog__body {
     height: calc(100% - 141px);
     padding: 10px 30px;
-    overflow: auto;
+    overflow: hidden; 
   }
   .el-dialog__footer {
     border-top: 1px solid #eeeeee;
