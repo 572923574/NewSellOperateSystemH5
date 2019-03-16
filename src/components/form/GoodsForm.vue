@@ -157,7 +157,7 @@
                 <el-button size="small" type="primary" @click="xiuxiuFn">点击上传美图秀秀图片</el-button>
             </div>
         </div>
-        <XiuXiu ref="xiuxiu"></XiuXiu>
+        <XiuXiu ref="xiuxiu" @returnImg="returnImg" :height="800" :width="800"></XiuXiu>
     </div>
 </template>
 <script>
@@ -271,7 +271,11 @@ export default {
       console.log(file);
     },
     xiuxiuFn:function(){
-        this.$refs.xiuxiu.xiuxiuInit();
+        this.$refs.xiuxiu.xiuxiuShow();
+    },
+    //美图秀秀上传返回的图片
+    returnImg(spaImg){
+        
     }
   }
 };
