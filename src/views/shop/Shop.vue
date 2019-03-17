@@ -194,7 +194,6 @@ export default {
     },
     //显示编辑界面
     editClick: function(index, row) {
-      debugger;
       // 编辑
       this.dialogData.title = "编辑商品类型";
       this.propsData = Object.assign({}, row);

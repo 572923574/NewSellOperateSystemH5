@@ -389,8 +389,8 @@ export default {
       };
       return meta.goodsTypeList;
     },
-    goodsList:function(){
-        return this.$store.state.goodsList;
+    goodsList: function() {
+      return this.$store.state.goodsList;
     },
     provinceNameList: function() {
       let list = this.qqMap.length ? this.qqMap[0] : [];
@@ -480,12 +480,26 @@ export default {
       }
     );
   },
+  mounted() {
+    let that = this;
+    // 赋值商品图片的商品类型
+    that.propsData.shopImgs.map((img,i) => {
+      for (let goods of that.goodsList) {
+        if (goods.id == img.goodsId) {
+          img.goodsTypeId = goods.type;
+          that.changGoodsType(img,i);
+        }
+      }
+    });
+  },
   methods: {
-      changGoodsType:function(spaImg,index){debugger
-         this.propsData.shopImgs[index].goodsList =  this.goodsList.filter(goods=>{
-              return goods.type== spaImg.goodsTypeId;
-          });
-      },
+    changGoodsType: function(spaImg, index) {
+      this.propsData.shopImgs[index].goodsList = this.goodsList.filter(
+        goods => {
+          return goods.type == spaImg.goodsTypeId;
+        }
+      );
+    },
     xiuxiuFn: function() {
       this.$refs.xiuxiu.xiuxiuShow();
     },
