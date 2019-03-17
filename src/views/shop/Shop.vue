@@ -1,5 +1,5 @@
 <template>
-<!-- 店铺列表（企业店铺） -->
+    <!-- 店铺列表（企业店铺） -->
     <section>
         <!--工具条-->
         <TableQuery :queryObj="queryObj" @queryListFn="queryListFn" @addFn="addFn"></TableQuery>
@@ -15,7 +15,6 @@
             <el-table-column prop="name" label="名称" width="120" sortable></el-table-column>
             <el-table-column prop="createDate" label="创建日期" width="120" sortable></el-table-column>
             <el-table-column prop="endDate" label="失效日期" width="120" sortable></el-table-column>
-            
             <el-table-column prop="address.userName" label="负责人" width="120" sortable></el-table-column>
             <el-table-column prop="address.telNumber" label="负责人电话" width="120" sortable></el-table-column>
             <el-table-column prop="depotAddress.userName" label="仓库联系人" width="120" sortable></el-table-column>
@@ -51,29 +50,32 @@
         </el-col>
         <!--新增、编辑界面-->
         <Dialog :dialogData="dialogData" ref="Dialog" @emitSaveFn="saveFn">
+            <MobileHome slot="Mobile" :propsData="propsData">手机页面</MobileHome>
             <eidtForm slot="dialogContent" :propsData="propsData">我是呵呵</eidtForm>
         </Dialog>
     </section>
 </template>
 <script>
-import eidtForm from '@/components/form/ShopForm.vue';
+import eidtForm from "@/components/form/ShopForm.vue";
 // import util from "@/common/js/util.js";
 import Api from "@/common/api/api.js";
 import Dialog from "@/components/dialog/Dialog.vue";
+import MobileHome from "@/components/Mobile/MobileHome.vue";
 import TableQuery from "@/components/headQuery/TableQuery.vue";
 export default {
   components: {
     Dialog,
     eidtForm,
-    TableQuery
+    TableQuery,
+    MobileHome
   },
   data() {
     return {
       //查询条件
       queryObj: {
         searchKey: "",
-        searchText:"名称或编号",
-        hideAdd:true,//隐藏新增按钮
+        searchText: "名称或编号",
+        hideAdd: true //隐藏新增按钮
       },
       dialogData: {
         title: "新增商品类型" //显示弹框
@@ -88,25 +90,26 @@ export default {
         id: null,
         eid: null,
         appid: null,
-        secret:null,//小程序secret
+        secret: null, //小程序secret
         name: null,
-        createDate:null,
-        endDate:null,
-        openMoney:20000,//商户新开接入费用
-        reNewMoney:10000,//商户每年续费费用
-        address:{
-
-        },//商户地址
-        depotAddress:{
-
-        },//发货仓库地址
-        bonusNum:'0',//新零售层级
-        shopBonusList:[{bonusLevel:1,bonusType:1,bonusValue:0},{bonusLevel:2,bonusType:1,bonusValue:0},{bonusLevel:3,bonusType:1,bonusValue:0}],//提成机制
-        status: "0",
-      },
+        createDate: null,
+        endDate: null,
+        openMoney: 20000, //商户新开接入费用
+        reNewMoney: 10000, //商户每年续费费用
+        address: {}, //商户地址
+        depotAddress: {}, //发货仓库地址
+        bonusNum: "0", //新零售层级
+        shopBonusList: [
+          { bonusLevel: 1, bonusType: 1, bonusValue: 0 },
+          { bonusLevel: 2, bonusType: 1, bonusValue: 0 },
+          { bonusLevel: 3, bonusType: 1, bonusValue: 0 }
+        ], //提成机制
+        shopImgs: [], //店铺轮播图
+        status: "0"
+      }
     };
   },
-  
+
   beforeMount() {
     this.queryListFn();
   },
@@ -125,23 +128,13 @@ export default {
       this.listLoading = true;
       Api.shopList(
         {
-          name: this.queryObj.searchKey,
+          name: this.queryObj.searchKey
         },
         resp => {
           that.btnLoad = false;
           if (resp.result == 0) {
-            that.dataList = resp.body;
-            that.dataList.map((item)=>{
-                if(!item.address){
-                    item.address = {};
-                }
-                if(!item.depotAddress){
-                    item.depotAddress = {};
-                }
-                if(!item.shopBonusList || !item.shopBonusList.length){
-                    item.shopBonusList = [{bonusLevel:1,bonusType:1,bonusValue:0},{bonusLevel:2,bonusType:1,bonusValue:0},{bonusLevel:3,bonusType:1,bonusValue:0}];
-                }
-            });
+            this.refeshData(resp.body);
+
             that.loading = false;
           }
           this.listLoading = false;
@@ -163,15 +156,16 @@ export default {
           this.listLoading = true;
           Api.goodsTypeDelete(
             [row],
-            (resp)=> {
-              this.dataList = resp.body;
+            resp => {
+              this.refeshData(resp.body);
               this.$message({
                 message: "删除成功",
                 type: "success"
               });
 
               this.listLoading = false;
-            },()=>{
+            },
+            () => {
               this.listLoading = false;
             },
             that
@@ -187,7 +181,7 @@ export default {
         propsData,
         resp => {
           if (resp.result == 0) {
-            this.dataList = resp.body;
+            this.refeshData(resp.body);
             this.listLoading = false;
           }
         },
@@ -202,13 +196,13 @@ export default {
     editClick: function(index, row) {
       debugger;
       // 编辑
-      this.dialogData.title="编辑商品类型";
+      this.dialogData.title = "编辑商品类型";
       this.propsData = Object.assign({}, row);
       this.$refs.Dialog.show();
     },
     //显示新增界面
     addFn: function() {
-      this.dialogData.title="新增商品类型";
+      this.dialogData.title = "新增商品类型";
       this.$refs.Dialog.show();
       this.propsData = Object.assign({}, this.$options.data().propsData); //重置数组
     },
@@ -224,22 +218,39 @@ export default {
           this.listLoading = true;
           Api.goodsTypeDelete(
             this.sels,
-            (resp)=> {
-              this.dataList = resp.body;
+            resp => {
+              this.refeshData(resp.body);
               this.$message({
                 message: "删除成功",
                 type: "success"
               });
 
               this.listLoading = false;
-            },()=>{
+            },
+            () => {
               this.listLoading = false;
             },
             this
           );
         })
         .catch(() => {});
+    },
+    //刷新数据
+    refeshData(data) {
+      data.map(item => {
+        item.shopImgs = item.shopImgs || [];
+        item.address = item.address || {};
+        item.depotAddress = item.depotAddress || {};
+        if (!item.shopBonusList || !item.shopBonusList.length) {
+          item.shopBonusList = [
+            { bonusLevel: 1, bonusType: 1, bonusValue: 0 },
+            { bonusLevel: 2, bonusType: 1, bonusValue: 0 },
+            { bonusLevel: 3, bonusType: 1, bonusValue: 0 }
+          ];
+        }
+      });
+      this.dataList = data;
     }
-  },
+  }
 };
 </script>

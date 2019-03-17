@@ -174,7 +174,7 @@
                         class="addImg"
                         size="small"
                         type="primary"
-                        @click="xiuxiuFn"
+                        @click="xiuxiuDetailFn"
                     >{{Label.uploadImg}}</el-button>
                     <div
                         class="spaImgDiv"
@@ -191,7 +191,7 @@
         </div>
         <XiuXiu
             ref="xiuxiu"
-            @returnImg="returnDetailImg"
+            @returnImg="returnImgFn"
             :height="800"
             :width="800"
             :pixel="'1500x1500'"
@@ -201,10 +201,8 @@
 <script>
 // import Constant from "@/common/constant/constant.js";
 import XiuXiu from "@/components/ImgComponents/XiuXiuImg.vue";
-import cropper from "@/components/Cropper/index";
 export default {
   components: {
-    cropper,
     XiuXiu
   },
   data() {
@@ -275,7 +273,8 @@ export default {
       specList: [], //规格数组
       supplierList: [], //供货商集合
       goodsCompanyList: [], //品牌公司集合
-      showSubType: true //展示子类型选择框
+      showSubType: true, //展示子类型选择框
+      type: 1 //1商品主图 2商品详情图
     };
   },
 
@@ -311,16 +310,22 @@ export default {
       console.log(file);
     },
     xiuxiuFn: function() {
+      this.type = 1;
+      this.$refs.xiuxiu.xiuxiuShow();
+    },
+    xiuxiuDetailFn: function() {
+      this.type = 2;
       this.$refs.xiuxiu.xiuxiuShow();
     },
     //美图秀秀上传返回的图片
-    returnImg(spaImg) {
-      spaImg.type = "1"; //商品主图
-      this.propsData.goodsImgs.push(spaImg); //上传图片
-    },
-    returnDetailImg(spaImg) {
-      spaImg.type = "2"; //商品详情图
-      this.propsData.goodsDetailImgs.push(spaImg); //上传图片
+    returnImgFn(spaImg) {
+      if (this.type == 1) {
+        spaImg.type = "1"; //商品主图
+        this.propsData.goodsImgs.push(spaImg); //上传图片
+      } else {
+        spaImg.type = "2"; //商品详情图
+        this.propsData.goodsDetailImgs.push(spaImg); //上传图片
+      }
     },
     deleteImg(spaImg, index) {
       this.propsData.goodsImgs.splice(index, 1);

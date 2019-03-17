@@ -1,5 +1,5 @@
 <template>
-    <!-- 手机模拟器 -->
+    <!-- 手机商品模拟器 -->
     <div class="MobilePage">
         <div class="mobileTopDiv">
             <div class="iconsDiv"></div>
@@ -38,7 +38,13 @@
             <div class="goodsDetailDiv">
                 <div class="title">{{title}}</div>
                 <div class="details">
-                    <img class="detailImg" :src="spaImg.imgUrl" alt="spaImg.imgUrl" v-for="(spaImg,index) in propsData.goodsDetailImgs" :key="index">
+                    <img
+                        class="detailImg"
+                        :src="spaImg.imgUrl"
+                        alt="spaImg.imgUrl"
+                        v-for="(spaImg,index) in propsData.goodsDetailImgs"
+                        :key="index"
+                    >
                 </div>
             </div>
         </div>
@@ -58,6 +64,9 @@ export default {
 
 <style lang="less" scoped>
 .MobilePage {
+  .selector::-webkit-scrollbar {
+    width: 0;
+  }
   height: calc(100% - 2px);
   width: 375px;
   background: #f6f8f8;
@@ -65,7 +74,7 @@ export default {
   position: relative;
   border: 1px solid #f6f8f8;
   border-radius: 2px;
-  overflow-y: auto;
+  overflow-x: hidden; overflow-y: auto;
   .mobileTopDiv {
     width: 100%;
     height: 64px;
@@ -190,13 +199,13 @@ export default {
         font-weight: 400;
         color: #909090;
         line-height: 15px;
-        padding:13px 0px 11px 14px;
+        padding: 13px 0px 11px 14px;
       }
-      .details{
-          padding: 0px 11px;
-          .detailImg{
-              width: 353px;
-          }
+      .details {
+        padding: 0px 11px;
+        .detailImg {
+          width: 353px;
+        }
       }
     }
   }

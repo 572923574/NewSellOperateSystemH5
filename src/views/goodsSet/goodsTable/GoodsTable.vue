@@ -51,7 +51,7 @@
         </el-col>
         <!--新增、编辑界面-->
         <Dialog :dialogData="dialogData" ref="GoodsDialog" @emitSaveFn="saveFn">
-            <Mobile slot="Mobile" :propsData="propsData">手机页面</Mobile>
+            <MobileGoodsDetail slot="Mobile" :propsData="propsData">手机页面</MobileGoodsDetail>
             <GoodsForm slot="dialogContent" :propsData="propsData">我是呵呵</GoodsForm>
         </Dialog>
     </section>
@@ -62,13 +62,13 @@
 import Api from "@/common/api/api.js";
 import GoodsForm from "@/components/form/GoodsForm.vue";
 import Dialog from "@/components/dialog/Dialog.vue";
-import Mobile from "@/components/Mobile/Mobile.vue";
+import MobileGoodsDetail from "@/components/Mobile/MobileGoodsDetail.vue";
 import TableQuery from "@/components/headQuery/TableQuery.vue";
 export default {
   components: {
     Dialog,
     GoodsForm,
-    TableQuery,Mobile
+    TableQuery,MobileGoodsDetail
   },
   data() {
     return {
@@ -252,7 +252,7 @@ export default {
         item.goodsDetailImgs = item.goodsDetailImgs || [];
       });
       this.dataList = data;
-      this.$store.commit("updateState", { goodsTypeList: data });
+      this.$store.commit("updateState", { goodsList: data });
       sessionStorage.setItem("state", JSON.stringify(this.$store.state));
     }
   },

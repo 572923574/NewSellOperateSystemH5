@@ -1,6 +1,6 @@
 <template>
     <!-- 新增编辑 -->
-    <div>
+    <div class="formPage">
         <div class="formRow">
             <div class="formRowItem">
                 <!-- 名称 -->
@@ -98,6 +98,66 @@
                 </div>
             </div>
         </div>
+        <div class="formRow imageRow">
+            <div class="formRowItem">
+                <!-- 商品照片 -->
+                <div class="rowItemLabel">{{Label.shopImg}}</div>
+                <div class="rightImgDiv">
+                    <el-button
+                        class="addImg"
+                        size="small"
+                        type="primary"
+                        @click="xiuxiuFn"
+                    >{{Label.uploadImg}}</el-button>
+                    <div class="imgList">
+                        <div
+                            class="spaImgDiv"
+                            v-for="(spaImg,index) in propsData.shopImgs"
+                            :key="index"
+                        >
+                            <div class="imgDiv">
+                                <img :src="spaImg.imgUrl" alt="" class="spaImg">
+                                <div class="deleteImg" @click="deleteImg(spaImg,index)"></div>
+                            </div>
+                            <!-- 选择轮播图对应的商品类型 -->
+                            <el-select
+                                class="selectGoodsType rowInput"
+                                v-model="spaImg.goodsTypeId"
+                                :placeholder="placeholderObj.bonusNum"
+                                @change="changGoodsType(spaImg,index)"
+                            >
+                                <el-option
+                                    v-for="type in goodsTypeList"
+                                    :key="type.id"
+                                    :label="type.typeName"
+                                    :value="type.id"
+                                ></el-option>
+                            </el-select>
+                            <!-- 轮播图对应的商品id -->
+                            <el-select
+                                class="selectGoods rowInput"
+                                v-model="spaImg.goodsId"
+                                :placeholder="placeholderObj.bonusNum"
+                            >
+                                <el-option
+                                    v-for="goods in spaImg.goodsList"
+                                    :key="goods.id"
+                                    :label="goods.name"
+                                    :value="goods.id"
+                                ></el-option>
+                            </el-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <XiuXiu
+            ref="xiuxiu"
+            @returnImg="returnImgFn"
+            :height="800"
+            :width="800"
+            :pixel="'1500x700'"
+        ></XiuXiu>
         <div class="formRow">
             <div class="formRowItem bigRow">
                 <!-- 商户地址 -->
@@ -239,7 +299,11 @@
 <script>
 // import Constant from "@/common/constant/constant.js";
 import axios from "axios";
+import XiuXiu from "@/components/ImgComponents/XiuXiuImg.vue";
 export default {
+  components: {
+    XiuXiu
+  },
   props: ["propsData"],
   data() {
     return {
@@ -249,7 +313,9 @@ export default {
         bonusNum: "新零售层级",
         shopBonusList: "新零售提成",
         address: "地址",
-        depotAddress: "仓库地址"
+        depotAddress: "仓库地址",
+        shopImg: "店铺轮播图",
+        uploadImg: "上传图片"
       },
       // placeholder提示对象
       placeholderObj: {
@@ -290,8 +356,8 @@ export default {
           value: 3,
           label: "启用三级新零售"
         }
-      ], 
-       //新零售类型
+      ],
+      //新零售类型
       bonusTypeList: [
         {
           value: "1",
@@ -315,6 +381,17 @@ export default {
     };
   },
   computed: {
+    goodsTypeList: function() {
+      // 商品大类
+      let meta = this.$store.state.spaAccount.meta;
+      meta = meta || {
+        goodsTypeList: []
+      };
+      return meta.goodsTypeList;
+    },
+    goodsList:function(){
+        return this.$store.state.goodsList;
+    },
     provinceNameList: function() {
       let list = this.qqMap.length ? this.qqMap[0] : [];
       list.map(pro => {
@@ -404,6 +481,21 @@ export default {
     );
   },
   methods: {
+      changGoodsType:function(spaImg,index){debugger
+         this.propsData.shopImgs[index].goodsList =  this.goodsList.filter(goods=>{
+              return goods.type== spaImg.goodsTypeId;
+          });
+      },
+    xiuxiuFn: function() {
+      this.$refs.xiuxiu.xiuxiuShow();
+    },
+    deleteImg: function(spaImg, index) {
+      this.propsData.shopImgs.splice(index, 1);
+    },
+    returnImgFn: function(spaImg) {
+      spaImg.type = "0";
+      this.propsData.shopImgs.push(spaImg);
+    },
     changeProvince: function(value) {
       this.propsData.address.cityName = "";
       this.propsData.address.countyName = "";
@@ -422,58 +514,91 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-#app .formRow {
-  .shopBonusListRow {
+#app {
+  .formRow {
+    .shopBonusListRow {
       height: 140px;
-    .shopBonusListDiv {
-      float: right;
-      width: calc(100% - 120px);
-      .shopBonusRow{
+      .shopBonusListDiv {
+        float: right;
+        width: calc(100% - 120px);
+        .shopBonusRow {
           height: 40px;
           padding-bottom: 10px;
-      .bonusLevel{
-          width: 50px;
-          float: left;
-          padding-left: 10px;
+          .bonusLevel {
+            width: 50px;
+            float: left;
+            padding-left: 10px;
+            height: 40px;
+            line-height: 40px;
+          }
+          .bonusType {
+            width: 150px;
+          }
+          .bonusValue {
+            width: 120px;
+          }
+        }
+      }
+    }
+    .formRowItem.bigRow {
+      height: 140px;
+      .rowRightDiv {
+        width: calc(100% - 120px);
+        float: right;
+        .addressRow {
           height: 40px;
-          line-height: 40px;
-      }
-      .bonusType{
-
-          width: 150px;
-      }
-      .bonusValue{
-          width: 120px;
-      }
-
+          padding-bottom: 10px;
+          .userName {
+            width: 100px;
+          }
+          .telNumber {
+            width: 120px;
+          }
+          .provinceName {
+            width: calc((100% - 30px) / 3);
+          }
+          .cityName {
+            width: calc((100% - 30px) / 3);
+          }
+          .countyName {
+            width: calc((100% - 30px) / 3);
+          }
+          .detailInfo {
+            width: calc(100% - 10px);
+          }
+        }
       }
     }
   }
-  .formRowItem.bigRow {
-    height: 140px;
-    .rowRightDiv {
+  .imageRow {
+    height: auto;
+    margin-bottom: 10px;
+    .rightImgDiv {
       width: calc(100% - 120px);
-      float: right;
-      .addressRow {
-        height: 40px;
-        padding-bottom: 10px;
-        .userName {
-          width: 100px;
-        }
-        .telNumber {
-          width: 120px;
-        }
-        .provinceName {
-          width: calc((100% - 30px) / 3);
-        }
-        .cityName {
-          width: calc((100% - 30px) / 3);
-        }
-        .countyName {
-          width: calc((100% - 30px) / 3);
-        }
-        .detailInfo {
-          width: calc(100% - 10px);
+      float: left;
+      .imgList {
+        float: left;
+
+        width: calc(100% - 90px);
+        .spaImgDiv {
+          height: auto;
+          width: 100% !important;
+          .imgDiv {
+            width: 200px;
+            float: left;
+            position: relative;
+            .spaImg {
+              width: 200px;
+            }
+          }
+          .selectGoodsType {
+            float: left;
+            width: calc(50% - 110px);
+          }
+          .selectGoods {
+            float: left;
+            width: calc(50% - 110px);
+          }
         }
       }
     }
