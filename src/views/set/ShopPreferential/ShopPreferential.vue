@@ -1,5 +1,5 @@
 <template>
-    <!-- 商品列表 -->
+    <!-- 商户优惠列表 -->
     <section>
         <!--工具条-->
         <TableQuery :queryObj="queryObj" @queryListFn="queryListFn" @addFn="addFn"></TableQuery>
@@ -12,14 +12,15 @@
             style="width: 100%;"
         >
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="no" label="编号" width="120" sortable></el-table-column>
+            <el-table-column prop="type" label="类型" width="120" sortable></el-table-column>
             <el-table-column prop="name" label="名称" width="120" sortable></el-table-column>
-            <el-table-column prop="buyingPrice" label="进货价" width="120" sortable></el-table-column>
-            <el-table-column prop="costPrice" label="成本价" width="120" sortable></el-table-column>
-            <el-table-column prop="salePrice" label="销售原价" width="120" sortable></el-table-column>
-            <el-table-column prop="preferencePrice" label="优惠售价" width="120" sortable></el-table-column>
-            <el-table-column prop="num" label="库存数量" width="120" sortable></el-table-column>
-            <el-table-column prop="saleNum" label="已售数量" width="120" sortable></el-table-column>
+            <el-table-column prop="maxMoney" label="达标金额" width="120" sortable></el-table-column>
+            <el-table-column prop="preFee" label="减免金额" width="120" sortable></el-table-column>
+            <el-table-column prop="num" label="达标数量" width="120" sortable></el-table-column>
+            <el-table-column prop="discount" label="优惠折扣" width="120" sortable></el-table-column>
+            <el-table-column prop="describeText" label="优惠描述" width="120" sortable></el-table-column>
+            <el-table-column prop="startTime" label="开始时间" width="120" sortable></el-table-column>
+            <el-table-column prop="endTime" label="结束时间" width="120" sortable></el-table-column>
             <el-table-column
                 prop="status"
                 label="状态"
@@ -52,7 +53,7 @@
         <!--新增、编辑界面-->
         <Dialog :dialogData="dialogData" ref="GoodsDialog" @emitSaveFn="saveFn">
             <MobileGoodsDetail slot="Mobile" :propsData="propsData">手机页面</MobileGoodsDetail>
-            <GoodsForm slot="dialogContent" :propsData="propsData">我是呵呵</GoodsForm>
+            <ShopsPreferencetialForm slot="dialogContent" :propsData="propsData">我是呵呵</ShopsPreferencetialForm>
         </Dialog>
     </section>
 </template>
@@ -60,14 +61,14 @@
 <script>
 // import util from "@/common/js/util.js";
 import Api from "@/common/api/api.js";
-import GoodsForm from "@/components/form/GoodsForm.vue";
+import ShopsPreferencetialForm from "@/components/form/ShopsPreferencetialForm.vue";
 import Dialog from "@/components/dialog/Dialog.vue";
 import MobileGoodsDetail from "@/components/Mobile/MobileGoodsDetail.vue";
 import TableQuery from "@/components/headQuery/TableQuery.vue";
 export default {
   components: {
     Dialog,
-    GoodsForm,
+    ShopsPreferencetialForm,
     TableQuery,MobileGoodsDetail
   },
   data() {
@@ -77,11 +78,11 @@ export default {
       //查询条件
       queryObj: {
         searchKey: "",
-        searchText: "名称或编号"
+        searchText: "名称查询"
       },
       dialogData: {
-        title: "新增商品" //显示弹框
-      }, //新增商品
+        title: "新增优惠" //显示弹框
+      }, //新增优惠
       dataList: [], //数据集合
       total: 0, //总共数据
       page: 1, //页
@@ -93,19 +94,15 @@ export default {
         eid: null,
         appid: null,
         name: null,
-        no: null,
-        barCode: null,
-        saleNum: null,
-        type: null,
+        startTime: null,
+        endTime: null,
+        maxMoney: null,
+        preFee: null,
         num: null,
-        buyingPrice: null,
-        costPrice: null,
-        salePrice: null,
-        preferencePrice: null,
+        discount: null,
+        type: null,
+        describeText: null,
         status: "0",
-        describeText: "请输入商品描述",
-        goodsImgs: [], //商品主图集合
-        goodsDetailImgs: [] //商品详情图集合
       }
     };
   },
@@ -122,10 +119,9 @@ export default {
     queryListFn() {
       let that = this;
       this.listLoading = true;
-      Api.goodsList(
+      Api.shopPreferentialList(
         {
           name: this.queryObj.searchKey,
-          no: this.queryObj.searchKey
         },
         resp => {
           that.btnLoad = false;
@@ -150,7 +146,7 @@ export default {
       })
         .then(() => {
           this.listLoading = true;
-          Api.goodsDelete(
+          Api.shopPreferentialDelete(
             [row],
             resp => {
               this.refeshData(resp.body);
@@ -173,7 +169,7 @@ export default {
     saveFn() {
       this.listLoading = true;
       let propsData = Object.assign({}, this.propsData);
-      Api.goodsSave(
+      Api.shopPreferentialEdit(
         propsData,
         resp => {
           if (resp.result == 0) {
@@ -211,7 +207,7 @@ export default {
       })
         .then(() => {
           this.listLoading = true;
-          Api.goodsDelete(
+          Api.shopPreferentialDelete(
             this.sels,
             resp => {
               this.refeshData(resp.body);

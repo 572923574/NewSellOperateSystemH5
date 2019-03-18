@@ -206,5 +206,20 @@ let Api = {
         let url = "/shop/edit";
         requestFn(method, url, data, callback, error, that,loading);
     },
+    shopPreferentialList: function (data, callback, error, that, loading, method) {
+        // 查询优惠列表
+        let url = "/shopPreferential/list";
+        requestFn(method, url, data, callback, error, that,loading);
+    },
+    shopPreferentialDelete: function (data, callback, error, that, loading, method) {
+        // 批量删除
+        let url = "/shopPreferential/deleteList";
+        requestFn(method, url, data, callback, error, that,loading);
+    },
+    shopPreferentialEdit: function (data, callback, error, that, loading, method) {
+        // 新增、编辑优惠
+        let url = "/shopPreferential/edit";
+        requestFn(method, url, data, callback, error, that,loading);
+    },
 }
 export default Api;

@@ -9,7 +9,7 @@ import GoodsTable from '@/views/goodsSet/goodsTable/GoodsTable.vue';
 
 import Shop from '@/views/shop/Shop.vue';
 import GoodsType from '@/views/goodsSet/goodsTypeSet/goodsType/GoodsType.vue';
-// import GoodsSubType from '@/views/goodsSet//goodsTypeSet/goodsSubType/GoodsSubType.vue';
+import ShopPreferential from '@/views/set/ShopPreferential/ShopPreferential.vue';
 // import InOutDepot from '@/views/inOutDepotSet/inOutDepot/InOutDepot.vue';
 // import InOutDepotType from '@/views/inOutDepotSet/inOutDepotType/InOutDepotType.vue';
 
@@ -54,7 +54,7 @@ const router = new Router({
                 { path: '/Shop', component: Shop, name: '商户列表' },
                 // { path: '/Account', component: Account, name: '账号列表' },
                 { path: '/GoodsType', component: GoodsType, name: '商品类型' },
-                // { path: '/InOutDepotType', component: InOutDepotType, name: '出入库类型' },
+                { path: '/ShopPreferential', component: ShopPreferential, name: '商户优惠' },
             ]
         },
         {
