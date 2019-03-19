@@ -1,6 +1,6 @@
 <template>
     <el-dialog
-        custom-class="DialogCss"
+        :custom-class="dialogData.half?'DialogCss half':'DialogCss'"
         :title="dialogData.title"
         :visible.sync="showDialog"
         :close-on-click-modal="false"
@@ -78,5 +78,8 @@ export default {
       margin-left: 20%;
     }
   }
+}
+.el-dialog.DialogCss.half{
+    width: 50%;
 }
 </style>

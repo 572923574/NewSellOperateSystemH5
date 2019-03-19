@@ -52,7 +52,6 @@
         </el-col>
         <!--新增、编辑界面-->
         <Dialog :dialogData="dialogData" ref="GoodsDialog" @emitSaveFn="saveFn">
-            <MobileGoodsDetail slot="Mobile" :propsData="propsData">手机页面</MobileGoodsDetail>
             <ShopsPreferencetialForm slot="dialogContent" :propsData="propsData">我是呵呵</ShopsPreferencetialForm>
         </Dialog>
     </section>
@@ -63,13 +62,12 @@
 import Api from "@/common/api/api.js";
 import ShopsPreferencetialForm from "@/components/form/ShopsPreferencetialForm.vue";
 import Dialog from "@/components/dialog/Dialog.vue";
-import MobileGoodsDetail from "@/components/Mobile/MobileGoodsDetail.vue";
 import TableQuery from "@/components/headQuery/TableQuery.vue";
 export default {
   components: {
     Dialog,
     ShopsPreferencetialForm,
-    TableQuery,MobileGoodsDetail
+    TableQuery,
   },
   data() {
     return {
@@ -81,7 +79,8 @@ export default {
         searchText: "名称查询"
       },
       dialogData: {
-        title: "新增优惠" //显示弹框
+        title: "新增优惠", //显示弹框
+        half:true,//弹框宽度
       }, //新增优惠
       dataList: [], //数据集合
       total: 0, //总共数据
