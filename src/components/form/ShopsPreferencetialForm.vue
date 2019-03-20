@@ -38,10 +38,15 @@
                     <el-radio-button label="1">{{Label.maxMoney}}</el-radio-button>
                     <el-radio-button label="2">{{Label.num}}</el-radio-button>
                 </el-radio-group>
-                <el-input
+                <el-input v-if="condition ==1"
                     class="nameInput rowInput"
-                    :v-model="condition ==1?propsData.maxMoney:propsData.num"
-                    :placeholder="condition ==1?placeholderObj.maxMoney:placeholderObj.num"
+                    v-model="propsData.maxMoney"
+                    :placeholder="placeholderObj.maxMoney"
+                ></el-input>
+                <el-input v-else
+                    class="nameInput rowInput"
+                    v-model="propsData.num"
+                    :placeholder="placeholderObj.num"
                 ></el-input>
             </div>
         </div>
@@ -53,10 +58,15 @@
                     <el-radio-button label="1">{{Label.preFee}}</el-radio-button>
                     <el-radio-button label="2">{{Label.discount}}</el-radio-button>
                 </el-radio-group>
-                <el-input
+                <el-input v-if="content ==1"
                     class="nameInput rowInput"
-                    :v-model="content ==1?propsData.preFee:propsData.discount"
-                    :placeholder="content ==1?placeholderObj.preFee:placeholderObj.discount"
+                    v-model="propsData.preFee"
+                    :placeholder="placeholderObj.preFee"
+                ></el-input>
+                <el-input v-else
+                    class="nameInput rowInput"
+                    v-model="propsData.discount"
+                    :placeholder="placeholderObj.discount"
                 ></el-input>
             </div>
         </div>
@@ -65,11 +75,11 @@
                 <!-- 优惠开始时间 -->
                 <div class="rowItemLabel">{{Label.startTime}}</div>
                 <el-date-picker
-                    class="nameInput rowInput"
+                    class="timeInput rowInput"
                     v-model="propsData.startTime"
                     type="date"
                     :placeholder="placeholderObj.startTime"
-                    format="yyyy 年 MM 月 dd 日"
+                    format="yyyy 年 MM 月 dd 日 HH:mm:ss"
                     value-format="timestamp"
                 ></el-date-picker>
             </div>
@@ -79,11 +89,11 @@
                 <!-- 优惠结束时间 -->
                 <div class="rowItemLabel">{{Label.endTime}}</div>
                 <el-date-picker
-                    class="nameInput rowInput"
+                    class="timeInput rowInput"
                     v-model="propsData.endTime"
                     type="date"
                     :placeholder="placeholderObj.endTime"
-                    format="yyyy 年 MM 月 dd 日"
+                    format="yyyy 年 MM 月 dd 日 HH:mm:ss"
                     value-format="timestamp"
                 ></el-date-picker>
             </div>
@@ -247,7 +257,7 @@ export default {
   float: left;
   margin-left: 10px;
 }
-.formRow {
+#app .formRow {
   // 表单行
   width: 100%;
   display: block;
@@ -270,6 +280,9 @@ export default {
       width: 200px;
       float: left;
       margin: 0 10px;
+    }
+    .rowInput.timeInput{
+        width: 250px;
     }
 
     .optGroup,
