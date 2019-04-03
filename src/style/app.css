@@ -137,13 +137,17 @@
 #app .imageRow {
   float: left;
 }
+#app .imageRow .rightImgDiv {
+  width: calc(-20%);
+  float: left;
+}
 #app .imageRow .rightImgDiv .addImg {
   margin: 6px 10px !important;
   float: left;
 }
 #app .imageRow .rightImgDiv .spaImgDiv {
   width: 150px;
-  height: 150px;
+  height: auto;
   float: left;
   margin: 0px 10px 10px 0px;
   position: relative;

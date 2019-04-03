@@ -143,7 +143,7 @@
         </div>
         <div class="formRow imageRow">
             <div class="formRowItem">
-                <!-- 商品照片 -->
+                <!-- 商品主照片 -->
                 <div class="rowItemLabel">{{Label.goodsImg}}</div>
                 <div class="rightImgDiv">
                     <el-button
@@ -152,22 +152,24 @@
                         type="primary"
                         @click="xiuxiuFn"
                     >{{Label.uploadImg}}</el-button>
-                    <div
-                        class="spaImgDiv"
-                        @mouseover="ImgOverFn"
-                        @mousemove="ImgMoveFn"
-                        v-for="(spaImg,index) in propsData.goodsImgs"
-                        :key="index"
-                    >
-                        <img :src="spaImg.imgUrl" alt="" class="spaImg">
-                        <div class="deleteImg" @click="deleteImg(spaImg,index)"></div>
+                    <div class="imgList">
+                        <div
+                            class="spaImgDiv"
+                            @mouseover="ImgOverFn"
+                            @mousemove="ImgMoveFn"
+                            v-for="(spaImg,index) in propsData.goodsImgs"
+                            :key="index"
+                        >
+                            <img :src="spaImg.imgUrl" alt="" class="spaImg">
+                            <div class="deleteImg" @click="deleteImg(spaImg,index)"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="formRow imageRow">
             <div class="formRowItem">
-                <!-- 商品照片 -->
+                <!-- 商品详情照片 -->
                 <div class="rowItemLabel">{{Label.goodsDetailImg}}</div>
                 <div class="rightImgDiv">
                     <el-button
@@ -176,26 +178,22 @@
                         type="primary"
                         @click="xiuxiuDetailFn"
                     >{{Label.uploadImg}}</el-button>
-                    <div
-                        class="spaImgDiv"
-                        @mouseover="ImgOverFn"
-                        @mousemove="ImgMoveFn"
-                        v-for="(spaImg,index) in propsData.goodsDetailImgs"
-                        :key="index"
-                    >
-                        <img :src="spaImg.imgUrl" alt="" class="spaImg">
-                        <div class="deleteImg" @click="deleteDetailImg(spaImg,index)"></div>
+                    <div class="imgList">
+                        <div
+                            class="spaImgDiv"
+                            @mouseover="ImgOverFn"
+                            @mousemove="ImgMoveFn"
+                            v-for="(spaImg,index) in propsData.goodsDetailImgs"
+                            :key="index"
+                        >
+                            <img :src="spaImg.imgUrl" alt="" class="spaImg">
+                            <div class="deleteImg" @click="deleteDetailImg(spaImg,index)"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <XiuXiu
-            ref="xiuxiu"
-            @returnImg="returnImgFn"
-            :height="800"
-            :width="800"
-            :pixel="'1500x1500'"
-        ></XiuXiu>
+        <XiuXiu ref="xiuxiu" @returnImg="returnImgFn" :height="800" :width="800" :pixel="pixel"></XiuXiu>
     </div>
 </template>
 <script>
@@ -274,7 +272,8 @@ export default {
       supplierList: [], //供货商集合
       goodsCompanyList: [], //品牌公司集合
       showSubType: true, //展示子类型选择框
-      type: 1 //1商品主图 2商品详情图
+      type: 1, //1商品主图 2商品详情图
+      pixel: "1500:1500"
     };
   },
 
@@ -311,10 +310,12 @@ export default {
     },
     xiuxiuFn: function() {
       this.type = 1;
+      this.pixel = "1500:1500";
       this.$refs.xiuxiu.xiuxiuShow();
     },
     xiuxiuDetailFn: function() {
       this.type = 2;
+      this.pixel = "";
       this.$refs.xiuxiu.xiuxiuShow();
     },
     //美图秀秀上传返回的图片
@@ -380,22 +381,27 @@ export default {
       margin: 6px 10px !important;
       float: left;
     }
-    .spaImgDiv {
-      width: 150px;
-      height: 150px;
+
+    .imgList {
       float: left;
-      margin: 0px 10px 10px 0px;
-      position: relative;
-      .spaImg {
+      width: calc(100% - 90px);
+      .spaImgDiv {
         width: 150px;
-      }
-      .deleteImg {
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        width: 20px;
-        height: 20px;
-        background-color: red;
+        height: auto;
+        float: left;
+        margin: 0px 10px 10px 0px;
+        position: relative;
+        .spaImg {
+          width: 150px;
+        }
+        .deleteImg {
+          position: absolute;
+          top: 0px;
+          right: 0px;
+          width: 20px;
+          height: 20px;
+          background-color: red;
+        }
       }
     }
   }

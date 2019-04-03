@@ -290,30 +290,5 @@ export default {
       text-align: left;
     }
   }
-
-  .rightImgDiv {
-    .addImg {
-      margin: 6px 10px !important;
-      float: left;
-    }
-    .spaImgDiv {
-      width: 150px;
-      height: 150px;
-      float: left;
-      margin: 0px 10px 10px 0px;
-      position: relative;
-      .spaImg {
-        width: 150px;
-      }
-      .deleteImg {
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        width: 20px;
-        height: 20px;
-        background-color: red;
-      }
-    }
-  }
 }
 </style>

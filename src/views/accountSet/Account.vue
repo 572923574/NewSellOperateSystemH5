@@ -55,7 +55,7 @@ export default {
 					{
 						label: "加入日期",
 						width: "150",
-						prop: "createDate",
+						prop: "createTime",
 						formatter:"formatterDate",
 						fixed: true,
 						formatter:true,
@@ -77,7 +77,7 @@ export default {
 					showRightBtnColumn:true,
 				},
 				formatterCol:{
-					createDate:"formatDate",
+					createTime:"formatDate",
 					status:"formatterStatus",
 				},
 			},

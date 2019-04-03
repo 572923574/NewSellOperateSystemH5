@@ -58,7 +58,7 @@ export default {
 					{
                         label: "创建日期",
                         width: "150",
-                        prop: "createDate",
+                        prop: "createTime",
 						formatter:true,
 					},{
                         label: "审核人",
@@ -85,7 +85,7 @@ export default {
 				},
 				formatterCol:{
                     status:"formatterStatus",
-                    createDate:"formatDate",
+                    createTime:"formatDate",
                     type:"formatInOutDepotType",
                     inOutDepotTypeId:"formatterInOutTypeName",
 				},
@@ -102,7 +102,7 @@ export default {
                 money:null,
                 inOutDepotTypeId:null,
                 type:'2',//1出库，2入库
-                createDate:null,
+                createTime:null,
                 status:"0",
                 remark:null,
                 goodsList:[],//明细

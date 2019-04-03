@@ -19,17 +19,17 @@ export default {
   },
   props: ["width", "height", "pixel"], //宽、高、像素
   beforeMount() {
-    this.pixel = this.pixel || "1500x1500"; //设置图片上传像素
+    // this.pixel = this.pixel || "1500x1500"; //设置图片上传像素
     (this.width = this.width || "800"), (this.height = this.height || "800");
     let spaAccount = this.$store.state.spaAccount;
     let fileName = spaAccount.eid + "-" + spaAccount.appid + "-";
     xiuxiu.setLaunchVars("cameraEnabled", 0); //禁用摄像头
-    xiuxiu.setLaunchVars("customMenu", []); //隐藏左侧的优化
+    // xiuxiu.setLaunchVars("customMenu", []); //隐藏左侧的优化
     xiuxiu.setLaunchVars("sizeTipVisible", 1);
     xiuxiu.setLaunchVars("quality", 100); //图片质量
     xiuxiu.setLaunchVars("file_name", fileName); //名称
-    xiuxiu.setLaunchVars("cropPresets", this.pixel); //设置图片裁剪像素
-
+    // xiuxiu.setLaunchVars("cropPresets", this.pixel); //设置图片裁剪像素
+    xiuxiu.setLaunchVars("customMenu", ["edit"]);
     //修改为您自己的图片上传接口
     xiuxiu.setUploadURL(Api.xiuXiuUploadURL());
     xiuxiu.setUploadType(2); //以表单形式上传文件
@@ -53,7 +53,7 @@ export default {
   methods: {
     xiuxiuShow: function() {
       this.showXiuXiu = true; //展示图片上传/*第1个参数是加载编辑器div容器，第2个参数是编辑器类型，第3个参数是div容器宽，第4个参数是div容器高*/
-      xiuxiu.embedSWF("xiuxiuEditor", 5, this.width, this.height);
+      xiuxiu.embedSWF("xiuxiuEditor", 1, this.width, this.height);
     },
     xiuxiuHide: function() {
       this.showXiuXiu = false; //影藏图片上传

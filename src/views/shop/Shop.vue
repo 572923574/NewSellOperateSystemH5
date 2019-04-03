@@ -13,7 +13,7 @@
         >
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="name" label="名称" width="120" sortable></el-table-column>
-            <el-table-column prop="createDate" label="创建日期" width="120" sortable></el-table-column>
+            <el-table-column prop="createTime" label="创建日期" width="120" sortable></el-table-column>
             <el-table-column prop="endDate" label="失效日期" width="120" sortable></el-table-column>
             <el-table-column prop="address.userName" label="负责人" width="120" sortable></el-table-column>
             <el-table-column prop="address.telNumber" label="负责人电话" width="120" sortable></el-table-column>
@@ -92,7 +92,7 @@ export default {
         appid: null,
         secret: null, //小程序secret
         name: null,
-        createDate: null,
+        createTime: null,
         endDate: null,
         openMoney: 20000, //商户新开接入费用
         reNewMoney: 10000, //商户每年续费费用

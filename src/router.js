@@ -10,8 +10,8 @@ import GoodsTable from '@/views/goodsSet/goodsTable/GoodsTable.vue';
 import Shop from '@/views/shop/Shop.vue';
 import GoodsType from '@/views/goodsSet/goodsTypeSet/goodsType/GoodsType.vue';
 import ShopPreferential from '@/views/set/ShopPreferential/ShopPreferential.vue';
-// import InOutDepot from '@/views/inOutDepotSet/inOutDepot/InOutDepot.vue';
-// import InOutDepotType from '@/views/inOutDepotSet/inOutDepotType/InOutDepotType.vue';
+import GetMoneyList from '@/views/orderAndGetMoney/getMoneyList/GetMoneyList.vue';
+import OrderList from '@/views/orderAndGetMoney/orderList/OrderList.vue';
 
 import store from './store';
 
@@ -30,6 +30,16 @@ const router = new Router({
         },
         {
             // 主页
+            path: '/',
+            name: '订单与提现',
+            component: Home,
+            iconCls: 'el-icon-message',//图标样式class
+            children: [
+                { path: '/OrderList', component: OrderList, name: '订单发货' },
+                { path: '/GetMoneyList', component: GetMoneyList, name: '推广提现' },
+            ]
+        },
+        {
             path: '/',
             name: '商品',
             component: Home,

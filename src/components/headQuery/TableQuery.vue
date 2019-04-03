@@ -5,6 +5,14 @@
             <el-form-item>
                 <el-input v-model="queryObj.searchKey" :placeholder="queryObj.searchText"></el-input>
             </el-form-item>
+            <el-select class="querySelect" v-model="queryObj.selectKey" placeholder="请选择" v-if="queryObj.showSelect">
+                <el-option
+                    v-for="item in queryObj.selectList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                ></el-option>
+            </el-select>
             <el-form-item>
                 <el-button type="primary" v-on:click="queryListFn">查询</el-button>
             </el-form-item>
@@ -16,7 +24,6 @@
 </template>
 <script>
 export default {
-    
   props: ["queryObj"], //弹框数据
   methods: {
     queryListFn: function() {
@@ -28,3 +35,10 @@ export default {
   }
 };
 </script>
+<style lang="less" scoped>
+.querySelect{
+    width: 150px;
+    margin: 0px 10px 10px 0px;
+}
+</style>
+

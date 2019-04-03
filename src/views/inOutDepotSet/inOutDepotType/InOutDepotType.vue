@@ -78,7 +78,7 @@ export default {
                 money:null,
                 inOutDepotTypeId:null,
                 type:'2',//1出库，2入库
-                createDate:null,
+                createTime:null,
                 status:"0",
                 remark:null,
 			},

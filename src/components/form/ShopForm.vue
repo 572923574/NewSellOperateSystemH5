@@ -592,7 +592,6 @@ export default {
       float: left;
       .imgList {
         float: left;
-
         width: calc(100% - 90px);
         .spaImgDiv {
           height: auto;
