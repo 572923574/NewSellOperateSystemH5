@@ -31,10 +31,10 @@
                 <template scope="scope">
                     <el-button size="small" @click="editClick(scope.$index, scope.row)">编辑</el-button>
                     <el-button
-                        type="danger"
+                        type="primary"
                         size="small"
-                        @click="delClick(scope.$index, scope.row)"
-                    >删除</el-button>
+                        @click="setDiscount(scope.$index, scope.row)"
+                    >商品营销</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -49,11 +49,15 @@
                 style="float:right;"
             ></el-pagination>
         </el-col>
-        <!--新增、编辑界面-->
+        <!--新增、编辑商品界面-->
         <Dialog :dialogData="dialogData" ref="GoodsDialog" @emitSaveFn="saveFn">
             <MobileGoodsDetail slot="Mobile" :propsData="propsData">手机页面</MobileGoodsDetail>
             <GoodsForm slot="dialogContent" :propsData="propsData">我是呵呵</GoodsForm>
         </Dialog>
+        <!-- 商品营销界面
+        <Dialog :dialogData="discountDialogData" ref="discountDialog" @emitSaveFn="saveDiscountFn">
+            <DiscountForm slot="dialogContent" :propsData="discountData">我是呵呵</DiscountForm>
+        </Dialog> -->
     </section>
 </template>
 
@@ -61,6 +65,8 @@
 // import util from "@/common/js/util.js";
 import Api from "@/common/api/api.js";
 import GoodsForm from "@/components/form/GoodsForm.vue";
+
+import DiscountForm from "@/components/form/DiscountForm.vue";
 import Dialog from "@/components/dialog/Dialog.vue";
 import MobileGoodsDetail from "@/components/Mobile/MobileGoodsDetail.vue";
 import TableQuery from "@/components/headQuery/TableQuery.vue";
@@ -68,7 +74,9 @@ export default {
   components: {
     Dialog,
     GoodsForm,
-    TableQuery,MobileGoodsDetail
+    TableQuery,
+    MobileGoodsDetail,
+    DiscountForm
   },
   data() {
     return {
@@ -81,6 +89,10 @@ export default {
       },
       dialogData: {
         title: "新增商品" //显示弹框
+      }, 
+      //商品营销
+      discountDialogData: {
+        title: "商品营销" //显示弹框
       }, //新增商品
       dataList: [], //数据集合
       total: 0, //总共数据
@@ -95,7 +107,8 @@ export default {
         name: null,
         no: null,
         barCode: null,
-        saleNum: null,
+        beginSaledNum:0,//初始销售数量
+        saleNum: null,//已售数量
         type: null,
         num: null,
         buyingPrice: null,
@@ -105,8 +118,17 @@ export default {
         status: "0",
         describeText: "请输入商品描述",
         goodsImgs: [], //商品主图集合
-        goodsDetailImgs: [] //商品详情图集合
-      }
+        goodsDetailImgs: [], //商品详情图集合
+        discountStartTime:"",//营销开始时间
+        discountEndTime:"",//营销结束时间
+        shareEnable:false,//启用分享立减
+        shareReduce:0,//分享立减
+        groupBuyingEnable:false,//启用团购
+        groupBuyingNumber:2,//团购人数
+        groupBuyingPrice:99,//团购价格,
+        groupBuyingTime:24,//小时,
+        groupBuyingOverTime:'0',//团购超时 0:自动成团，1:自动退款
+      },
     };
   },
   methods: {
@@ -142,33 +164,11 @@ export default {
         that
       );
     },
-    //删除
-    delClick: function(index, row) {
-      let that = this;
-      this.$confirm("确认删除该记录吗?", "提示", {
-        type: "warning"
-      })
-        .then(() => {
-          this.listLoading = true;
-          Api.goodsDelete(
-            [row],
-            resp => {
-              this.refeshData(resp.body);
-              this.$message({
-                message: "删除成功",
-                type: "success"
-              });
-
-              this.listLoading = false;
-            },
-            () => {
-              this.listLoading = false;
-            },
-            that
-          );
-        })
-        .catch(() => {});
-    },
+    // //保持商品营销方案
+    // setDiscount: function(index, row) {
+    //     this.discountDialogData.title = row.name+"营销方案";
+    //     this.$refs.discountDialog.show();
+    // },
     // 保存方法
     saveFn() {
       this.listLoading = true;

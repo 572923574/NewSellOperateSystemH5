@@ -62,7 +62,7 @@ export default {
   }
   .el-dialog__body {
     height: calc(100% - 141px);
-    padding: 10px 30px;
+    padding: 10px 0px 10px 30px;
     overflow: hidden; 
   }
   .el-dialog__footer {
