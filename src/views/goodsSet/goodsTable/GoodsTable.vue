@@ -119,6 +119,8 @@ export default {
         describeText: "请输入商品描述",
         goodsImgs: [], //商品主图集合
         goodsDetailImgs: [], //商品详情图集合
+        activityEnable:false,//是否开启抢购
+        activityPrice:"",//活动价、抢购价
         discountStartTime:"",//营销开始时间
         discountEndTime:"",//营销结束时间
         shareEnable:false,//启用分享立减

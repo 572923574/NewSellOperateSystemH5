@@ -42,9 +42,21 @@
         </el-select>
       </div>
     </div>
+
     <div class="formRow">
       <div class="formRowItem">
-        <!-- 商品初始售出数量 -->
+        <!-- 初始销售数量 -->
+        <div class="rowItemLabel">{{Label.beginSaledNum}}</div>
+        <el-input
+          class="nameInput rowInput"
+          v-model="propsData.beginSaledNum"
+          :placeholder="placeholderObj.beginSaledNum"
+        ></el-input>
+      </div>
+    </div>
+    <div class="formRow" v-if="!!propsData.id">
+      <div class="formRowItem">
+        <!-- 已售数量 -->
         <div class="rowItemLabel">{{Label.saleNum}}</div>
         <el-input
           class="nameInput rowInput"
@@ -56,7 +68,7 @@
     </div>
     <div class="formRow">
       <div class="formRowItem">
-        <!-- 商品初始数量 -->
+        <!-- 库存数量 -->
         <div class="rowItemLabel">{{Label.num}}</div>
         <el-input
           class="nameInput rowInput"
@@ -128,6 +140,43 @@
         </el-select>
       </div>
     </div>
+    <div class="formRow">
+      <div class="formRowItem">
+        <!-- 营销起始时间 -->
+        <div class="rowItemLabel">{{Label.discountStartTime}}</div>
+        <el-date-picker
+          type="datetime"
+          class="nameInput rowInput"
+          v-model="propsData.discountStartTime"
+          :placeholder="placeholderObj.discountStartTime"
+        ></el-date-picker>
+      </div>
+    </div>
+    <div class="formRow">
+      <div class="formRowItem">
+        <!-- 营销结束时间 -->
+        <div class="rowItemLabel">{{Label.discountEndTime}}</div>
+        <el-date-picker
+          type="datetime"
+          class="nameInput rowInput"
+          v-model="propsData.discountEndTime"
+          :placeholder="placeholderObj.discountEndTime"
+        ></el-date-picker>
+      </div>
+    </div>
+    <div class="formRow activityRow">
+      <div class="formRowItem">
+        <!-- 启用限时抢购 -->
+        <div class="rowItemLabel">
+          <el-checkbox v-model="propsData.activityEnable">启用限时抢购</el-checkbox>
+        </div>
+        <el-input
+          class="nameInput rowInput"
+          v-model="propsData.activityPrice"
+          :placeholder="placeholderObj.activityPrice"
+        ></el-input>元
+      </div>
+    </div>
     <div class="formRow shareRow">
       <div class="formRowItem">
         <!-- 启用分享立减 -->
@@ -182,6 +231,7 @@
           v-model="propsData.describeText"
           type="textarea"
           maxlength="20"
+          rows="1"
           :placeholder="placeholderObj.describeText"
         ></el-input>
       </div>
@@ -257,7 +307,8 @@ export default {
         type: "商品类型",
         son_type: "商品子类型",
         barCode: "商品条码",
-        numStart: "初始数量",
+        beginSaledNum: "",
+        numStart: "初始库存数量",
         num: "商品数量",
         saleNum: "已售数量",
         buyingPrice: "进货价",
@@ -272,7 +323,10 @@ export default {
         goodsDetailImg: "商品详情照片",
         uploadImg: "上传图片",
         status: "商品状态",
-        describeText: "商品描述"
+        describeText: "商品描述",
+        beginSaledNum: "初始销售数量",
+        discountStartTime: "活动开始时间",
+        discountEndTime: "活动结束时间"
       },
       // placeholder提示对象
       placeholderObj: {
@@ -281,7 +335,7 @@ export default {
         type: "请选择商品类型",
         son_type: "请选择商品子类型",
         barCode: "请输入商品条码",
-        numStart: "请输入初始数量",
+        numStart: "请输入初始库存数量",
         num: "请输入商品数量",
         saleNum: "请输入已售商品数量",
         buyingPrice: "请输入进货价",
@@ -293,7 +347,10 @@ export default {
         goodsCompanyId: "请选择商品品牌",
         supplierId: "请选择供货商",
         status: "请输入商品状态",
-        describeText: "请输入商品描述"
+        describeText: "请输入商品描述",
+        beginSaledNum: "请输入商品初始销售数量",
+        discountStartTime: "请选择活动开始时间",
+        discountEndTime: "请选择活动结束时间"
       },
       //状态集合
       statusList: [
@@ -304,10 +361,6 @@ export default {
         {
           value: "1",
           label: "停售"
-        },
-        {
-          value: "2",
-          label: "删除"
         }
       ],
       unitList: [], //单位集合
@@ -405,9 +458,9 @@ export default {
         text-align: left;
       }
     }
-    .groupText{
-        float: left;
-        line-height: 40px;
+    .groupText {
+      float: left;
+      line-height: 40px;
     }
     .rightImgDiv {
       .addImg {
@@ -457,11 +510,17 @@ export default {
       float: left;
     }
     .groupBuyingOverTimeClass {
-        margin-left: 10px;
+      margin-left: 10px;
       float: left;
     }
   }
   .describeTextRow.formRow {
+    width: 100%;
+    .describeText {
+      width: 350px;
+    }
+  }
+  .activityRow.formRow {
     width: 100%;
   }
   .imageRow.formRow {
