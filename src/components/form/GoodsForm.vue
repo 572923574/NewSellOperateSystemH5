@@ -147,6 +147,7 @@
         <el-date-picker
           type="datetime"
           class="nameInput rowInput"
+          value-format="timestamp"
           v-model="propsData.discountStartTime"
           :placeholder="placeholderObj.discountStartTime"
         ></el-date-picker>
@@ -158,23 +159,11 @@
         <div class="rowItemLabel">{{Label.discountEndTime}}</div>
         <el-date-picker
           type="datetime"
+          value-format="timestamp"
           class="nameInput rowInput"
           v-model="propsData.discountEndTime"
           :placeholder="placeholderObj.discountEndTime"
         ></el-date-picker>
-      </div>
-    </div>
-    <div class="formRow activityRow">
-      <div class="formRowItem">
-        <!-- 启用限时抢购 -->
-        <div class="rowItemLabel">
-          <el-checkbox v-model="propsData.activityEnable">启用限时抢购</el-checkbox>
-        </div>
-        <el-input
-          class="nameInput rowInput"
-          v-model="propsData.activityPrice"
-          :placeholder="placeholderObj.activityPrice"
-        ></el-input>元
       </div>
     </div>
     <div class="formRow shareRow">
@@ -190,12 +179,28 @@
         ></el-input>元
       </div>
     </div>
+    <div class="formRow activityRow">
+      <div class="formRowItem">
+        <!-- 启用限时抢购 -->
+        <div class="rowItemLabel">
+          <el-checkbox v-model="propsData.activityEnable" @change="activityEnableChange">启用限时抢购</el-checkbox>
+        </div>
+        <el-input
+          class="nameInput rowInput"
+          v-model="propsData.activityPrice"
+          :placeholder="placeholderObj.activityPrice"
+        ></el-input>元
+      </div>
+    </div>
     <!-- 团购 -->
     <div class="formRow groupBuyingRow">
       <div class="formRowItem">
         <!-- 启用团购 -->
         <div class="rowItemLabel">
-          <el-checkbox v-model="propsData.groupBuyingEnable">启用团购方案</el-checkbox>
+          <el-checkbox
+            v-model="propsData.groupBuyingEnable"
+            @change="groupBuyingEnableChange"
+          >启用团购方案</el-checkbox>
         </div>
         <el-input
           class="nameInput rowInput groupBuyingNumber"
@@ -292,7 +297,6 @@
   </div>
 </template>
 <script>
-// import Constant from "@/common/constant/constant.js";
 import XiuXiu from "@/components/ImgComponents/XiuXiuImg.vue";
 export default {
   components: {
@@ -421,6 +425,18 @@ export default {
     },
     ImgMoveFn(spaImg) {
       spaImg.detele = false;
+    },
+    //开启抢购
+    activityEnableChange(value) {
+      if (value) {
+        this.propsData.groupBuyingEnable = false;
+      }
+    },
+    //开启团购
+    groupBuyingEnableChange(value) {
+      if (value) {
+        this.propsData.activityEnable = false;
+      }
     }
   }
 };

@@ -30,11 +30,7 @@
             <el-table-column label="操作" width="150">
                 <template scope="scope">
                     <el-button size="small" @click="editClick(scope.$index, scope.row)">编辑</el-button>
-                    <el-button
-                        type="primary"
-                        size="small"
-                        @click="setDiscount(scope.$index, scope.row)"
-                    >商品营销</el-button>
+                  
                 </template>
             </el-table-column>
         </el-table>
@@ -54,10 +50,6 @@
             <MobileGoodsDetail slot="Mobile" :propsData="propsData">手机页面</MobileGoodsDetail>
             <GoodsForm slot="dialogContent" :propsData="propsData">我是呵呵</GoodsForm>
         </Dialog>
-        <!-- 商品营销界面
-        <Dialog :dialogData="discountDialogData" ref="discountDialog" @emitSaveFn="saveDiscountFn">
-            <DiscountForm slot="dialogContent" :propsData="discountData">我是呵呵</DiscountForm>
-        </Dialog> -->
     </section>
 </template>
 
