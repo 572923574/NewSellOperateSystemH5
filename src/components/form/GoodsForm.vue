@@ -170,7 +170,7 @@
       <div class="formRowItem">
         <!-- 启用分享立减 -->
         <div class="rowItemLabel">
-          <el-checkbox v-model="propsData.shareEnable">启用分享立减</el-checkbox>
+          <el-checkbox v-model="propsData.shareEnable" @change="shareEnableChange">启用分享立减</el-checkbox>
         </div>
         <el-input
           class="nameInput rowInput"
@@ -430,11 +430,20 @@ export default {
     activityEnableChange(value) {
       if (value) {
         this.propsData.groupBuyingEnable = false;
+        this.propsData.shareEnable = false;
       }
     },
     //开启团购
     groupBuyingEnableChange(value) {
       if (value) {
+        this.propsData.activityEnable = false;
+        this.propsData.shareEnable = false;
+      }
+    },
+    //开启分享立减
+    shareEnableChange(value) {
+      if (value) {
+        this.propsData.groupBuyingEnable = false;
         this.propsData.activityEnable = false;
       }
     }
