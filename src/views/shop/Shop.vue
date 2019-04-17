@@ -99,6 +99,7 @@ export default {
         address: {}, //商户地址
         depotAddress: {}, //发货仓库地址
         bonusNum: "0", //新零售层级
+        afterPay:"0",//按月结算挂账
         shopBonusList: [
           { bonusLevel: 1, bonusType: 1, bonusValue: 0 },
           { bonusLevel: 2, bonusType: 1, bonusValue: 0 },

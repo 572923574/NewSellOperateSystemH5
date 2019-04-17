@@ -1,300 +1,301 @@
 <template>
-    <!-- 新增编辑 -->
-    <div class="formPage">
-        <div class="formRow">
-            <div class="formRowItem">
-                <!-- 名称 -->
-                <div class="rowItemLabel">{{Label.name}}</div>
-                <el-input
-                    class="nameInput rowInput"
-                    v-model="propsData.name"
-                    :placeholder="placeholderObj.name"
-                ></el-input>
-            </div>
-        </div>
-        <!-- 启用新零售层级 -->
-        <div class="formRow">
-            <div class="formRowItem">
-                <div class="rowItemLabel">{{Label.bonusNum}}</div>
-                <el-select
-                    class="nameInput rowInput"
-                    v-model="propsData.bonusNum"
-                    :placeholder="placeholderObj.bonusNum"
-                >
-                    <el-option
-                        v-for="type in bonusNumList"
-                        :key="type.value"
-                        :label="type.label"
-                        :value="type.value"
-                    ></el-option>
-                </el-select>
-            </div>
-        </div>
-        <!-- 新零售提成 -->
-        <div class="formRow" v-if="propsData.bonusNum">
-            <div class="formRowItem shopBonusListRow">
-                <div class="rowItemLabel">{{Label.shopBonusList}}</div>
-                <div class="shopBonusListDiv">
-                    <div class="shopBonusRow">
-                        <div class="bonusLevel">第一级</div>
-                        <el-select
-                            class="bonusType rowInput"
-                            v-model="propsData.shopBonusList[0].bonusType"
-                            :placeholder="placeholderObj.bonusNum"
-                        >
-                            <el-option
-                                v-for="type in bonusTypeList"
-                                :key="type.value"
-                                :label="type.label"
-                                :value="type.value"
-                            ></el-option>
-                        </el-select>
-                        <el-input
-                            class="bonusValue rowInput"
-                            v-model="propsData.shopBonusList[0].bonusValue"
-                            :placeholder="placeholderObj.name"
-                        ></el-input>
-                    </div>
-                    <div class="shopBonusRow" v-if="propsData.bonusNum>1">
-                        <div class="bonusLevel">第二级</div>
-                        <el-select
-                            class="bonusType rowInput"
-                            v-model="propsData.shopBonusList[1].bonusType"
-                            :placeholder="placeholderObj.bonusNum"
-                        >
-                            <el-option
-                                v-for="type in bonusTypeList"
-                                :key="type.value"
-                                :label="type.label"
-                                :value="type.value"
-                            ></el-option>
-                        </el-select>
-                        <el-input
-                            class="bonusValue rowInput"
-                            v-model="propsData.shopBonusList[1].bonusValue"
-                            :placeholder="placeholderObj.name"
-                        ></el-input>
-                    </div>
-                    <div class="shopBonusRow" v-if="propsData.bonusNum>2">
-                        <div class="bonusLevel">第三级</div>
-                        <el-select
-                            class="bonusType rowInput"
-                            v-model="propsData.shopBonusList[2].bonusType"
-                            :placeholder="placeholderObj.bonusType"
-                        >
-                            <el-option
-                                v-for="type in bonusTypeList"
-                                :key="type.value"
-                                :label="type.label"
-                                :value="type.value"
-                            ></el-option>
-                        </el-select>
-                        <el-input
-                            class="bonusValue rowInput"
-                            v-model="propsData.shopBonusList[2].bonusValue"
-                            :placeholder="placeholderObj.name"
-                        ></el-input>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="formRow imageRow">
-            <div class="formRowItem">
-                <!-- 商品照片 -->
-                <div class="rowItemLabel">{{Label.shopImg}}</div>
-                <div class="rightImgDiv">
-                    <el-button
-                        class="addImg"
-                        size="small"
-                        type="primary"
-                        @click="xiuxiuFn"
-                    >{{Label.uploadImg}}</el-button>
-                    <div class="imgList">
-                        <div
-                            class="spaImgDiv"
-                            v-for="(spaImg,index) in propsData.shopImgs"
-                            :key="index"
-                        >
-                            <div class="imgDiv">
-                                <img :src="spaImg.imgUrl" alt="" class="spaImg">
-                                <div class="deleteImg" @click="deleteImg(spaImg,index)"></div>
-                            </div>
-                            <!-- 选择轮播图对应的商品类型 -->
-                            <el-select
-                                class="selectGoodsType rowInput"
-                                v-model="spaImg.goodsTypeId"
-                                :placeholder="placeholderObj.bonusNum"
-                                @change="changGoodsType(spaImg,index)"
-                            >
-                                <el-option
-                                    v-for="type in goodsTypeList"
-                                    :key="type.id"
-                                    :label="type.typeName"
-                                    :value="type.id"
-                                ></el-option>
-                            </el-select>
-                            <!-- 轮播图对应的商品id -->
-                            <el-select
-                                class="selectGoods rowInput"
-                                v-model="spaImg.goodsId"
-                                :placeholder="placeholderObj.bonusNum"
-                            >
-                                <el-option
-                                    v-for="goods in spaImg.goodsList"
-                                    :key="goods.id"
-                                    :label="goods.name"
-                                    :value="goods.id"
-                                ></el-option>
-                            </el-select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <XiuXiu
-            ref="xiuxiu"
-            @returnImg="returnImgFn"
-            :height="800"
-            :width="800"
-            :pixel="'1500x700'"
-        ></XiuXiu>
-        <div class="formRow">
-            <div class="formRowItem bigRow">
-                <!-- 商户地址 -->
-                <div class="rowItemLabel">{{Label.address}}</div>
-                <div class="rowRightDiv">
-                    <div class="addressRow">
-                        <el-input
-                            class="userName rowInput"
-                            v-model="propsData.address.userName"
-                            :placeholder="placeholderObj.userName"
-                        ></el-input>
-                        <el-input
-                            class="telNumber rowInput"
-                            v-model="propsData.address.telNumber"
-                            :placeholder="placeholderObj.telNumber"
-                        ></el-input>
-                    </div>
-                    <div class="addressRow">
-                        <el-select
-                            class="provinceName rowInput"
-                            v-model="propsData.address.provinceName"
-                            :placeholder="placeholderObj.provinceName"
-                            @change="changeProvince"
-                        >
-                            <el-option
-                                v-for="type in provinceNameList"
-                                :key="type.fullname"
-                                :label="type.fullname"
-                                :value="type.fullname"
-                            ></el-option>
-                        </el-select>
-                        <el-select
-                            class="cityName rowInput"
-                            v-model="propsData.address.cityName"
-                            :placeholder="placeholderObj.cityName"
-                            @change="changeCity"
-                        >
-                            <el-option
-                                v-for="type in cityNameList"
-                                :key="type.fullname"
-                                :label="type.fullname"
-                                :value="type.fullname"
-                            ></el-option>
-                        </el-select>
-                        <el-select
-                            class="countyName rowInput"
-                            v-model="propsData.address.countyName"
-                            :placeholder="placeholderObj.countyName"
-                            v-if="cityNameItem.cidx"
-                        >
-                            <el-option
-                                v-for="type in countyNameList"
-                                :key="type.fullname"
-                                :label="type.fullname"
-                                :value="type.fullname"
-                            ></el-option>
-                        </el-select>
-                    </div>
-                    <div class="addressRow">
-                        <el-input
-                            class="detailInfo rowInput"
-                            v-model="propsData.address.detailInfo"
-                            :placeholder="placeholderObj.detailInfo"
-                        ></el-input>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="formRow">
-            <div class="formRowItem bigRow">
-                <!-- 仓库地址 -->
-                <div class="rowItemLabel">{{Label.depotAddress}}</div>
-                <div class="rowRightDiv">
-                    <div class="addressRow">
-                        <el-input
-                            class="userName rowInput"
-                            v-model="propsData.depotAddress.userName"
-                            :placeholder="placeholderObj.userName"
-                        ></el-input>
-                        <el-input
-                            class="telNumber rowInput"
-                            v-model="propsData.depotAddress.telNumber"
-                            :placeholder="placeholderObj.telNumber"
-                        ></el-input>
-                    </div>
-                    <div class="addressRow">
-                        <el-select
-                            class="provinceName rowInput"
-                            v-model="propsData.depotAddress.provinceName"
-                            :placeholder="placeholderObj.provinceName"
-                            @change="changeDepotProvince"
-                        >
-                            <el-option
-                                v-for="type in depotProvinceNameList"
-                                :key="type.fullname"
-                                :label="type.fullname"
-                                :value="type.fullname"
-                            ></el-option>
-                        </el-select>
-                        <el-select
-                            class="cityName rowInput"
-                            v-model="propsData.depotAddress.cityName"
-                            :placeholder="placeholderObj.cityName"
-                            @change="changeDepotCity"
-                        >
-                            <el-option
-                                v-for="type in depotCityNameList"
-                                :key="type.fullname"
-                                :label="type.fullname"
-                                :value="type.fullname"
-                            ></el-option>
-                        </el-select>
-                        <el-select
-                            class="countyName rowInput"
-                            v-model="propsData.depotAddress.countyName"
-                            :placeholder="placeholderObj.countyName"
-                            v-if="depotCityNameItem.cidx"
-                        >
-                            <el-option
-                                v-for="type in depotCountyNameList"
-                                :key="type.fullname"
-                                :label="type.fullname"
-                                :value="type.fullname"
-                            ></el-option>
-                        </el-select>
-                    </div>
-                    <div class="addressRow">
-                        <el-input
-                            class="detailInfo rowInput"
-                            v-model="propsData.depotAddress.detailInfo"
-                            :placeholder="placeholderObj.detailInfo"
-                        ></el-input>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <!-- 新增编辑 -->
+  <div class="formPage">
+    <div class="formRow">
+      <div class="formRowItem">
+        <!-- 名称 -->
+        <div class="rowItemLabel">{{Label.name}}</div>
+        <el-input
+          class="nameInput rowInput"
+          v-model="propsData.name"
+          :placeholder="placeholderObj.name"
+        ></el-input>
+      </div>
     </div>
+    <div class="formRow">
+      <div class="formRowItem">
+        <!-- 是否月结挂账 -->
+        <div class="rowItemLabel">{{Label.afterPay}}</div>
+        <el-radio-group v-model="propsData.afterPay" class="afterPayClass">
+          <el-radio-button label="0">不支持月结挂账</el-radio-button>
+          <el-radio-button label="1">支持月结挂账</el-radio-button>
+        </el-radio-group>
+      </div>
+    </div>
+
+    <!-- 启用新零售层级 -->
+    <div class="formRow">
+      <div class="formRowItem">
+        <div class="rowItemLabel">{{Label.bonusNum}}</div>
+        <el-select
+          class="nameInput rowInput"
+          v-model="propsData.bonusNum"
+          :placeholder="placeholderObj.bonusNum"
+        >
+          <el-option
+            v-for="type in bonusNumList"
+            :key="type.value"
+            :label="type.label"
+            :value="type.value"
+          ></el-option>
+        </el-select>
+      </div>
+    </div>
+    <!-- 新零售提成 -->
+    <div class="formRow" v-if="propsData.bonusNum">
+      <div class="formRowItem shopBonusListRow">
+        <div class="rowItemLabel">{{Label.shopBonusList}}</div>
+        <div class="shopBonusListDiv">
+          <div class="shopBonusRow">
+            <div class="bonusLevel">第一级</div>
+            <el-select
+              class="bonusType rowInput"
+              v-model="propsData.shopBonusList[0].bonusType"
+              :placeholder="placeholderObj.bonusNum"
+            >
+              <el-option
+                v-for="type in bonusTypeList"
+                :key="type.value"
+                :label="type.label"
+                :value="type.value"
+              ></el-option>
+            </el-select>
+            <el-input
+              class="bonusValue rowInput"
+              v-model="propsData.shopBonusList[0].bonusValue"
+              :placeholder="placeholderObj.name"
+            ></el-input>
+          </div>
+          <div class="shopBonusRow" v-if="propsData.bonusNum>1">
+            <div class="bonusLevel">第二级</div>
+            <el-select
+              class="bonusType rowInput"
+              v-model="propsData.shopBonusList[1].bonusType"
+              :placeholder="placeholderObj.bonusNum"
+            >
+              <el-option
+                v-for="type in bonusTypeList"
+                :key="type.value"
+                :label="type.label"
+                :value="type.value"
+              ></el-option>
+            </el-select>
+            <el-input
+              class="bonusValue rowInput"
+              v-model="propsData.shopBonusList[1].bonusValue"
+              :placeholder="placeholderObj.name"
+            ></el-input>
+          </div>
+          <div class="shopBonusRow" v-if="propsData.bonusNum>2">
+            <div class="bonusLevel">第三级</div>
+            <el-select
+              class="bonusType rowInput"
+              v-model="propsData.shopBonusList[2].bonusType"
+              :placeholder="placeholderObj.bonusType"
+            >
+              <el-option
+                v-for="type in bonusTypeList"
+                :key="type.value"
+                :label="type.label"
+                :value="type.value"
+              ></el-option>
+            </el-select>
+            <el-input
+              class="bonusValue rowInput"
+              v-model="propsData.shopBonusList[2].bonusValue"
+              :placeholder="placeholderObj.name"
+            ></el-input>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="formRow imageRow">
+      <div class="formRowItem">
+        <!-- 商品照片 -->
+        <div class="rowItemLabel">{{Label.shopImg}}</div>
+        <div class="rightImgDiv">
+          <el-button
+            class="addImg"
+            size="small"
+            type="primary"
+            @click="xiuxiuFn"
+          >{{Label.uploadImg}}</el-button>
+          <div class="imgList">
+            <div class="spaImgDiv" v-for="(spaImg,index) in propsData.shopImgs" :key="index">
+              <div class="imgDiv">
+                <img :src="spaImg.imgUrl" alt class="spaImg">
+                <div class="deleteImg" @click="deleteImg(spaImg,index)"></div>
+              </div>
+              <!-- 选择轮播图对应的商品类型 -->
+              <el-select
+                class="selectGoodsType rowInput"
+                v-model="spaImg.goodsTypeId"
+                :placeholder="placeholderObj.bonusNum"
+                @change="changGoodsType(spaImg,index)"
+              >
+                <el-option
+                  v-for="type in goodsTypeList"
+                  :key="type.id"
+                  :label="type.typeName"
+                  :value="type.id"
+                ></el-option>
+              </el-select>
+              <!-- 轮播图对应的商品id -->
+              <el-select
+                class="selectGoods rowInput"
+                v-model="spaImg.goodsId"
+                :placeholder="placeholderObj.bonusNum"
+              >
+                <el-option
+                  v-for="goods in spaImg.goodsList"
+                  :key="goods.id"
+                  :label="goods.name"
+                  :value="goods.id"
+                ></el-option>
+              </el-select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <XiuXiu ref="xiuxiu" @returnImg="returnImgFn" :height="800" :width="800" :pixel="'1500x700'"></XiuXiu>
+    <div class="formRow">
+      <div class="formRowItem bigRow">
+        <!-- 商户地址 -->
+        <div class="rowItemLabel">{{Label.address}}</div>
+        <div class="rowRightDiv">
+          <div class="addressRow">
+            <el-input
+              class="userName rowInput"
+              v-model="propsData.address.userName"
+              :placeholder="placeholderObj.userName"
+            ></el-input>
+            <el-input
+              class="telNumber rowInput"
+              v-model="propsData.address.telNumber"
+              :placeholder="placeholderObj.telNumber"
+            ></el-input>
+          </div>
+          <div class="addressRow">
+            <el-select
+              class="provinceName rowInput"
+              v-model="propsData.address.provinceName"
+              :placeholder="placeholderObj.provinceName"
+              @change="changeProvince"
+            >
+              <el-option
+                v-for="type in provinceNameList"
+                :key="type.fullname"
+                :label="type.fullname"
+                :value="type.fullname"
+              ></el-option>
+            </el-select>
+            <el-select
+              class="cityName rowInput"
+              v-model="propsData.address.cityName"
+              :placeholder="placeholderObj.cityName"
+              @change="changeCity"
+            >
+              <el-option
+                v-for="type in cityNameList"
+                :key="type.fullname"
+                :label="type.fullname"
+                :value="type.fullname"
+              ></el-option>
+            </el-select>
+            <el-select
+              class="countyName rowInput"
+              v-model="propsData.address.countyName"
+              :placeholder="placeholderObj.countyName"
+              v-if="cityNameItem.cidx"
+            >
+              <el-option
+                v-for="type in countyNameList"
+                :key="type.fullname"
+                :label="type.fullname"
+                :value="type.fullname"
+              ></el-option>
+            </el-select>
+          </div>
+          <div class="addressRow">
+            <el-input
+              class="detailInfo rowInput"
+              v-model="propsData.address.detailInfo"
+              :placeholder="placeholderObj.detailInfo"
+            ></el-input>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="formRow">
+      <div class="formRowItem bigRow">
+        <!-- 仓库地址 -->
+        <div class="rowItemLabel">{{Label.depotAddress}}</div>
+        <div class="rowRightDiv">
+          <div class="addressRow">
+            <el-input
+              class="userName rowInput"
+              v-model="propsData.depotAddress.userName"
+              :placeholder="placeholderObj.userName"
+            ></el-input>
+            <el-input
+              class="telNumber rowInput"
+              v-model="propsData.depotAddress.telNumber"
+              :placeholder="placeholderObj.telNumber"
+            ></el-input>
+          </div>
+          <div class="addressRow">
+            <el-select
+              class="provinceName rowInput"
+              v-model="propsData.depotAddress.provinceName"
+              :placeholder="placeholderObj.provinceName"
+              @change="changeDepotProvince"
+            >
+              <el-option
+                v-for="type in depotProvinceNameList"
+                :key="type.fullname"
+                :label="type.fullname"
+                :value="type.fullname"
+              ></el-option>
+            </el-select>
+            <el-select
+              class="cityName rowInput"
+              v-model="propsData.depotAddress.cityName"
+              :placeholder="placeholderObj.cityName"
+              @change="changeDepotCity"
+            >
+              <el-option
+                v-for="type in depotCityNameList"
+                :key="type.fullname"
+                :label="type.fullname"
+                :value="type.fullname"
+              ></el-option>
+            </el-select>
+            <el-select
+              class="countyName rowInput"
+              v-model="propsData.depotAddress.countyName"
+              :placeholder="placeholderObj.countyName"
+              v-if="depotCityNameItem.cidx"
+            >
+              <el-option
+                v-for="type in depotCountyNameList"
+                :key="type.fullname"
+                :label="type.fullname"
+                :value="type.fullname"
+              ></el-option>
+            </el-select>
+          </div>
+          <div class="addressRow">
+            <el-input
+              class="detailInfo rowInput"
+              v-model="propsData.depotAddress.detailInfo"
+              :placeholder="placeholderObj.detailInfo"
+            ></el-input>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 // import Constant from "@/common/constant/constant.js";
@@ -315,7 +316,8 @@ export default {
         address: "地址",
         depotAddress: "仓库地址",
         shopImg: "店铺轮播图",
-        uploadImg: "上传图片"
+        uploadImg: "上传图片",
+        afterPay: "开启月结挂账"
       },
       // placeholder提示对象
       placeholderObj: {
@@ -483,11 +485,11 @@ export default {
   mounted() {
     let that = this;
     // 赋值商品图片的商品类型
-    that.propsData.shopImgs.map((img,i) => {
+    that.propsData.shopImgs.map((img, i) => {
       for (let goods of that.goodsList) {
         if (goods.id == img.goodsId) {
           img.goodsTypeId = goods.type;
-          that.changGoodsType(img,i);
+          that.changGoodsType(img, i);
         }
       }
     });
@@ -553,6 +555,9 @@ export default {
           }
         }
       }
+    }
+    .afterPayClass {
+      margin-left: 10px;
     }
     .formRowItem.bigRow {
       height: 140px;
