@@ -10,6 +10,8 @@ import GoodsTable from '@/views/goodsSet/goodsTable/GoodsTable.vue';
 import Shop from '@/views/shop/Shop.vue';
 import GoodsType from '@/views/goodsSet/goodsTypeSet/goodsType/GoodsType.vue';
 import ShopPreferential from '@/views/set/ShopPreferential/ShopPreferential.vue';
+
+import ShopCoupon from '@/views/set/ShopCoupon/ShopCoupon.vue';
 import GetMoneyList from '@/views/orderAndGetMoney/getMoneyList/GetMoneyList.vue';
 import OrderList from '@/views/orderAndGetMoney/orderList/OrderList.vue';
 
@@ -64,7 +66,8 @@ const router = new Router({
                 { path: '/Shop', component: Shop, name: '商户列表' },
                 // { path: '/Account', component: Account, name: '账号列表' },
                 { path: '/GoodsType', component: GoodsType, name: '商品类型' },
-                { path: '/ShopPreferential', component: ShopPreferential, name: '商户优惠' },
+                { path: '/ShopPreferential', component: ShopPreferential, name: '商户活动' },
+                { path: '/ShopCoupon', component: ShopCoupon, name: '商户优惠券' },
             ]
         },
         {
