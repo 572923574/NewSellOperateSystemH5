@@ -58,7 +58,6 @@
 import Api from "@/common/api/api.js";
 import GoodsForm from "@/components/form/GoodsForm.vue";
 
-import DiscountForm from "@/components/form/DiscountForm.vue";
 import Dialog from "@/components/dialog/Dialog.vue";
 import MobileGoodsDetail from "@/components/Mobile/MobileGoodsDetail.vue";
 import TableQuery from "@/components/headQuery/TableQuery.vue";
@@ -68,7 +67,6 @@ export default {
     GoodsForm,
     TableQuery,
     MobileGoodsDetail,
-    DiscountForm
   },
   data() {
     return {

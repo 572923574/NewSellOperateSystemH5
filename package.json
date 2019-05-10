@@ -10,9 +10,11 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.4.9",
+    "hmacsha1": "^1.0.0",
     "node-sass": "^4.11.0",
     "qiniu-js": "^2.5.4",
     "sass-loader": "^7.1.0",
+    "urlsafe-base64": "^1.0.0",
     "vue": "^2.5.17",
     "vue-cropper": "^0.4.8",
     "vue-router": "^3.0.1",
