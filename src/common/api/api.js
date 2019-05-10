@@ -243,5 +243,20 @@ let Api = {
         let url = "/mallOrder/sendGoods";
         requestFn(method, url, data, callback, error, that, loading);
     },
+    shopCouponList:function (data, callback, error, that, loading, method) {
+        // 查询提现列表
+        let url = "/shopCoupon/list";
+        requestFn(method, url, data, callback, error, that, loading);
+    },
+    shopCouponCreate:function (data, callback, error, that, loading, method) {
+        // 查询提现列表
+        let url = "/shopCoupon/edit";
+        requestFn(method, url, data, callback, error, that, loading);
+    },
+    shopCouponDelete:function (data, callback, error, that, loading, method) {
+        // 查询提现列表
+        let url = "/shopCoupon/deleteList";
+        requestFn(method, url, data, callback, error, that, loading);
+    },
 }
 export default Api;
