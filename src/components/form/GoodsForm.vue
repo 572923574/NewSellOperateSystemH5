@@ -27,11 +27,11 @@
     <div class="formRow">
       <div class="formRowItem">
         <!-- 商品类型 -->
-        <div class="rowItemLabel">{{Label.type}}</div>
+        <div class="rowItemLabel">{{Label.typeId}}</div>
         <el-select
           class="nameInput rowInput"
-          v-model="propsData.type"
-          :placeholder="placeholderObj.type"
+          v-model="propsData.typeId"
+          :placeholder="placeholderObj.typeId"
         >
           <el-option
             v-for="type in goodsTypeList"
@@ -308,7 +308,7 @@ export default {
       Label: {
         name: "商品名称",
         no: "商品编号",
-        type: "商品类型",
+        typeId: "商品类型",
         son_type: "商品子类型",
         barCode: "商品条码",
         beginSaledNum: "",
@@ -336,7 +336,7 @@ export default {
       placeholderObj: {
         name: "请输入商品名称",
         no: "请输入商品编号",
-        type: "请选择商品类型",
+        typeId: "请选择商品类型",
         son_type: "请选择商品子类型",
         barCode: "请输入商品条码",
         numStart: "请输入初始库存数量",

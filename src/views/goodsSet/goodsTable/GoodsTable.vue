@@ -101,7 +101,7 @@ export default {
         barCode: null,
         beginSaledNum:0,//初始销售数量
         saleNum: null,//已售数量
-        type: null,
+        typeId: null,
         num: null,
         buyingPrice: null,
         costPrice: null,
