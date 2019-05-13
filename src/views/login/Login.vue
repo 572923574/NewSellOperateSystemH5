@@ -1,39 +1,39 @@
 <template>
-	<!-- 登录系统页面 -->
-	<el-form
-		:model="ruleForm2"
-		:rules="rules2"
-		ref="ruleForm2"
-		label-position="left"
-		label-width="0px"
-		class="demo-ruleForm login-container"
-	>
-		<h3 class="title">{{textObj.title}}</h3>
-		<el-form-item prop="mobile">
-			<el-input
-				type="text"
-				v-model="ruleForm2.mobile"
-				auto-complete="off"
-				:placeholder="textObj.mobile"
-			></el-input>
-		</el-form-item>
-		<el-form-item prop="password">
-			<el-input
-				type="password"
-				v-model="ruleForm2.password"
-				auto-complete="off"
-				:placeholder="textObj.password"
-			></el-input>
-		</el-form-item>
-		<el-form-item style="width:100%;">
-			<el-button
-				type="primary"
-				style="width:100%;"
-				@click.native.prevent="loginFn"
-				:loading="logining"
-			>{{textObj.login}}</el-button>
-		</el-form-item>
-	</el-form>
+  <!-- 登录系统页面 -->
+  <el-form
+    :model="ruleForm2"
+    ref="ruleForm2"
+    label-position="left"
+    label-width="0px"
+    class="demo-ruleForm login-container"
+  >
+    <h3 class="title">{{textObj.title}}</h3>
+    <el-form-item prop="mobile">
+      <!-- <el-input
+        type="text"
+        v-model="ruleForm2.mobile"
+        auto-complete="off"
+        :placeholder="textObj.mobile"
+      ></el-input> -->
+      <SCInput :inputData.sync="Account.mobile" rules="phone"></SCInput>
+    </el-form-item>
+    <el-form-item prop="password">
+      <el-input
+        type="password"
+        v-model="ruleForm2.password"
+        auto-complete="off"
+        :placeholder="textObj.password"
+      ></el-input>
+    </el-form-item>
+    <el-form-item style="width:100%;">
+      <el-button
+        type="primary"
+        style="width:100%;"
+        @click.native.prevent="loginFn"
+        :loading="logining"
+      >{{textObj.login}}</el-button>
+    </el-form-item>
+  </el-form>
 </template>
 <script>
 import Api from "@/common/api/api.js";
@@ -46,6 +46,10 @@ export default {
         login: "登录",
         mobile: "手机号码",
         password: "登录密码"
+      },
+      Account:{
+          mobile:"",
+          password:"",
       },
       ruleForm2: {
         mobile: "18682028219",
@@ -68,8 +72,8 @@ export default {
       this.logining = true;
       Api.Login(
         {
-					mobile:this.ruleForm2.mobile,//手机号
-          password:this.ruleForm2.password,//密码
+          mobile: this.ruleForm2.mobile, //手机号
+          password: this.ruleForm2.password //密码
         },
         resp => {
           this.logining = false;
@@ -93,7 +97,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-  @import '~@/style/app.less';  //全局变量存放的文件（要加~）
+@import "~@/style/app.less"; //全局变量存放的文件（要加~）
 </style>
 <style lang="less" scoped>
 .login-container {

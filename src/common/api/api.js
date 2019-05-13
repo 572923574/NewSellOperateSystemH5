@@ -2,7 +2,7 @@ import axios from 'axios';
 import store from '@/store'
 
 let winUrl = window.document.location.origin + ":8080/mts-spa/spa"; //文跟路径winUrl = "https://dev.sentree.shop/mts-spa/spa";
-// winUrl = "https://dev.sentree.shop/mts-spa/spa";
+winUrl = "https://dev.sentree.shop/mts-spa/spa";
 function requestFn(method, url, data, callback, errorFn, that, loading) {
     let req = {
         body: {},
@@ -231,6 +231,11 @@ let Api = {
     getMoneyList: function (data, callback, error, that, loading, method) {
         // 查询提现列表
         let url = "/getMoney/list";
+        requestFn(method, url, data, callback, error, that, loading);
+    },
+    passGetMoney:function (data, callback, error, that, loading, method) {
+        // 审核提现单
+        let url = "/getMoney/passGetMoney";
         requestFn(method, url, data, callback, error, that, loading);
     },
     orderList:function (data, callback, error, that, loading, method) {

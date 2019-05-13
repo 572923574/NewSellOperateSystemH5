@@ -301,7 +301,7 @@ export default {
         return useKeyList;
       },
       set(newValue) {
-          return newValue;
+        return newValue;
       }
     }
   },
@@ -315,12 +315,12 @@ export default {
           meta = meta || {
             goodsTypeList: []
           };
-            this.useKeyList = meta.goodsTypeList;
+          this.useKeyList = meta.goodsTypeList;
         } else if (this.propsData.useType == "3") {
           //指定单个商品
         }
         this.useKeyList = this.useKeyList.concat();
-        cval = Object.assign({},cval);
+        cval = Object.assign({}, cval);
       },
       deep: true
     }
