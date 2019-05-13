@@ -10,6 +10,7 @@
   </div>
 </template>
 <script>
+// 校验文件 方法
 import ValidatorFn from "@/common/js/validator";
 export default {
   data() {
@@ -20,10 +21,12 @@ export default {
     };
   },
   props: {
+    //输入框双向绑定的值
     inputData: {
       default: ""
     },
     placeholder: { default: "" },
+    // 校验规则字符串 rules="required phone" 校验手机号码不为空
     rules: { default: "" }
   },
   watch: {
