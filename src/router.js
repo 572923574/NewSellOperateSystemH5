@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 import Login from '@/views/login/Login.vue';
 import Home from '@/views/Home.vue';
-// import Account from '@/views/accountSet/Account.vue';
+import Account from '@/views/accountSet/Account.vue';
 import GoodsTable from '@/views/goodsSet/goodsTable/GoodsTable.vue';
 // import GoodsCompany from '@/views/goodsSet/goodsCompany/GoodsCompany.vue';
 
@@ -43,7 +43,7 @@ const router = new Router({
         },
         {
             path: '/',
-            name: '商品',
+            name: '商品管理',
             component: Home,
             iconCls: 'el-icon-message',//图标样式class
             children: [
@@ -64,10 +64,11 @@ const router = new Router({
             iconCls: 'el-icon-message',//图标样式class
             children: [
                 { path: '/Shop', component: Shop, name: '商户列表' },
-                // { path: '/Account', component: Account, name: '账号列表' },
+                { path: '/Account', component: Account, name: '账号列表' },
                 { path: '/GoodsType', component: GoodsType, name: '商品类型' },
                 { path: '/ShopPreferential', component: ShopPreferential, name: '商户活动' },
                 { path: '/ShopCoupon', component: ShopCoupon, name: '商户优惠券' },
+                { path: '/ShopCoupon', component: ShopCoupon, name: '会员列表' },
             ]
         },
         {
