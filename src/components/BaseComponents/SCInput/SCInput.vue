@@ -1,7 +1,7 @@
 <template>
   <div class="SCInputDivClass">
     <el-input
-      class="SCInputClass"
+      :class="showErrorMessage?'SCInputClass errorBoder':'SCInputClass' "
       v-model="inputItem"
       :placeholder="placeholder"
       @blur="inputBlurFn"
@@ -42,11 +42,31 @@ export default {
      * 失去焦点时校验
      */
     inputBlurFn: function() {
-      let errorObj = ValidatorFn(this.rules,this.inputItem);
+      let errorObj = ValidatorFn(this.rules, this.inputItem);
       this.errorMessage = errorObj.errorMessage; //错误提示语
       this.showErrorMessage = errorObj.showErrorMessage; //校验是否失败
     }
   }
 };
 </script>
+<style lang="less">
+.SCInputDivClass {
+  height: 40px;
+  .SCInputClass {
+    input {
+      height: 30px;
+    }
+    height: 30px;
+  }
+  .SCInputClass.errorBoder input{
+      border: 1px solid red;
+  }
+  .errorMessage {
+    height: 10px;
+    line-height: 10px;
+    font-size: 12px;
+    color: red;
+  }
+}
+</style>
 

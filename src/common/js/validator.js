@@ -11,7 +11,7 @@ const validator = {
     //整数正则
     intPattern: /^-?\d+$/,
     // 不为空
-    required: /^\s*$/g,
+    required: /\S/,
 
 
 }
@@ -29,7 +29,7 @@ const errorMessage = {
     //整数正则
     intPattern: /^-?\d+$/,
     // 不为空
-    required: "必填!不能为空！",
+    required: "必填！不能为空！",
 
 
 }

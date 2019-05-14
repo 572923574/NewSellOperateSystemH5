@@ -15,15 +15,16 @@
         auto-complete="off"
         :placeholder="textObj.mobile"
       ></el-input> -->
-      <SCInput :inputData.sync="Account.mobile" rules="phone"></SCInput>
+      <SCInput :inputData.sync="Account.mobile" :placeholder="textObj.mobile" rules="phone"></SCInput>
     </el-form-item>
     <el-form-item prop="password">
-      <el-input
+      <!-- <el-input
         type="password"
         v-model="ruleForm2.password"
         auto-complete="off"
         :placeholder="textObj.password"
-      ></el-input>
+      ></el-input> -->
+      <SCInput :inputData.sync="Account.password" :placeholder="textObj.password" rules="required"></SCInput>
     </el-form-item>
     <el-form-item style="width:100%;">
       <el-button
@@ -55,14 +56,6 @@ export default {
         mobile: "18682028219",
         password: "2"
       },
-      rules2: {
-        mobile: [
-          { required: true, message: "请输入手机号码", trigger: "blur" }
-        ],
-        password: [
-          { required: true, message: "请输入登录密码", trigger: "blur" }
-        ]
-      }
     };
   },
   methods: {
@@ -72,8 +65,8 @@ export default {
       this.logining = true;
       Api.Login(
         {
-          mobile: this.ruleForm2.mobile, //手机号
-          password: this.ruleForm2.password //密码
+          mobile: this.Account.mobile, //手机号
+          password: this.Account.password //密码
         },
         resp => {
           this.logining = false;
