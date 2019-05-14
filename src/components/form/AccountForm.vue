@@ -40,13 +40,23 @@
                 </el-checkbox-group>
             </div>
         </div>
-        <div class="formRow" v-if="accountData.id">
+        <div class="formRow">
             <div class="formRowItem">
                 <!-- 状态 -->
                 <div class="rowItemLabel">{{accountLabel.statusLabel}}</div>
                 <!-- <el-input class="nameInput rowInput" v-model="accountData.status" :placeholder="placeholderObj.status"></el-input> -->
                 <el-select class="nameInput rowInput" v-model="accountData.status" :placeholder="placeholderObj.status" >
                     <el-option v-for="item in statusList" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+                </el-select>
+            </div>
+        </div>
+        <div class="formRow">
+            <div class="formRowItem">
+                <!-- 状态 -->
+                <div class="rowItemLabel">{{accountLabel.roleLabel}}</div>
+                <!-- <el-input class="nameInput rowInput" v-model="accountData.status" :placeholder="placeholderObj.status"></el-input> -->
+                <el-select class="nameInput rowInput" v-model="accountData.role" :placeholder="placeholderObj.role" >
+                    <el-option v-for="item in roleList" :key="item.value" :label="item.label" :value="item.value"> </el-option>
                 </el-select>
             </div>
         </div>
@@ -64,6 +74,7 @@ export default {
                 memuLabel:"菜单权限",
                 optLabel:"操作权限",
                 statusLabel:"状态",
+                roleLabel:"角色",
             },
             // placeholder提示对象
             placeholderObj:{
@@ -72,7 +83,8 @@ export default {
                 password:"请输入密码",
                 menuStr:"请选择菜单权限",
                 optStr:"请选择操作权限",
-                status:"请输入名称",
+                status:"请选择状态",
+                role:"请选择角色",
             },
             //状态集合
             statusList:[{
@@ -81,7 +93,23 @@ export default {
             },{
                 value:'1',
                 label:'禁用',
-            }],
+            },{
+                value:'-1',
+                label:'删除',
+            }
+            ],
+            //角色集合
+            roleList:[{
+                value:'0',
+                label:'超级管理员',
+            },{
+                value:'1',
+                label:'管理员',
+            },{
+                value:'2',
+                label:'操作员',
+            }
+            ],
             //操作权限
             optList:[{text:'账号',value:'O21'},{text:'出入库明细',value:"O18"}],
             //菜单权限

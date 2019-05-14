@@ -2,7 +2,7 @@ import axios from 'axios';
 import store from '@/store'
 
 let winUrl = window.document.location.origin + ":8080/mts-spa/spa"; //文跟路径winUrl = "https://dev.sentree.shop/mts-spa/spa";
-winUrl = "https://dev.sentree.shop/mts-spa/spa";
+// winUrl = "https://dev.sentree.shop/mts-spa/spa";
 function requestFn(method, url, data, callback, errorFn, that, loading) {
     let req = {
         body: {},
@@ -43,6 +43,7 @@ function requestFn(method, url, data, callback, errorFn, that, loading) {
     axios({
         method: method ? method : 'POST',
         url: winUrl + url,
+        // url: url, //vue.config.js配置跨域后，不用再拼接winUrl,winUrl用路径别名api来代替了,例如：'api/account/login'
         data: req
     }).then(function (response) {
         if (loading) {
@@ -104,11 +105,11 @@ let Api = {
         requestFn(method, url, data, callback, error, that, loading);
     },
     spaAccountSave: function (data, callback, error, that, loading, method) {
-        // 获取账号列表
+        // 新增或者编辑账号
         let url = "/account/save";
         requestFn(method, url, data, callback, error, that, loading);
     },
-    spaDelete: function (data, callback, error, that, loading, method) {
+    spaAccountDelete: function (data, callback, error, that, loading, method) {
         // 删除账号
         let url = "/account/delete";
         requestFn(method, url, data, callback, error, that, loading);
