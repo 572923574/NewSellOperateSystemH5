@@ -51,19 +51,19 @@ export default {
 </script>
 <style lang="less">
 .SCInputDivClass {
-  height: 40px;
+  height: 60px;
   .SCInputClass {
     input {
-      height: 30px;
+    //   height: 30px;
     }
-    height: 30px;
+    height: 40px;
   }
   .SCInputClass.errorBoder input{
       border: 1px solid red;
   }
   .errorMessage {
-    height: 10px;
-    line-height: 10px;
+    height: 20px;
+    line-height: 20px;
     font-size: 12px;
     color: red;
   }

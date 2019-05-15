@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "element-ui": "^2.4.9",
+    "element-ui": "^2.8.2",
     "hmacsha1": "^1.0.0",
     "node-sass": "^4.11.0",
     "qiniu-js": "^2.5.4",

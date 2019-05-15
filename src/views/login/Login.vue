@@ -9,21 +9,9 @@
   >
     <h3 class="title">{{textObj.title}}</h3>
     <el-form-item prop="mobile">
-      <!-- <el-input
-        type="text"
-        v-model="ruleForm2.mobile"
-        auto-complete="off"
-        :placeholder="textObj.mobile"
-      ></el-input> -->
       <SCInput :inputData.sync="Account.mobile" :placeholder="textObj.mobile" rules="phone"></SCInput>
     </el-form-item>
     <el-form-item prop="password">
-      <!-- <el-input
-        type="password"
-        v-model="ruleForm2.password"
-        auto-complete="off"
-        :placeholder="textObj.password"
-      ></el-input> -->
       <SCInput :inputData.sync="Account.password" :placeholder="textObj.password" rules="required"></SCInput>
     </el-form-item>
     <el-form-item style="width:100%;">

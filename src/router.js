@@ -12,6 +12,7 @@ import GoodsType from '@/views/goodsSet/goodsTypeSet/goodsType/GoodsType.vue';
 import ShopPreferential from '@/views/set/ShopPreferential/ShopPreferential.vue';
 
 import ShopCoupon from '@/views/set/ShopCoupon/ShopCoupon.vue';
+import Member from '@/views/set/ShopCoupon/ShopCoupon.vue';
 import GetMoneyList from '@/views/orderAndGetMoney/getMoneyList/GetMoneyList.vue';
 import OrderList from '@/views/orderAndGetMoney/orderList/OrderList.vue';
 
@@ -35,7 +36,7 @@ const router = new Router({
             path: '/',
             name: '订单与提现',
             component: Home,
-            iconCls: 'el-icon-message',//图标样式class
+            iconCls: 'el-icon-document',//图标样式class
             children: [
                 { path: '/OrderList', component: OrderList, name: '订单发货' },
                 { path: '/GetMoneyList', component: GetMoneyList, name: '推广提现' },
@@ -45,7 +46,7 @@ const router = new Router({
             path: '/',
             name: '商品管理',
             component: Home,
-            iconCls: 'el-icon-message',//图标样式class
+            iconCls: 'el-icon-goods',//图标样式class
             children: [
                 { path: '/GoodsTable', component: GoodsTable, name: '商品列表' },
             ]
@@ -53,22 +54,22 @@ const router = new Router({
             path: '/',
             name: '图表',
             component: Home,
-            iconCls: 'el-icon-message',//图标样式class
+            iconCls: "el-icon-pie-chart",//图标样式class
             children: [
-                
+                { path: '/Member', component: Member, name: '会员列表' },
             ]
         },{
             path: '/',
             name: '设置',
             component: Home,
-            iconCls: 'el-icon-message',//图标样式class
+            iconCls: 'el-icon-setting',//图标样式class
             children: [
                 { path: '/Shop', component: Shop, name: '商户列表' },
                 { path: '/Account', component: Account, name: '账号列表' },
                 { path: '/GoodsType', component: GoodsType, name: '商品类型' },
                 { path: '/ShopPreferential', component: ShopPreferential, name: '商户活动' },
                 { path: '/ShopCoupon', component: ShopCoupon, name: '商户优惠券' },
-                { path: '/ShopCoupon', component: ShopCoupon, name: '会员列表' },
+                
             ]
         },
         {
