@@ -44,6 +44,10 @@ body {
   top: 0px;
   bottom: 0px;
   width: 100%;
+
+  .el-form-item {
+    margin-bottom: 0px;
+  }
 }
 
 .el-submenu [class^="fa"] {
@@ -54,15 +58,6 @@ body {
 .el-menu-item [class^="fa"] {
   vertical-align: baseline;
   margin-right: 10px;
-}
-
-.toolbar {
-  background: #f2f2f2;
-  padding: 10px;
-  margin: 10px 0px;
-  .el-form-item {
-    margin-bottom: 10px;
-  }
 }
 
 .fade-enter-active,

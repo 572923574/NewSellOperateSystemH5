@@ -41,10 +41,7 @@
         :total="total"
       ></el-pagination>
     </el-col>
-    <!--新增、编辑界面-->
-    <!-- <Dialog :dialogData="dialogData" ref="Dialog" @emitSaveFn="saveFn">
-            <eidtForm slot="dialogContent" :propsData="propsData">我是呵呵</eidtForm>
-    </Dialog>-->
+    
     <!-- 发货界面 -->
     <el-dialog :title="dialogData.title" :visible.sync="dialogData.showDialogData" width="30%">
       <div class="sendDialog">

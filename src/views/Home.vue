@@ -222,19 +222,29 @@ export default {
       padding: 20px;
       height: 100%;
       box-sizing: border-box;
-      .breadcrumb-container {
-        .title {
-          width: 200px;
-          float: left;
-          color: #475669;
+      .grid-content {
+        width: 100%;
+        height: 100%;
+        .breadcrumb-container {
+          height: 20px;
+          line-height: 20px;
+          .title {
+            width: 200px;
+            float: left;
+            color: #475669;
+          }
+          .breadcrumb-inner {
+            float: right;
+          }
         }
-        .breadcrumb-inner {
-          float: right;
+        .content-wrapper {
+          height: calc(100% - 20px);
+          width: 100%;
+          position: relative;
+          background-color: #fff;
+          box-sizing: border-box;
+          
         }
-      }
-      .content-wrapper {
-        background-color: #fff;
-        box-sizing: border-box;
       }
     }
   }

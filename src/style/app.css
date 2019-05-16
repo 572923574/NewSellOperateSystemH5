@@ -170,3 +170,10 @@
   box-sizing: border-box;
   padding-right: 20px;
 }
+#app .toolbar {
+  background: #f2f2f2;
+  padding: 10px;
+  margin: 10px 0px;
+  position: absolute;
+  bottom: 0px;
+}

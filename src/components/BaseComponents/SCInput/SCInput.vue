@@ -51,7 +51,7 @@ export default {
 </script>
 <style lang="less">
 .SCInputDivClass {
-  height: 60px;
+  height: 50px;
   .SCInputClass {
     input {
     //   height: 30px;
