@@ -1,5 +1,5 @@
 <template>
-  <div class="SCInputDivClass">
+  <div :class="showErrorMessage?'SCInputDivClass SCDivClassHeight':'SCInputDivClass' ">
     <el-input
       :class="showErrorMessage?'SCInputClass errorBoder':'SCInputClass' "
       v-model="inputItem"
@@ -67,6 +67,9 @@ export default {
     font-size: 12px;
     color: red;
   }
+}
+.SCDivClassHeight {
+  height: 65px;
 }
 </style>
 

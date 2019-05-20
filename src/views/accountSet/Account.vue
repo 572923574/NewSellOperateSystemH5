@@ -152,7 +152,6 @@
                 const daterc = row[column.property] + '';
                 if(!daterc || daterc == null) return;
                 const dateMat= new Date(daterc/1000);
-                console.log(dateMat);
                 return util.formatDate.format(dateMat,'yyyy-MM-dd hh:mm:ss');
             },
             //状态显示转换
