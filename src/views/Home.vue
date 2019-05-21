@@ -243,7 +243,7 @@ export default {
           position: relative;
           background-color: #fff;
           box-sizing: border-box;
-          
+          overflow: hidden;
         }
       }
     }

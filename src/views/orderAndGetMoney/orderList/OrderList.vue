@@ -26,7 +26,7 @@
             @click="showSendGoods(scope.$index, scope.row)"
             v-if="scope.row.status == '2'"
           >发货</el-button>
-          <el-button size="small" @click="delClick(scope.$index, scope.row)">订单明细</el-button>
+          <el-button size="small" @click="showDetail(scope.$index, scope.row)">订单明细</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -41,7 +41,7 @@
         :total="total"
       ></el-pagination>
     </el-col>
-    
+
     <!-- 发货界面 -->
     <el-dialog :title="dialogData.title" :visible.sync="dialogData.showDialogData" width="30%">
       <div class="sendDialog">
@@ -69,6 +69,22 @@
         >确 定 发 货</el-button>
       </span>
     </el-dialog>
+
+    <!-- 订单明细界面 -->
+    <el-dialog :title="inOutDepotDetail.title" :visible.sync="inOutDepotDetail.show" width="50%">
+        <div class="sumLine">
+            <div class="labelClass">{{textObj.totalMoney}}</div>
+            <div class="valueClass">{{order.totalMoney}}</div>
+            <div class="labelClass">{{textObj.realFee}}</div>
+            <div class="valueClass">{{order.realFee}}</div>
+        </div>
+      <el-table :data="inOutDepotDetails" border show-summary style="width: 100%">
+        <el-table-column prop="name" label="名称"></el-table-column>
+        <el-table-column prop="preferencePrice" sortable label="单价"></el-table-column>
+        <el-table-column prop="num" sortable label="数量"></el-table-column>
+        <el-table-column prop="totalMoney" sortable label="总价"></el-table-column>
+      </el-table>
+    </el-dialog>
   </section>
 </template>
 <script>
@@ -88,8 +104,8 @@ export default {
       //查询条件
       queryObj: {
         searchKey: "",
-        searchText: "名称或编号",
-        selectKey: "2", //选择的内容
+        searchText: "输入订单号",
+        selectKey: "2", //选择的内容 待发货状态
         showSelect: true, //展示选择框
         hideAdd: true, //隐藏新增
         selectList: [
@@ -118,21 +134,21 @@ export default {
       dialogData: {
         title: "订单发货", //显示弹框
         showDialogData: false
-      }, //新增商品
+      },
+      textObj:{
+          "totalMoney":"总金额:",
+          "realFee":"实际支付:",
+      },
+      inOutDepotDetail: {
+        title: "订单明细",
+        show: false
+      },
+      inOutDepotDetails:[],//订单明细列表
       dataList: [], //数据集合
       total: 0, //总共数据
       pageNum: 1, //页
       listLoading: false,
       sels: [], //列表选中列
-      //编辑界面数据
-      propsData: {
-        id: null,
-        eid: null,
-        appid: null,
-        typeName: null,
-        typeNo: null,
-        status: "0"
-      },
       SendGoodsIndex: 0,
       sendGoodsType: 0, //0需要发货 需要快递单号,1不需要
       order: {}
@@ -167,7 +183,7 @@ export default {
         {
           pageNum: this.pageNum,
           name: this.queryObj.searchKey,
-          mobile: this.queryObj.searchKey,
+          id: this.queryObj.searchKey,
           status: this.queryObj.selectKey
         },
         resp => {
@@ -210,12 +226,28 @@ export default {
         loading.close();
         this.dialogData.showDialogData = false;
       });
-    }
+    },
+    /**
+     * 展示订单明细
+     */
+    showDetail: function(index, row) {
+      this.inOutDepotDetail.show = true;
+      this.inOutDepotDetail.title = row.id +"订单明细";
+      this.inOutDepotDetails = row.goodsList;
+      this.order = row;
+    },
   }
 };
 </script>
 <style lang="less" scoped>
 .flowNoDiv {
   margin-top: 10px;
+}
+.sumLine{
+    .labelClass,.valueClass{
+        display: inline-block;
+        min-width: 120px;
+        line-height: 30px;
+    }
 }
 </style>

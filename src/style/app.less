@@ -3,15 +3,19 @@
 
 
 #app {
+    section{
+        height: 100%;
+    }
     .el-table {
-        overflow: hidden;
+        overflow: auto;
         // width: 100%;
         max-width: 100%;
         background-color: #fff;
         border: 1px solid #dfe6ec;
         font-size: 14px;
         color: #1f2d3d;
-
+        max-height: calc(100% - 152px);
+        
         td {
             box-sizing: border-box;
             position: relative;
@@ -43,7 +47,9 @@
             line-height: 24px;
         }
     }
-
+    .el-table::before{
+        height: 0px;
+    }
     .el-button {
         display: inline-block;
         line-height: 1;

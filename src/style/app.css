@@ -1,10 +1,14 @@
+#app section {
+  height: 100%;
+}
 #app .el-table {
-  overflow: hidden;
+  overflow: auto;
   max-width: 100%;
   background-color: #fff;
   border: 1px solid #dfe6ec;
   font-size: 14px;
   color: #1f2d3d;
+  max-height: calc(-52%);
 }
 #app .el-table td {
   box-sizing: border-box;
@@ -32,6 +36,9 @@
   white-space: normal;
   word-break: break-all;
   line-height: 24px;
+}
+#app .el-table::before {
+  height: 0px;
 }
 #app .el-button {
   display: inline-block;
