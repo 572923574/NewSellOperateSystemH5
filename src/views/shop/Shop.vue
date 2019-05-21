@@ -1,63 +1,52 @@
 <template>
-    <!-- 店铺列表（企业店铺） -->
-    <section>
-        <!--工具条-->
-        <TableQuery :queryObj="queryObj" @queryListFn="queryListFn" @addFn="addFn"></TableQuery>
-        <!--列表-->
-        <el-table
-            :data="dataList"
-            highlight-current-row
-            v-loading="listLoading"
-            @selection-change="selsChange"
-            style="width: 100%;"
-        >
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="name" label="名称" width="120" sortable></el-table-column>
-            <el-table-column prop="createTime" label="创建日期" width="120" sortable></el-table-column>
-            <el-table-column prop="endDate" label="失效日期" width="120" sortable></el-table-column>
-            <el-table-column prop="address.userName" label="负责人" width="120" sortable></el-table-column>
-            <el-table-column prop="address.telNumber" label="负责人电话" width="120" sortable></el-table-column>
-            <el-table-column prop="depotAddress.userName" label="仓库联系人" width="120" sortable></el-table-column>
-            <el-table-column prop="depotAddress.telNumber" label="仓库电话" width="120" sortable></el-table-column>
-            <el-table-column
-                prop="status"
-                label="状态"
-                width="100"
-                :formatter="formatStatus"
-                sortable
-            ></el-table-column>
-            <el-table-column label="操作" width="150">
-                <template scope="scope">
-                    <el-button size="small" @click="editClick(scope.$index, scope.row)">编辑</el-button>
-                    <el-button
-                        type="danger"
-                        size="small"
-                        @click="delClick(scope.$index, scope.row)"
-                    >续费</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-        <!--工具条-->
-        <el-col :span="24" class="toolbar">
-            <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量续费</el-button>
-            <el-pagination
-                layout="prev, pager, next"
-                @current-change="handleCurrentChange"
-                :page-size="20"
-                :total="total"
-                style="float:right;"
-            ></el-pagination>
-        </el-col>
-        <!--新增、编辑界面-->
-        <Dialog :dialogData="dialogData" ref="Dialog" @emitSaveFn="saveFn">
-            <MobileHome slot="Mobile" :propsData="propsData">手机页面</MobileHome>
-            <eidtForm slot="dialogContent" :propsData="propsData">我是呵呵</eidtForm>
-        </Dialog>
-    </section>
+  <!-- 店铺列表（企业店铺） -->
+  <section>
+    <!--工具条-->
+    <TableQuery :queryObj="queryObj" @queryListFn="queryListFn" @addFn="addFn"></TableQuery>
+    <!--列表-->
+    <el-table
+      :data="dataList"
+      highlight-current-row
+      v-loading="listLoading"
+      @selection-change="selsChange"
+      style="width: 100%;"
+    >
+      <el-table-column type="selection" width="55"></el-table-column>
+      <el-table-column prop="name" label="名称" width="120" sortable></el-table-column>
+      <el-table-column prop="createTime" label="创建日期" width="120" :formatter="formatDate" sortable></el-table-column>
+      <el-table-column prop="endDate" label="失效日期" width="120" :formatter="formatEndDate" sortable></el-table-column>
+      <el-table-column prop="address.userName" label="负责人" width="120" sortable></el-table-column>
+      <el-table-column prop="address.telNumber" label="负责人电话" width="120" sortable></el-table-column>
+      <el-table-column prop="depotAddress.userName" label="仓库联系人" width="120" sortable></el-table-column>
+      <el-table-column prop="depotAddress.telNumber" label="仓库电话" width="120" sortable></el-table-column>
+      <el-table-column prop="status" label="状态" width="100" :formatter="formatStatus" sortable></el-table-column>
+      <el-table-column label="操作" width="100">
+        <template scope="scope">
+          <el-button size="small" @click="editClick(scope.$index, scope.row)">编辑</el-button>
+          <!-- <el-button type="danger" size="small" @click="renew(scope.$index, scope.row)">续费</el-button> -->
+        </template>
+      </el-table-column>
+    </el-table>
+    <!--工具条-->
+    <el-col :span="24" class="toolbar">
+      <el-pagination
+        layout="prev, pager, next"
+        @current-change="handleCurrentChange"
+        :page-size="20"
+        :total="total"
+        style="float:right;"
+      ></el-pagination>
+    </el-col>
+    <!--新增、编辑界面-->
+    <Dialog :dialogData="dialogData" ref="Dialog" @emitSaveFn="saveFn">
+      <MobileHome slot="Mobile" :propsData="propsData">手机页面</MobileHome>
+      <eidtForm slot="dialogContent" :propsData="propsData">我是呵呵</eidtForm>
+    </Dialog>
+  </section>
 </template>
 <script>
 import eidtForm from "@/components/form/ShopForm.vue";
-// import util from "@/common/js/util.js";
+import Util from "@/common/js/util.js";
 import Api from "@/common/api/api.js";
 import Dialog from "@/components/dialog/Dialog.vue";
 import MobileHome from "@/components/Mobile/MobileHome.vue";
@@ -74,7 +63,7 @@ export default {
       //查询条件
       queryObj: {
         searchKey: "",
-        searchText: "名称或编号",
+        searchText: "输入名称",
         hideAdd: true //隐藏新增按钮
       },
       dialogData: {
@@ -99,7 +88,7 @@ export default {
         address: {}, //商户地址
         depotAddress: {}, //发货仓库地址
         bonusNum: "0", //新零售层级
-        afterPay:"0",//按月结算挂账
+        afterPay: "0", //按月结算挂账
         shopBonusList: [
           { bonusLevel: 1, bonusType: 1, bonusValue: 0 },
           { bonusLevel: 2, bonusType: 1, bonusValue: 0 },
@@ -117,7 +106,16 @@ export default {
   methods: {
     //状态显示转换
     formatStatus: function(row) {
-      return row.sex == 1 ? "男" : row.sex == 0 ? "女" : "未知";
+      return Util.formatStatus(row.status, this.queryObj.selectList);
+    },
+    /**
+     * 日期转化
+     */
+    formatDate: function(row) {
+      return Util.formatDate.format(row.createTime);
+    },
+    formatEndDate: function(row) {
+      return Util.formatDate.format(row.endDate);
     },
     handleCurrentChange(val) {
       this.page = val;
@@ -148,9 +146,9 @@ export default {
       );
     },
     //删除
-    delClick: function(index, row) {
+    renew: function(index, row) {
       let that = this;
-      this.$confirm("确认删除该记录吗?", "提示", {
+      this.$confirm("确认已续费并延期一年吗?", "提示", {
         type: "warning"
       })
         .then(() => {
