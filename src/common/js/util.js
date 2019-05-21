@@ -1,5 +1,6 @@
 var SIGN_REGEXP = /([yMdhsm])(\1*)/g;
 var DEFAULT_PATTERN = 'yyyy-MM-dd';
+var STATUS_LIST = [{ value: "-1", label: "删除" }, { value: "0", label: "正常" }, { value: "1", label: "禁用" }];
 function padding(s, len) {
     var len = len - (s + '').length;
     for (var i = 0; i < len; i++) { s = '0' + s; }
@@ -17,10 +18,12 @@ export default {
         r = null;
         return context == null || context == "" || context == "undefined" ? "" : context;
     },
+    /**
+     * 格式化日期 
+     */
     formatDate: {
-
-
         format: function (date, pattern) {
+            date = (new Date(Number(date)));
             pattern = pattern || DEFAULT_PATTERN;
             return pattern.replace(SIGN_REGEXP, function ($0) {
                 switch ($0.charAt(0)) {
@@ -56,6 +59,16 @@ export default {
             return null;
         }
 
+    },
+    formatStatus: function (status, statusList) {
+        statusList = statusList || STATUS_LIST;
+        let statusStr = "正常";
+        statusList.map(item => {debugger
+            if (item.value == status) {
+                statusStr = item.label;
+            }
+        })
+        return statusStr;
     }
 
 };

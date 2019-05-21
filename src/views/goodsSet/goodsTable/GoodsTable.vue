@@ -28,6 +28,7 @@
     </el-table>
     <!--工具条-->
     <el-col :span="24" class="toolbar">
+      <el-button type="danger" @click="batchRemove" :disabled="sels.length===0" v-if="queryObj.selectKey !='-1'">批量删除</el-button>
       <el-pagination
         @current-change="handleCurrentChange"
         :current-page.sync="pageNum"
@@ -46,7 +47,7 @@
 </template>
 
 <script>
-// import util from "@/common/js/util.js";
+import Util from "@/common/js/util.js";
 import Api from "@/common/api/api.js";
 import GoodsForm from "@/components/form/GoodsForm.vue";
 
@@ -67,7 +68,19 @@ export default {
       //查询条件
       queryObj: {
         searchKey: "",
-        searchText: "名称或编号"
+        searchText: "名称或编号",
+        selectKey: "0", //选择的内容 待发货状态
+        showSelect: true, //展示选择框
+        selectList: [
+          {
+            value: "0",
+            label: "售卖中"
+          },
+          {
+            value: "-1",
+            label: "删除"
+          }
+        ] //选择列表
       },
       dialogData: {
         title: "新增商品" //显示弹框
@@ -118,7 +131,7 @@ export default {
   methods: {
     //性别显示转换
     formatStatus: function(row) {
-      return row.sex == 1 ? "男" : row.sex == 0 ? "女" : "未知";
+      return Util.formatStatus(row.status, this.queryObj.selectList);
     },
     handleCurrentChange(val) {
       this.pageNum = val;

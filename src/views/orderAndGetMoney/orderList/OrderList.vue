@@ -12,12 +12,12 @@
         >{{scope.row.goodsList[0].name +(scope.row.goodsList.length>1?"等":"")}}</template>
       </el-table-column>
       <el-table-column label="总计数量" width="150" :formatter="formatNum"></el-table-column>
-      <el-table-column prop="name" label="购买人名称" width="120" sortable></el-table-column>
-      <el-table-column prop="mobile" label="购买人手机" width="120" sortable></el-table-column>
+      <el-table-column prop="memberAddress.userName" label="购买人名称" width="120" sortable></el-table-column>
+      <el-table-column prop="memberAddress.telNumber" label="购买人手机" width="120" sortable></el-table-column>
       <el-table-column prop="totalMoney" label="订单金额" width="120" sortable></el-table-column>
       <el-table-column prop="realFee" label="支付金额" width="120" sortable></el-table-column>
       <el-table-column prop="flowNo" label="物流单号" width="120" sortable></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="120" sortable></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" width="160" sortable :formatter="formatDate"></el-table-column>
       <el-table-column prop="status" label="状态" width="100" :formatter="formatStatus" sortable></el-table-column>
       <el-table-column label="操作" width="150">
         <template scope="scope">
@@ -72,12 +72,12 @@
 
     <!-- 订单明细界面 -->
     <el-dialog :title="inOutDepotDetail.title" :visible.sync="inOutDepotDetail.show" width="50%">
-        <div class="sumLine">
-            <div class="labelClass">{{textObj.totalMoney}}</div>
-            <div class="valueClass">{{order.totalMoney}}</div>
-            <div class="labelClass">{{textObj.realFee}}</div>
-            <div class="valueClass">{{order.realFee}}</div>
-        </div>
+      <div class="sumLine">
+        <div class="labelClass">{{textObj.totalMoney}}</div>
+        <div class="valueClass">{{order.totalMoney}}</div>
+        <div class="labelClass">{{textObj.realFee}}</div>
+        <div class="valueClass">{{order.realFee}}</div>
+      </div>
       <el-table :data="inOutDepotDetails" border show-summary style="width: 100%">
         <el-table-column prop="name" label="名称"></el-table-column>
         <el-table-column prop="preferencePrice" sortable label="单价"></el-table-column>
@@ -89,7 +89,7 @@
 </template>
 <script>
 import eidtForm from "@/components/form/GoodsTypeForm.vue";
-// import util from "@/common/js/util.js";
+import Util from "@/common/js/util.js";
 import Api from "@/common/api/api.js";
 import Dialog from "@/components/dialog/Dialog.vue";
 import TableQuery from "@/components/headQuery/TableQuery.vue";
@@ -135,15 +135,15 @@ export default {
         title: "订单发货", //显示弹框
         showDialogData: false
       },
-      textObj:{
-          "totalMoney":"总金额:",
-          "realFee":"实际支付:",
+      textObj: {
+        totalMoney: "总金额:",
+        realFee: "实际支付:"
       },
       inOutDepotDetail: {
         title: "订单明细",
         show: false
       },
-      inOutDepotDetails:[],//订单明细列表
+      inOutDepotDetails: [], //订单明细列表
       dataList: [], //数据集合
       total: 0, //总共数据
       pageNum: 1, //页
@@ -161,7 +161,13 @@ export default {
   methods: {
     //状态显示转换
     formatStatus: function(row) {
-      return row.sex == 1 ? "男" : row.sex == 0 ? "女" : "未知";
+      return Util.formatStatus(row.status, this.queryObj.selectList);
+    },
+    /**
+     * 日期转化
+     */
+    formatDate: function(row) {
+      return Util.formatDate.format(row.createTime,'yyyy-MM-dd hh:mm:ss');
     },
     formatNum: function(row) {
       let goodsList = row.goodsList;
@@ -232,10 +238,10 @@ export default {
      */
     showDetail: function(index, row) {
       this.inOutDepotDetail.show = true;
-      this.inOutDepotDetail.title = row.id +"订单明细";
+      this.inOutDepotDetail.title = row.id + "订单明细";
       this.inOutDepotDetails = row.goodsList;
       this.order = row;
-    },
+    }
   }
 };
 </script>
@@ -243,11 +249,12 @@ export default {
 .flowNoDiv {
   margin-top: 10px;
 }
-.sumLine{
-    .labelClass,.valueClass{
-        display: inline-block;
-        min-width: 120px;
-        line-height: 30px;
-    }
+.sumLine {
+  .labelClass,
+  .valueClass {
+    display: inline-block;
+    min-width: 120px;
+    line-height: 30px;
+  }
 }
 </style>

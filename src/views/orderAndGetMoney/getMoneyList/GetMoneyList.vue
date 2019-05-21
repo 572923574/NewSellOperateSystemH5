@@ -8,11 +8,15 @@
       <el-table-column prop="name" label="名称" width="120" sortable></el-table-column>
       <el-table-column prop="mobile" label="手机" width="120" sortable></el-table-column>
       <el-table-column prop="getMoney" label="提现金额" width="120" sortable></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="120" sortable></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" width="160" :formatter="formatDate" sortable></el-table-column>
       <el-table-column prop="status" label="状态" width="100" :formatter="formatStatus" sortable></el-table-column>
       <el-table-column label="操作" width="150">
         <template scope="scope">
-          <el-button size="small" v-if="scope.row.status == 0" @click="editClick(scope.$index, scope.row)">审核</el-button>
+          <el-button
+            size="small"
+            v-if="scope.row.status == 0"
+            @click="editClick(scope.$index, scope.row)"
+          >审核</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -26,22 +30,16 @@
         style="float:right;"
       ></el-pagination>
     </el-col>
-    <!--新增、编辑界面-->
-    <!-- <Dialog :dialogData="dialogData" ref="Dialog" @emitSaveFn="saveFn">
-            <eidtForm slot="dialogContent" :propsData="propsData">我是呵呵</eidtForm>
-    </Dialog>-->
   </section>
 </template>
 <script>
-import eidtForm from "@/components/form/GoodsTypeForm.vue";
-// import util from "@/common/js/util.js";
+import Util from "@/common/js/util.js";
 import Api from "@/common/api/api.js";
 import Dialog from "@/components/dialog/Dialog.vue";
 import TableQuery from "@/components/headQuery/TableQuery.vue";
 export default {
   components: {
     Dialog,
-    eidtForm,
     TableQuery
   },
   data() {
@@ -94,7 +92,13 @@ export default {
   methods: {
     //状态显示转换
     formatStatus: function(row) {
-      return row.sex == 1 ? "男" : row.sex == 0 ? "女" : "未知";
+      return Util.formatStatus(row.status, this.queryObj.selectList);
+    },
+    /**
+     * 日期转化
+     */
+    formatDate: function(row) {
+      return Util.formatDate.format(row.createTime,'yyyy-MM-dd hh:mm:ss');
     },
     handleCurrentChange(val) {
       this.page = val;
