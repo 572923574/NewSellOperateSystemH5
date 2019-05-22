@@ -54,6 +54,7 @@
                 <template scope="scope">
                     <el-button size="small" @click="editClick(scope.$index, scope.row)">编辑</el-button>
                     <el-button
+                            v-if="isShowDelBtn"
                             type="danger"
                             size="small"
                             @click="delClick(scope.$index, scope.row)"
@@ -88,6 +89,7 @@
         },
         data() {
             return {
+                isShowDelBtn: true,
                 avatarUrl2: null,
                 showCropper: true,
                 //查询条件
@@ -97,14 +99,14 @@
                     searchText: "名称查询",
                     showSelect: true,
                     selectList: [{
-                        value:'0',
-                        label:'正常',
-                    },{
-                        value:'1',
-                        label:'禁用',
-                    },{
-                        value:'-1',
-                        label:'删除',
+                        value: '0',
+                        label: '正常',
+                    }, {
+                        value: '1',
+                        label: '禁用',
+                    }, {
+                        value: '-1',
+                        label: '删除',
                     }
                     ],
                 },
@@ -134,25 +136,87 @@
                     type: null,
                     describeText: null,
                     status: "0",
-                }
+                    menuStr: [],
+                    optStr: [],
+                },
+                //操作权限
+                optList: [
+                    {text: '操作门店到期日期等信息', value: 'O0'},
+                    {text: '发货', value: 'O0101'},
+                    {text: '审核提现', value: "O0201"},
+                    {text: '新增、编辑商品', value: "O0301"},
+                    {text: '会员编辑推荐人', value: "O0401"},
+                    {text: '修改商户信息', value: "O0501"},
+                    {text: '新增、编辑账号权限', value: "O0601"},
+                    {text: '新增、编辑商品类型权限', value: "O0701"},
+                    {text: '新增、编辑商户活动权限', value: "O0801"},
+                    {text: '新增、编辑商户优惠券权限', value: "O0901"},
+                ],
+                //菜单权限
+                menuList: [
+                    {text: '显示新增商户按钮', value: 'M0'},
+                    {text: '订单发货', value: 'M01'},
+                    {text: '推广提现', value: "M02"},
+                    {text: '商品管理', value: "M03"},
+                    {text: '会员列表', value: "M04"},
+                    {text: '商户列表', value: "M05"},
+                    {text: '账号列表', value: "M06"},
+                    {text: '商品类型', value: "M07"},
+                    {text: '商户活动', value: "M08"},
+                    {text: '商户优惠券', value: "M09"},
+                ]
             };
         },
         methods: {
             //菜单权限转换
-            menuPermissions(row){
-                if(!row || !row.menuStr || row.menuStr === '[]') return '暂未定义菜单权限';
-                return '---'
+            menuPermissions(row) {
+                if (!row || !row.menuStr || row.menuStr === '[]') return '---';
+                let arr = row.menuStr.split(',');
+                let filterArr = [];
+                arr.forEach(item => {
+                    let arr1 = this.menuList.filter(item1 => {
+                        return item == item1.value
+                    });
+                    if (arr1.length > 0) {
+                        filterArr.push(arr1[0])
+                    }
+                });
+                if (filterArr.length == 0) {
+                    return '---'
+                }
+                let menuStrArr = [];
+                filterArr.forEach(item => {
+                    menuStrArr.push(item.text)
+                });
+                return menuStrArr.join('、')
             },
-            optPermissions(row){
-                if(!row || !row.optStr || row.optStr === '[]') return '暂未定义操作权限';
-                return '---'
+            optPermissions(row) {
+                if (!row || !row.optStr || row.optStr === '[]') return '---';
+                let arr = row.optStr.split(',');
+                let filterArr = [];
+                arr.forEach(item => {
+                    let arr1 = this.optList.filter(item1 => {
+                        return item == item1.value
+                    });
+                    if (arr1.length > 0) {
+                        filterArr.push(arr1[0])
+                    }
+                });
+                if (filterArr.length == 0) {
+                    return '---'
+                }
+                let optStrArr = [];
+                filterArr.forEach(item => {
+                    optStrArr.push(item.text)
+                });
+                return optStrArr.join('、');
             },
             //table中的时间格式化
             dateFormat(row, column, cellValue, index) {
                 const daterc = row[column.property] + '';
-                if(!daterc || daterc == null) return;
-                const dateMat= new Date(daterc/1000);
-                return util.formatDate.format(dateMat,'yyyy-MM-dd hh:mm:ss');
+                if (!daterc || daterc == null) return;
+                const dateMat = new Date(daterc / 1000);
+                return util.formatDate.format(dateMat, 'yyyy-MM-dd hh:mm:ss');
             },
             //状态显示转换
             formatRole(row) {
@@ -174,6 +238,7 @@
                     resp => {
                         that.btnLoad = false;
                         if (resp.result == 0) {
+                            this.queryObj.selectKey == -1 ? this.isShowDelBtn = false : this.isShowDelBtn = true;
                             this.refeshData(resp.body);
                             that.loading = false;
                         }
@@ -220,6 +285,8 @@
             saveFn() {
                 this.listLoading = true;
                 let accountData = Object.assign({}, this.accountData);
+                accountData.optStr = accountData.optStr.join(',')
+                accountData.menuStr = accountData.menuStr.join(',')
                 Api.spaAccountSave(
                     accountData,
                     resp => {
@@ -242,6 +309,9 @@
                 // 编辑
                 this.dialogData.title = "编辑账号";
                 this.accountData = Object.assign({}, JSON.parse(JSON.stringify(row)));
+
+                this.accountData.menuStr = this.accountData.menuStr.split(',');
+                this.accountData.optStr = this.accountData.optStr.split(',');
                 this.$refs.AccountDialog.show();
             },
             //显示新增界面
