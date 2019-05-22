@@ -1,91 +1,74 @@
 <template>
     <!-- 新增、编辑账号弹框 -->
     <div>
-        <div class="formRow">
-            <div class="formRowItem">
-                <!-- 名称 -->
-                <div class="rowItemLabel">{{accountLabel.nameLabel}}</div>
-                <el-input class="nameInput rowInput" v-model="accountData.name"
-                          :placeholder="placeholderObj.name"></el-input>
-            </div>
-        </div>
-        <div class="formRow">
-            <div class="formRowItem">
-                <!-- 手机 -->
-                <div class="rowItemLabel">{{accountLabel.mobileLabel}}</div>
-                <el-input class="nameInput rowInput" v-model="accountData.mobile"
-                          :placeholder="placeholderObj.mobile"></el-input>
-            </div>
-        </div>
-        <div class="formRow">
-            <div class="formRowItem">
-                <!-- 密码 -->
-                <div class="rowItemLabel">{{accountLabel.passwordLabel}}</div>
-                <el-input
+        <el-form ref="form" label-width="80px">
+            <el-form-item :label="accountLabel.nameLabel">
+                <SCInput :inputData.sync="accountData.name" :placeholder="placeholderObj.name"
+                         rules="required"></SCInput>
+            </el-form-item>
+            <el-form-item :label="accountLabel.mobileLabel">
+                <SCInput :inputData.sync="accountData.mobile" :placeholder="placeholderObj.mobile"
+                         rules="phone"></SCInput>
+            </el-form-item>
+            <el-form-item :label="accountLabel.passwordLabel">
+                <SCInput :inputData.sync="accountData.password" :placeholder="placeholderObj.password"
+                         rules="required"></SCInput>
+            </el-form-item>
+            <el-form-item :label="accountLabel.memuLabel">
+                <el-checkbox-group
+                        v-model="accountData.menuStr"
+                        size="mini"
+                >
+                    <el-checkbox-button
+                            v-for="menu in menuList"
+                            :label="menu.value"
+                            :key="menu.value"
+                    >{{menu.text}}
+                    </el-checkbox-button>
+                </el-checkbox-group>
+            </el-form-item>
+            <el-form-item :label="accountLabel.optLabel">
+                <el-checkbox-group
+                        v-model="accountData.optStr"
+                        size="mini"
+                >
+                    <el-checkbox-button
+                            v-for="opt in optList"
+                            :label="opt.value"
+                            :key="opt.value"
+                    >{{opt.text}}
+                    </el-checkbox-button>
+                </el-checkbox-group>
+            </el-form-item>
+            <el-form-item :label="accountLabel.statusLabel">
+                <el-select
                         class="nameInput rowInput"
-                        v-model="accountData.password"
-                        :placeholder="placeholderObj.password"
-                ></el-input>
-            </div>
-        </div>
-        <div class="formRow mutipleCheckRow">
-            <div class="formRowItem">
-                <!-- 菜单权限 -->
-                <div class="rowItemLabel mr10">{{accountLabel.memuLabel}}</div>
-                <div>
-                    <el-checkbox-group
-                            v-model="accountData.menuStr"
-                            size="mini"
-                    >
-                        <el-checkbox-button
-                                v-for="menu in menuList"
-                                :label="menu.value"
-                                :key="menu.value"
-                        >{{menu.text}}</el-checkbox-button>
-                    </el-checkbox-group>
-                </div>
-            </div>
-        </div>
-        <div class="formRow mutipleCheckRow">
-            <div class="formRowItem">
-                <!-- 操作权限 -->
-                <div class="rowItemLabel mr10">{{accountLabel.optLabel}}</div>
-                <div>
-                    <el-checkbox-group
-                            v-model="accountData.optStr"
-                            size="mini"
-                    >
-                        <el-checkbox-button
-                                v-for="opt in optList"
-                                :label="opt.value"
-                                :key="opt.value"
-                        >{{opt.text}}</el-checkbox-button>
-                    </el-checkbox-group>
-                </div>
-            </div>
-        </div>
-        <div class="formRow">
-            <div class="formRowItem">
-                <!-- 状态 -->
-                <div class="rowItemLabel">{{accountLabel.statusLabel}}</div>
-                <!-- <el-input class="nameInput rowInput" v-model="accountData.status" :placeholder="placeholderObj.status"></el-input> -->
-                <el-select class="nameInput rowInput" v-model="accountData.status" :placeholder="placeholderObj.status">
-                    <el-option v-for="item in statusList" :key="item.value" :label="item.label"
-                               :value="item.value"></el-option>
+                        v-model="accountData.status"
+                        :placeholder="placeholderObj.status"
+                >
+                    <el-option
+                            v-for="item in statusList"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value"
+                    ></el-option>
                 </el-select>
-            </div>
-        </div>
-        <div class="formRow">
-            <div class="formRowItem">
-                <!-- 状态 -->
-                <div class="rowItemLabel">{{accountLabel.roleLabel}}</div>
-                <!-- <el-input class="nameInput rowInput" v-model="accountData.status" :placeholder="placeholderObj.status"></el-input> -->
-                <el-select class="nameInput rowInput" v-model="accountData.role" :placeholder="placeholderObj.role">
-                    <el-option v-for="item in roleList" :key="item.value" :label="item.label"
-                               :value="item.value"></el-option>
+            </el-form-item>
+            <el-form-item :label="accountLabel.roleLabel">
+                <el-select
+                        class="nameInput rowInput"
+                        v-model="accountData.role"
+                        :placeholder="placeholderObj.role"
+                >
+                    <el-option
+                            v-for="item in roleList"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value"
+                    ></el-option>
                 </el-select>
-            </div>
-        </div>
+            </el-form-item>
+        </el-form>
     </div>
 </template>
 <script>
@@ -176,7 +159,7 @@
         display: block;
 
         .formRowItem {
-            height: 30px;
+            min-height: 30px;
             padding-bottom: 10px;
 
             .rowItemLabel {
@@ -201,18 +184,21 @@
 
     }
 
-    .mutipleCheckRow {
-        min-height: 50px !important;
-        margin-bottom: 30px;
-    }
-    .mr10 {
-        margin-right: 10px;
-    }
-    .el-checkbox-button {
-        margin: 8px 0;
-    }
-    .mutipleCheckRow .el-checkbox-button {
-        margin: 5px 0;
-    }
+    /*.mutipleCheckRow {*/
+    /*    min-height: 50px !important;*/
+    /*    margin-bottom: 30px;*/
+    /*}*/
+
+    /*.mr10 {*/
+    /*    margin-right: 10px;*/
+    /*}*/
+
+    /*.el-checkbox-button {*/
+    /*    margin: 8px 0;*/
+    /*}*/
+
+    /*.mutipleCheckRow .el-checkbox-button {*/
+    /*    margin: 5px 0;*/
+    /*}*/
 </style>
 

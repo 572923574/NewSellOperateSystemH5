@@ -57,6 +57,7 @@ export default {
     //   height: 30px;
     }
     height: 40px;
+    width: 200px;
   }
   .SCInputClass.errorBoder input{
       border: 1px solid red;
