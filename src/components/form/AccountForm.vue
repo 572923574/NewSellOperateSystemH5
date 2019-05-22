@@ -3,15 +3,15 @@
     <div>
         <el-form ref="form" label-width="80px">
             <el-form-item :label="accountLabel.nameLabel">
-                <SCInput :inputData.sync="accountData.name" :placeholder="placeholderObj.name"
+                <SCInput class="w200" :inputData.sync="accountData.name" :placeholder="placeholderObj.name"
                          rules="required"></SCInput>
             </el-form-item>
             <el-form-item :label="accountLabel.mobileLabel">
-                <SCInput :inputData.sync="accountData.mobile" :placeholder="placeholderObj.mobile"
+                <SCInput class="w200" :inputData.sync="accountData.mobile" :placeholder="placeholderObj.mobile"
                          rules="phone"></SCInput>
             </el-form-item>
             <el-form-item :label="accountLabel.passwordLabel">
-                <SCInput :inputData.sync="accountData.password" :placeholder="placeholderObj.password"
+                <SCInput class="w200" :inputData.sync="accountData.password" :placeholder="placeholderObj.password"
                          rules="required"></SCInput>
             </el-form-item>
             <el-form-item :label="accountLabel.memuLabel">
@@ -184,21 +184,8 @@
 
     }
 
-    /*.mutipleCheckRow {*/
-    /*    min-height: 50px !important;*/
-    /*    margin-bottom: 30px;*/
-    /*}*/
-
-    /*.mr10 {*/
-    /*    margin-right: 10px;*/
-    /*}*/
-
-    /*.el-checkbox-button {*/
-    /*    margin: 8px 0;*/
-    /*}*/
-
-    /*.mutipleCheckRow .el-checkbox-button {*/
-    /*    margin: 5px 0;*/
-    /*}*/
+    .w200 {
+        width: 200px;
+    }
 </style>
 
