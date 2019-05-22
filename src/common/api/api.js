@@ -264,5 +264,15 @@ let Api = {
         let url = "/shopCoupon/deleteList";
         requestFn(method, url, data, callback, error, that, loading);
     },
+    spaMemberList: function (data, callback, error, that, loading, method) {
+        // 获取会员列表
+        let url = "/member/list";
+        requestFn(method, url, data, callback, error, that, loading);
+    },
+    spaMemberSave: function (data, callback, error, that, loading, method) {
+        // 新增或者编辑会员
+        let url = "/member/recommendPeopleUpdate";
+        requestFn(method, url, data, callback, error, that, loading);
+    },
 }
 export default Api;

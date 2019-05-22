@@ -12,7 +12,7 @@ import GoodsType from '@/views/goodsSet/goodsTypeSet/goodsType/GoodsType.vue';
 import ShopPreferential from '@/views/set/ShopPreferential/ShopPreferential.vue';
 
 import ShopCoupon from '@/views/set/ShopCoupon/ShopCoupon.vue';
-import Member from '@/views/set/ShopCoupon/ShopCoupon.vue';
+import Member from '@/views/set/memberList/Member.vue';
 import GetMoneyList from '@/views/orderAndGetMoney/getMoneyList/GetMoneyList.vue';
 import OrderList from '@/views/orderAndGetMoney/orderList/OrderList.vue';
 
@@ -69,7 +69,8 @@ const router = new Router({
                 { path: '/GoodsType', component: GoodsType, name: '商品类型' },
                 { path: '/ShopPreferential', component: ShopPreferential, name: '商户活动' },
                 { path: '/ShopCoupon', component: ShopCoupon, name: '商户优惠券' },
-                
+                { path: '/Member', component: Member, name: '会员列表' },
+
             ]
         },
         {
