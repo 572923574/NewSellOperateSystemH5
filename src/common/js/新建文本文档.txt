@@ -160,3 +160,5 @@ if (typeof window !== 'undefined' && window.Vue) {
 export default {
     install: plugin
 }
+
+https://www.jianshu.com/p/2a19c05e495a
