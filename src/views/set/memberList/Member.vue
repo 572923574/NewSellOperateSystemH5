@@ -13,21 +13,20 @@
         >
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="name" label="名称" width="120" sortable></el-table-column>
-            <el-table-column prop="mobile" label="手机" width="120" sortable></el-table-column>
-            <el-table-column prop="password" label="密码" width="120" sortable></el-table-column>
             <el-table-column
-                    prop="menuStr"
-                    label="菜单权限"
+                    prop="avatarUrl"
+                    label="头像"
+                    width="120"
+            >
+                <template scope="scope">
+                    <img :src="scope.row.avatarUrl" width="30" height="30" class="head_pic"/>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="mobile"
+                    label="手机号码"
                     width="120"
                     sortable
-                    :formatter="menuPermissions"
-            ></el-table-column>
-            <el-table-column
-                    prop="optStr"
-                    label="操作权限"
-                    width="120"
-                    sortable
-                    :formatter="optPermissions"
             ></el-table-column>
             <el-table-column
                     prop="createTime"
@@ -37,11 +36,25 @@
                     :formatter="dateFormat"
             ></el-table-column>
             <el-table-column
-                    prop="role"
-                    label="角色"
+                    prop="totalMoney"
+                    label="推荐总金额"
                     width="120"
                     sortable
-                    :formatter="formatRole"
+                    :formatter="moneyFormat"
+            ></el-table-column>
+            <el-table-column
+                    prop="balance"
+                    label="推荐可用金额"
+                    width="140"
+                    sortable
+                    :formatter="moneyFormat"
+            ></el-table-column>
+            <el-table-column
+                    prop="afterPay"
+                    label="是否挂账"
+                    width="100"
+                    :formatter="formatPay"
+                    sortable
             ></el-table-column>
             <el-table-column
                     prop="status"
@@ -50,6 +63,7 @@
                     :formatter="formatStatus"
                     sortable
             ></el-table-column>
+            <el-table-column prop="memberAddress" label="地址" width="180" sortable></el-table-column>
             <el-table-column label="操作" width="150">
                 <template scope="scope">
                     <el-button size="small" @click="editClick(scope.$index, scope.row)">编辑</el-button>
@@ -69,7 +83,7 @@
         </el-col>
         <!--新增、编辑界面-->
         <Dialog :dialogData="dialogData" ref="AccountDialog" @emitSaveFn="saveFn">
-            <AccountForm slot="dialogContent" :accountData="accountData"></AccountForm>
+            <MemberForm slot="dialogContent" :accountData="accountData"></MemberForm>
         </Dialog>
     </section>
 </template>
@@ -77,14 +91,14 @@
 <script>
     import util from "@/common/js/util.js";
     import Api from "@/common/api/api.js";
-    import AccountForm from "@/components/form/AccountForm.vue";
+    import MemberForm from "@/components/form/MemberForm.vue";
     import Dialog from "@/components/dialog/Dialog.vue";
     import TableQuery from "@/components/headQuery/TableQuery.vue";
 
     export default {
         components: {
             Dialog,
-            AccountForm,
+            MemberForm,
             TableQuery,
         },
         data() {
@@ -97,7 +111,7 @@
                     searchKey: "",
                     selectKey: "0",
                     searchText: "名称查询",
-                    showSelect: true,
+                    showSelect: false,
                     selectList: [{
                         value: '0',
                         label: '正常',
@@ -168,48 +182,14 @@
             };
         },
         methods: {
-            //菜单权限转换
-            menuPermissions(row) {
-                if (!row || !row.menuStr || row.menuStr === '[]') return '---';
-                let arr = row.menuStr.split(',');
-                let filterArr = [];
-                arr.forEach(item => {
-                    let arr1 = this.menuList.filter(item1 => {
-                        return item == item1.value
-                    });
-                    if (arr1.length > 0) {
-                        filterArr.push(arr1[0])
-                    }
-                });
-                if (filterArr.length == 0) {
-                    return '---'
-                }
-                let menuStrArr = [];
-                filterArr.forEach(item => {
-                    menuStrArr.push(item.text)
-                });
-                return menuStrArr.join('、')
+            //是否挂账
+            formatPay(row){
+                return row.role == 0 ? "正常支付订单" : row.role == 1 ? "挂账订单" : '未知';
             },
-            optPermissions(row) {
-                if (!row || !row.optStr || row.optStr === '[]') return '---';
-                let arr = row.optStr.split(',');
-                let filterArr = [];
-                arr.forEach(item => {
-                    let arr1 = this.optList.filter(item1 => {
-                        return item == item1.value
-                    });
-                    if (arr1.length > 0) {
-                        filterArr.push(arr1[0])
-                    }
-                });
-                if (filterArr.length == 0) {
-                    return '---'
-                }
-                let optStrArr = [];
-                filterArr.forEach(item => {
-                    optStrArr.push(item.text)
-                });
-                return optStrArr.join('、');
+            //金钱格式化
+            moneyFormat(row){
+                if(!row || (!row.totalMoney&&row.totalMoney!=0)) return '---';
+                return (''+ row.totalMoney).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
             },
             //table中的时间格式化
             dateFormat(row, column, cellValue, index) {
@@ -230,7 +210,7 @@
             queryListFn() {
                 let that = this;
                 this.listLoading = true;
-                Api.spaAccountList(
+                Api.spaMemberList(
                     {
                         name: this.queryObj.searchKey,
                         status: this.queryObj.selectKey,
@@ -368,3 +348,8 @@
         }
     };
 </script>
+<style scoped lang="less">
+    .head_pic {
+        border-radius: 50%;
+    }
+</style>
