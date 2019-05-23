@@ -1,0 +1,162 @@
+/**
+ * 校验正则 chali
+ */
+const regList = {
+    // 电话号码
+    phone: /^1(3|4|5|7|8)\d{9}$/,
+    //正整数正则
+    posPattern: /^\d+$/,
+    //负整数正则
+    negPattern: /^-\d+$/,
+    //整数正则
+    intPattern: /^-?\d+$/,
+    // 不为空
+    required: /\S/,
+
+
+}
+
+/**
+ * 校验提示语
+ */
+const msgList = {
+    // 电话号码
+    phone: "请输入正确的手机号码",
+    //正整数正则
+    posPattern: /^\d+$/,
+    //负整数正则
+    negPattern: /^-\d+$/,
+    //整数正则
+    intPattern: /^-?\d+$/,
+    // 不为空
+    required: "必填！不能为空！",
+
+
+}
+
+// 规则构造器
+function Rule(ruleName, ruleValue, ruleMsg) {
+    this.ruleName = ruleName;
+    this.ruleValue = ruleValue;
+    this.ruleMsg = ruleMsg;
+}
+// 挂在vue实例上面$va
+function createVa(vm, domSelector) {
+    let va = {
+        ruleListRank: [],
+        forms: {},
+        checkRule: checkRule,
+        checkAll: checkAll
+    }
+    if (vm.$va) {
+        return vm.$va;
+    } else {
+        vm.$va = va;
+        return vm.$va;
+    }
+}
+// va构造器挂在vue实例上面$va的forms上面
+function VaForm(el, finalRule) {
+    this.dom = el;
+    this.rules = finalRule;
+}
+// 断言函数
+function assert(condition, message) {
+    if (!condition) {
+        console.error('[validator-warn]:' + message)
+    }
+}
+// 挂载va上的方法================================================>
+// 校验表单的全部字段
+function checkAll() {
+    let ruleListRank = this.ruleListRank;
+    let forms = this.forms;
+    let checkRule = this.checkRule;
+    for (let name of ruleListRank) {
+        let dom = forms[name].dom;
+        let rules = forms[name].rules;
+        let errorObj = checkRule(dom, rules);
+        if (errorObj.showErrorMessage === true) {
+            break;
+        }
+    }
+    return errorObj;
+}
+// 校验表单的一个字段的第一个报错信息
+function checkRule(dom, rules) {debugger
+    let value = dom.value;
+    let errorObj = {
+        errorMessage: "",
+        showErrorMessage: false,
+    };
+
+    //   是否有校验事件
+    if (!rules) {
+        return errorObj;
+    }
+    let keys = rules.trim().split(" ");
+    //   是否有校验事件
+    if (!keys.length) {
+        return errorObj;
+    }
+    //存在校验规则
+    for (let i = 0; i < keys.length; i++) {
+        let key = keys[i];
+        errorObj.showErrorMessage = !regList[key].test(value);
+        if (errorObj.showErrorMessage) {
+            errorObj.errorMessage = msgList[key];
+            break;
+        }
+    }
+    return errorObj;
+}
+/**
+ * 初始化
+ * 
+ */
+let installed = false;
+function plugin(Vue, options) {
+    if (installed) {
+        assert(installed, 'already installed');
+        return;
+    }
+    Vue.directive('validator', {
+        bind: function (el, binding, vnode) {
+            debugger
+            // el = el.children[0] || el;
+            let vm = vnode.context; // 基本的校验规则
+            let finalRule = []; // 最终的校验规则
+            let domSelector = binding.arg || el.getAttribute('id');
+            let rules = binding.value || '';// 特殊配置（允许非空，编辑新增共用等）
+            let options = rules.split(" ") || [];
+            assert(domSelector, 'not set id or binding.arg');
+            let va = createVa(vm, domSelector);// 单例模式创建va，绑定在vm上
+            va.ruleListRank.push(domSelector);// 表单检验的顺序
+            for (let option of options) {
+                if (typeof option === 'object') {
+                    // 用户自定义的校验规则
+                    let ruleName = Object.keys(option)[0];
+                    let ruleValue = option[ruleName] || regList[ruleName];
+                    let ruleMsg = option[ruleMsg] || msgList[ruleName];
+                    assert(ruleValue, domSelector + " selector's " + ruleName + ' not set verification mode')
+                    finalRule.push(new Rule(ruleName, ruleValue, ruleMsg));
+                } else {
+                    // 配置项定义的校验规则
+                    if (regList[option]) {
+                        finalRule.push(new Rule(option, regList[option], msgList[option]));
+                    }
+                }
+            }
+            let vaForm = new VaForm(el, finalRule);
+            va.forms[domSelector] = vaForm
+        }
+    })
+    installed = true;
+}
+// 自动注册vue
+if (typeof window !== 'undefined' && window.Vue) {
+    window.Vue.use(plugin);
+}
+export default {
+    install: plugin
+}
