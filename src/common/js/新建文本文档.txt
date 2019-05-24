@@ -1,164 +1,90 @@
-/**
- * Ğ£ÑéÕıÔò chali
+
+    /**
+ * æ ¡éªŒæ­£åˆ™ chali
  */
-const regList = {
-    // µç»°ºÅÂë
+const validator = {
+    // ç”µè¯å·ç 
     phone: /^1(3|4|5|7|8)\d{9}$/,
-    //ÕıÕûÊıÕıÔò
+    //æ­£æ•´æ•°æ­£åˆ™
     posPattern: /^\d+$/,
-    //¸ºÕûÊıÕıÔò
+    //è´Ÿæ•´æ•°æ­£åˆ™
     negPattern: /^-\d+$/,
-    //ÕûÊıÕıÔò
+    //æ•´æ•°æ­£åˆ™
     intPattern: /^-?\d+$/,
-    // ²»Îª¿Õ
+    // ä¸ä¸ºç©º
     required: /\S/,
 
 
 }
 
 /**
- * Ğ£ÑéÌáÊ¾Óï
+ * æ ¡éªŒæç¤ºè¯­
  */
-const msgList = {
-    // µç»°ºÅÂë
-    phone: "ÇëÊäÈëÕıÈ·µÄÊÖ»úºÅÂë",
-    //ÕıÕûÊıÕıÔò
+const errorMessage = {
+    // ç”µè¯å·ç 
+    phone: "è¯·è¾“å…¥æ­£ç¡®çš„æ‰‹æœºå·ç ",
+    //æ­£æ•´æ•°æ­£åˆ™
     posPattern: /^\d+$/,
-    //¸ºÕûÊıÕıÔò
+    //è´Ÿæ•´æ•°æ­£åˆ™
     negPattern: /^-\d+$/,
-    //ÕûÊıÕıÔò
+    //æ•´æ•°æ­£åˆ™
     intPattern: /^-?\d+$/,
-    // ²»Îª¿Õ
-    required: "±ØÌî£¡²»ÄÜÎª¿Õ£¡",
+    // ä¸ä¸ºç©º
+    required: "å¿…å¡«ï¼ä¸èƒ½ä¸ºç©ºï¼",
 
 
 }
-
-// ¹æÔò¹¹ÔìÆ÷
-function Rule(ruleName, ruleValue, ruleMsg) {
-    this.ruleName = ruleName;
-    this.ruleValue = ruleValue;
-    this.ruleMsg = ruleMsg;
-}
-// ¹ÒÔÚvueÊµÀıÉÏÃæ$va
-function createVa(vm, domSelector) {
-    let va = {
-        ruleListRank: [],
-        forms: {},
-        checkRule: checkRule,
-        checkAll: checkAll
-    }
-    if (vm.$va) {
-        return vm.$va;
-    } else {
-        vm.$va = va;
-        return vm.$va;
-    }
-}
-// va¹¹ÔìÆ÷¹ÒÔÚvueÊµÀıÉÏÃæ$vaµÄformsÉÏÃæ
-function VaForm(el, finalRule) {
-    this.dom = el;
-    this.rules = finalRule;
-}
-// ¶ÏÑÔº¯Êı
-function assert(condition, message) {
-    if (!condition) {
-        console.error('[validator-warn]:' + message)
-    }
-}
-// ¹ÒÔØvaÉÏµÄ·½·¨================================================>
-// Ğ£Ñé±íµ¥µÄÈ«²¿×Ö¶Î
-function checkAll() {
-    let ruleListRank = this.ruleListRank;
-    let forms = this.forms;
-    let checkRule = this.checkRule;
-    for (let name of ruleListRank) {
-        let dom = forms[name].dom;
-        let rules = forms[name].rules;
-        let errorObj = checkRule(dom, rules);
-        if (errorObj.showErrorMessage === true) {
-            break;
-        }
-    }
-    return errorObj;
-}
-// Ğ£Ñé±íµ¥µÄÒ»¸ö×Ö¶ÎµÄµÚÒ»¸ö±¨´íĞÅÏ¢
-function checkRule(dom, rules) {debugger
-    let value = dom.value;
+const ValidatorFn = function (rules, value) {
     let errorObj = {
         errorMessage: "",
         showErrorMessage: false,
     };
 
-    //   ÊÇ·ñÓĞĞ£ÑéÊÂ¼ş
+    //   æ˜¯å¦æœ‰æ ¡éªŒäº‹ä»¶
     if (!rules) {
         return errorObj;
     }
     let keys = rules.trim().split(" ");
-    //   ÊÇ·ñÓĞĞ£ÑéÊÂ¼ş
+    //   æ˜¯å¦æœ‰æ ¡éªŒäº‹ä»¶
     if (!keys.length) {
         return errorObj;
     }
-    //´æÔÚĞ£Ñé¹æÔò
+    //å­˜åœ¨æ ¡éªŒè§„åˆ™
     for (let i = 0; i < keys.length; i++) {
         let key = keys[i];
-        errorObj.showErrorMessage = !regList[key].test(value);
+        errorObj.showErrorMessage = !validator[key].test(value);
         if (errorObj.showErrorMessage) {
-            errorObj.errorMessage = msgList[key];
-            break;
+            errorObj.errorMessage = errorMessage[key];
+            break; 
         }
     }
     return errorObj;
 }
-/**
- * ³õÊ¼»¯
- * 
- */
-let installed = false;
-function plugin(Vue, options) {
-    if (installed) {
-        assert(installed, 'already installed');
-        return;
-    }
-    Vue.directive('validator', {
-        bind: function (el, binding, vnode) {
-            debugger
-            // el = el.children[0] || el;
-            let vm = vnode.context; // »ù±¾µÄĞ£Ñé¹æÔò
-            let finalRule = []; // ×îÖÕµÄĞ£Ñé¹æÔò
-            let domSelector = binding.arg || el.getAttribute('id');
-            let rules = binding.value || '';// ÌØÊâÅäÖÃ£¨ÔÊĞí·Ç¿Õ£¬±à¼­ĞÂÔö¹²ÓÃµÈ£©
-            let options = rules.split(" ") || [];
-            assert(domSelector, 'not set id or binding.arg');
-            let va = createVa(vm, domSelector);// µ¥ÀıÄ£Ê½´´½¨va£¬°ó¶¨ÔÚvmÉÏ
-            va.ruleListRank.push(domSelector);// ±íµ¥¼ìÑéµÄË³Ğò
-            for (let option of options) {
-                if (typeof option === 'object') {
-                    // ÓÃ»§×Ô¶¨ÒåµÄĞ£Ñé¹æÔò
-                    let ruleName = Object.keys(option)[0];
-                    let ruleValue = option[ruleName] || regList[ruleName];
-                    let ruleMsg = option[ruleMsg] || msgList[ruleName];
-                    assert(ruleValue, domSelector + " selector's " + ruleName + ' not set verification mode')
-                    finalRule.push(new Rule(ruleName, ruleValue, ruleMsg));
-                } else {
-                    // ÅäÖÃÏî¶¨ÒåµÄĞ£Ñé¹æÔò
-                    if (regList[option]) {
-                        finalRule.push(new Rule(option, regList[option], msgList[option]));
-                    }
-                }
+  function plugin (Vue, options) {
+    Vue.prototype.$checkAll = function(){
+        let $allNeedCheck = $("div[rules]");
+        let errorObj = {
+            errorMessage: "",
+            showErrorMessage: false,
+        };
+        for(let i=0;$allNeedCheck && i<$allNeedCheck.length;i++){
+            let $ruleDom = $($allNeedCheck[i]);
+            let $input = $ruleDom.find("input");
+            let value = $input.val().trim;
+            let rules = $ruleDom.getAttribute('rules');
+            errorObj = ValidatorFn(rules,value);
+            if(errorObj.showErrorMessage){
+                $input.blur();
+                break;
             }
-            let vaForm = new VaForm(el, finalRule);
-            va.forms[domSelector] = vaForm
         }
-    })
-    installed = true;
-}
-// ×Ô¶¯×¢²ávue
-if (typeof window !== 'undefined' && window.Vue) {
-    window.Vue.use(plugin);
-}
-export default {
+        return errorObj;
+    }
+  }
+  // è‡ªåŠ¨æ³¨å†Œvue
+  if (typeof window !== 'undefined' && window.Vue) {
+    window.Vue.use(plugin)
+  }
+  export default {
     install: plugin
-}
-
-https://www.jianshu.com/p/2a19c05e495a
+  }
