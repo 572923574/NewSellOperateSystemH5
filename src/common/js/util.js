@@ -63,7 +63,7 @@ export default {
     formatStatus: function (status, statusList) {
         statusList = statusList || STATUS_LIST;
         let statusStr = "正常";
-        statusList.map(item => {debugger
+        statusList.map(item => {
             if (item.value == status) {
                 statusStr = item.label;
             }
