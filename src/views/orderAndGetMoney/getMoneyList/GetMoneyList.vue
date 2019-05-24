@@ -98,7 +98,7 @@ export default {
      * 日期转化
      */
     formatDate: function(row) {
-      return Util.formatDate.format(row.createTime,'yyyy-MM-dd hh:mm:ss');
+      return Util.formatDate.format(row.createTime, "yyyy-MM-dd hh:mm:ss");
     },
     handleCurrentChange(val) {
       this.page = val;

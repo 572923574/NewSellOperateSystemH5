@@ -1,57 +1,47 @@
 <template>
-<!-- 商品类型 -->
-    <section>
-        <!--工具条-->
-        <TableQuery :queryObj="queryObj" @queryListFn="queryListFn" @addFn="addFn"></TableQuery>
-        <!--列表-->
-        <el-table
-            :data="dataList"
-            highlight-current-row
-            v-loading="listLoading"
-            @selection-change="selsChange"
-            style="width: 100%;"
-        >
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="typeNo" label="编号" width="120" sortable></el-table-column>
-            <el-table-column prop="typeName" label="名称" width="120" sortable></el-table-column>
-            <el-table-column
-                prop="status"
-                label="状态"
-                width="100"
-                :formatter="formatStatus"
-                sortable
-            ></el-table-column>
-            <el-table-column label="操作" width="150">
-                <template scope="scope">
-                    <el-button size="small" @click="editClick(scope.$index, scope.row)">编辑</el-button>
-                    <el-button
-                        type="danger"
-                        size="small"
-                        @click="delClick(scope.$index, scope.row)"
-                    >删除</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-        <!--工具条-->
-        <el-col :span="24" class="toolbar">
-            <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
-            <el-pagination
-                layout="prev, pager, next"
-                @current-change="handleCurrentChange"
-                :page-size="20"
-                :total="total"
-                style="float:right;"
-            ></el-pagination>
-        </el-col>
-        <!--新增、编辑界面-->
-        <Dialog :dialogData="dialogData" ref="Dialog" @emitSaveFn="saveFn">
-            <eidtForm slot="dialogContent" :propsData="propsData">我是呵呵</eidtForm>
-        </Dialog>
-    </section>
+  <!-- 商品类型 -->
+  <section>
+    <!--工具条-->
+    <TableQuery :queryObj="queryObj" @queryListFn="queryListFn" @addFn="addFn"></TableQuery>
+    <!--列表-->
+    <el-table
+      :data="dataList"
+      highlight-current-row
+      v-loading="listLoading"
+      @selection-change="selsChange"
+      style="width: 100%;"
+    >
+      <el-table-column type="selection" width="55"></el-table-column>
+      <el-table-column prop="typeNo" label="编号" width="120" sortable></el-table-column>
+      <el-table-column prop="typeName" label="名称" width="120" sortable></el-table-column>
+      <el-table-column prop="status" label="状态" width="100" :formatter="formatStatus" sortable></el-table-column>
+      <el-table-column label="操作" width="150">
+        <template scope="scope">
+          <el-button size="small" @click="editClick(scope.$index, scope.row)">编辑</el-button>
+          <el-button type="danger" size="small" @click="delClick(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!--工具条-->
+    <el-col :span="24" class="toolbar">
+      <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
+      <el-pagination
+        layout="prev, pager, next"
+        @current-change="handleCurrentChange"
+        :page-size="20"
+        :total="total"
+        style="float:right;"
+      ></el-pagination>
+    </el-col>
+    <!--新增、编辑界面-->
+    <Dialog :dialogData="dialogData" ref="Dialog" @emitSaveFn="saveFn">
+      <eidtForm slot="dialogContent" :propsData="propsData">我是呵呵</eidtForm>
+    </Dialog>
+  </section>
 </template>
 <script>
-import eidtForm from '@/components/form/GoodsTypeForm.vue';
-// import util from "@/common/js/util.js";
+import eidtForm from "@/components/form/GoodsTypeForm.vue";
+import Util from "@/common/js/util.js";
 import Api from "@/common/api/api.js";
 import Dialog from "@/components/dialog/Dialog.vue";
 import TableQuery from "@/components/headQuery/TableQuery.vue";
@@ -66,7 +56,19 @@ export default {
       //查询条件
       queryObj: {
         searchKey: "",
-        searchText:"名称或编号"
+        searchText: "名称或编号",
+        showSelect: true,
+        selectKey: "0",
+        selectList: [
+          {
+            value: "0",
+            label: "正常"
+          },
+          {
+            value: "-1",
+            label: "删除"
+          }
+        ]
       },
       dialogData: {
         title: "新增商品类型" //显示弹框
@@ -83,18 +85,18 @@ export default {
         appid: null,
         typeName: null,
         typeNo: null,
-        status: "0",
-      },
+        status: "0"
+      }
     };
   },
-  
+
   beforeMount() {
     this.queryListFn();
   },
   methods: {
     //状态显示转换
     formatStatus: function(row) {
-      return row.sex == 1 ? "男" : row.sex == 0 ? "女" : "未知";
+      return Util.formatStatus(row.status, this.queryObj.selectList);
     },
     handleCurrentChange(val) {
       this.page = val;
@@ -107,7 +109,8 @@ export default {
       Api.goodsTypeList(
         {
           typeName: this.queryObj.searchKey,
-          typeNo: this.queryObj.searchKey
+          typeNo: this.queryObj.searchKey,
+          status: this.queryObj.selectKey
         },
         resp => {
           that.btnLoad = false;
@@ -134,7 +137,7 @@ export default {
           this.listLoading = true;
           Api.goodsTypeDelete(
             [row],
-            (resp)=> {
+            resp => {
               this.dataList = resp.body;
               this.$message({
                 message: "删除成功",
@@ -142,7 +145,8 @@ export default {
               });
 
               this.listLoading = false;
-            },()=>{
+            },
+            () => {
               this.listLoading = false;
             },
             that
@@ -172,13 +176,13 @@ export default {
     //显示编辑界面
     editClick: function(index, row) {
       // 编辑
-      this.dialogData.title="编辑商品类型";
+      this.dialogData.title = "编辑商品类型";
       this.propsData = Object.assign({}, row);
       this.$refs.Dialog.show();
     },
     //显示新增界面
     addFn: function() {
-      this.dialogData.title="新增商品类型";
+      this.dialogData.title = "新增商品类型";
       this.$refs.Dialog.show();
       this.propsData = Object.assign({}, this.$options.data().propsData); //重置数组
     },
@@ -194,7 +198,7 @@ export default {
           this.listLoading = true;
           Api.goodsTypeDelete(
             this.sels,
-            (resp)=> {
+            resp => {
               this.dataList = resp.body;
               this.$message({
                 message: "删除成功",
@@ -202,7 +206,8 @@ export default {
               });
 
               this.listLoading = false;
-            },()=>{
+            },
+            () => {
               this.listLoading = false;
             },
             this
@@ -210,6 +215,6 @@ export default {
         })
         .catch(() => {});
     }
-  },
+  }
 };
 </script>

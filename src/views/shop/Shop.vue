@@ -8,10 +8,8 @@
       :data="dataList"
       highlight-current-row
       v-loading="listLoading"
-      @selection-change="selsChange"
       style="width: 100%;"
     >
-      <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="name" label="名称" width="120" sortable></el-table-column>
       <el-table-column prop="createTime" label="创建日期" width="120" :formatter="formatDate" sortable></el-table-column>
       <el-table-column prop="endDate" label="失效日期" width="120" :formatter="formatEndDate" sortable></el-table-column>
@@ -73,7 +71,6 @@ export default {
       total: 0, //总共数据
       page: 1, //页
       listLoading: false,
-      sels: [], //列表选中列
       //编辑界面数据
       propsData: {
         id: null,
@@ -203,35 +200,6 @@ export default {
       this.dialogData.title = "新增商品类型";
       this.$refs.Dialog.show();
       this.propsData = Object.assign({}, this.$options.data().propsData); //重置数组
-    },
-    selsChange: function(sels) {
-      this.sels = sels;
-    },
-    //批量删除
-    batchRemove: function() {
-      this.$confirm("确认删除选中记录吗？", "提示", {
-        type: "warning"
-      })
-        .then(() => {
-          this.listLoading = true;
-          Api.goodsTypeDelete(
-            this.sels,
-            resp => {
-              this.refeshData(resp.body);
-              this.$message({
-                message: "删除成功",
-                type: "success"
-              });
-
-              this.listLoading = false;
-            },
-            () => {
-              this.listLoading = false;
-            },
-            this
-          );
-        })
-        .catch(() => {});
     },
     //刷新数据
     refeshData(data) {
