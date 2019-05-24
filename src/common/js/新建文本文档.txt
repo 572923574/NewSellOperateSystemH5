@@ -79,7 +79,8 @@ const ValidatorFn = function (rules, value) {
             }
         }
         return errorObj;
-    }
+    };
+    Vue.prototype.$ValidatorFn = ValidatorFn;
   }
   // 自动注册vue
   if (typeof window !== 'undefined' && window.Vue) {

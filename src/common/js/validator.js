@@ -1,6 +1,7 @@
+
 /**
- * 校验正则 chali
- */
+* 校验正则 chali
+*/
 const validator = {
     // 电话号码
     phone: /^1(3|4|5|7|8)\d{9}$/,
@@ -54,10 +55,37 @@ const ValidatorFn = function (rules, value) {
         errorObj.showErrorMessage = !validator[key].test(value);
         if (errorObj.showErrorMessage) {
             errorObj.errorMessage = errorMessage[key];
-            break; 
+            break;
         }
     }
     return errorObj;
 }
-
-export default ValidatorFn;
+function plugin(Vue, options) {
+    Vue.prototype.$checkAll = function () {
+        let $allNeedCheck = $("input[rules]");
+        let errorObj = {
+            errorMessage: "",
+            showErrorMessage: false,
+        };
+        for (let i = 0; $allNeedCheck && i < $allNeedCheck.length; i++) {
+            let $ruleDom = $($allNeedCheck[i]);
+            // let $input = $ruleDom.find("input");
+            let value = $ruleDom.val().trim();
+            let rules = $ruleDom.attr("rules");
+            errorObj = ValidatorFn(rules, value);
+            if (errorObj.showErrorMessage) {
+                $ruleDom.trigger("blur");
+                break;
+            }
+        }
+        return errorObj;
+    };
+    Vue.prototype.$ValidatorFn = ValidatorFn;
+}
+// 自动注册vue
+if (typeof window !== 'undefined' && window.Vue) {
+    window.Vue.use(plugin)
+}
+export default {
+    install: plugin
+}

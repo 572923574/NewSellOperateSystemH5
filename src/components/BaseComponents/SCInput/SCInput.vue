@@ -4,14 +4,15 @@
       :class="showErrorMessage?'SCInputClass errorBoder':'SCInputClass' "
       v-model="inputItem"
       :placeholder="placeholder"
-      @blur="inputBlurFn"
+      @blur.native="inputBlurFn"
+      :rules="rules"
     ></el-input>
     <div class="errorMessage" v-if="showErrorMessage">{{errorMessage}}</div>
   </div>
 </template>
 <script>
 // 校验文件 方法
-import ValidatorFn from "@/common/js/validator";
+// import ValidatorFn from "@/common/js/validator";
 export default {
   data() {
     return {
@@ -37,12 +38,17 @@ export default {
       this.$emit("update:inputData", val);
     }
   },
+  mounted: function() {
+    $(this.$el)
+      .find("input")
+      .on("blur", this.inputBlurFn);
+  },
   methods: {
     /**
      * 失去焦点时校验
      */
     inputBlurFn: function() {
-      let errorObj = ValidatorFn(this.rules, this.inputItem);
+      let errorObj = this.$ValidatorFn(this.rules, this.inputItem);
       this.errorMessage = errorObj.errorMessage; //错误提示语
       this.showErrorMessage = errorObj.showErrorMessage; //校验是否失败
     }
@@ -54,12 +60,12 @@ export default {
   height: 50px;
   .SCInputClass {
     input {
-    //   height: 30px;
+      //   height: 30px;
     }
     height: 40px;
   }
-  .SCInputClass.errorBoder input{
-      border: 1px solid red;
+  .SCInputClass.errorBoder input {
+    border: 1px solid red;
   }
   .errorMessage {
     height: 20px;
