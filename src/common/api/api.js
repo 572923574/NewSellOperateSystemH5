@@ -270,7 +270,7 @@ let Api = {
         requestFn(method, url, data, callback, error, that, loading);
     },
     spaMemberSave: function (data, callback, error, that, loading, method) {
-        // 新增或者编辑会员
+        // 修改会员推荐人
         let url = "/member/recommendPeopleUpdate";
         requestFn(method, url, data, callback, error, that, loading);
     },

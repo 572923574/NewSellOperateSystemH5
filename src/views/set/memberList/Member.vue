@@ -47,7 +47,7 @@
                     label="推荐可用金额"
                     width="140"
                     sortable
-                    :formatter="moneyFormat"
+                    :formatter="moneyFormat1"
             ></el-table-column>
             <el-table-column
                     prop="afterPay"
@@ -103,14 +103,14 @@
         },
         data() {
             return {
-                isShowDelBtn: true,
-                avatarUrl2: null,
+                isShowDelBtn: false,
+                avatarUrl: null,
                 showCropper: true,
                 //查询条件
                 queryObj: {
                     searchKey: "",
                     selectKey: "0",
-                    searchText: "名称查询",
+                    searchText: "手机号查询",
                     showSelect: false,
                     selectList: [{
                         value: '0',
@@ -123,6 +123,7 @@
                         label: '删除',
                     }
                     ],
+                    hideAdd: true
                 },
                 dialogData: {
                     title: "新增账号", //显示弹框
@@ -133,25 +134,25 @@
                 sels: [], //列表选中列
                 //编辑界面数据
                 accountData: {
-                    id: null,
-                    eid: null,
-                    appid: null,
-                    name: null,
-                    startTime: null,
-                    endTime: null,
-                    totalNum: 0,
-                    oddNum: 0,
-                    useType: "0",
-                    useKey: null,
-                    maxMoney: null,
-                    preFee: null,
-                    num: null,
-                    discount: null,
-                    type: null,
-                    describeText: null,
-                    status: "0",
-                    menuStr: [],
-                    optStr: [],
+                    "id": null,
+                    "eid": null,
+                    "appid": null,
+                    "name": null,
+                    "avatarUrl": null,
+                    "mobile": null,
+                    "totalMoney": null,
+                    "balance": null,
+                    "recommendOneId": null,
+                    "recommendTwoId": null,
+                    "recommendThreeId": null,
+                    "createTime": null,
+                    "unionid": null,
+                    "js_code": null,
+                    "session_key": null,
+                    "afterPay": null,
+                    "openid": null,
+                    "memberAddress": null,
+                    "status": null
                 },
                 //操作权限
                 optList: [
@@ -184,12 +185,16 @@
         methods: {
             //是否挂账
             formatPay(row){
-                return row.role == 0 ? "正常支付订单" : row.role == 1 ? "挂账订单" : '未知';
+                return row.afterPay == 0 && row.afterPay != '' ? "正常支付订单" : row.afterPay === 1 ? "挂账订单" : '';
             },
             //金钱格式化
             moneyFormat(row){
-                if(!row || (!row.totalMoney&&row.totalMoney!=0)) return '---';
+                if(!row || (!row.totalMoney && row.totalMoney != 0)) return '';
                 return (''+ row.totalMoney).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+            },
+            moneyFormat1(row){
+                if(!row || (!row.balance && row.balance != 0)) return '';
+                return (''+ row.balance).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
             },
             //table中的时间格式化
             dateFormat(row, column, cellValue, index) {
@@ -198,11 +203,11 @@
                 const dateMat = new Date(daterc / 1000);
                 return util.formatDate.format(dateMat, 'yyyy-MM-dd hh:mm:ss');
             },
-            //状态显示转换
+             //角色显示转换
             formatRole(row) {
                 return row.role == 0 ? "超级管理员" : row.role == 1 ? "管理员" : row.role == 2 ? "操作员" : '未知';
             },
-            //角色显示转换
+            //状态显示转换
             formatStatus(row) {
                 return row.status == 0 ? "正常" : row.status == 1 ? "禁用" : row.status == -1 ? "删除" : '未知';
             },
@@ -212,13 +217,11 @@
                 this.listLoading = true;
                 Api.spaMemberList(
                     {
-                        name: this.queryObj.searchKey,
-                        status: this.queryObj.selectKey,
+                        mobile: this.queryObj.searchKey,
                     },
                     resp => {
                         that.btnLoad = false;
                         if (resp.result == 0) {
-                            this.queryObj.selectKey == -1 ? this.isShowDelBtn = false : this.isShowDelBtn = true;
                             this.refeshData(resp.body);
                             that.loading = false;
                         }
@@ -265,9 +268,7 @@
             saveFn() {
                 this.listLoading = true;
                 let accountData = Object.assign({}, this.accountData);
-                accountData.optStr = accountData.optStr.join(',')
-                accountData.menuStr = accountData.menuStr.join(',')
-                Api.spaAccountSave(
+                Api.spaMemberSave(
                     accountData,
                     resp => {
                         if (resp.result == 0) {
@@ -287,11 +288,8 @@
             //显示编辑界面
             editClick: function (index, row) {
                 // 编辑
-                this.dialogData.title = "编辑账号";
+                this.dialogData.title = "修改会员推荐人";
                 this.accountData = Object.assign({}, JSON.parse(JSON.stringify(row)));
-
-                this.accountData.menuStr = this.accountData.menuStr.split(',');
-                this.accountData.optStr = this.accountData.optStr.split(',');
                 this.$refs.AccountDialog.show();
             },
             //显示新增界面
