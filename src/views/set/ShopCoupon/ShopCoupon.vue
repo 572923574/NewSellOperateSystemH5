@@ -1,68 +1,58 @@
 <template>
-    <!-- 商户优惠列表 -->
-    <section>
-        <!--工具条-->
-        <TableQuery :queryObj="queryObj" @queryListFn="queryListFn" @addFn="addFn"></TableQuery>
-        <!--列表-->
-        <el-table
-            :data="dataList"
-            highlight-current-row
-            v-loading="listLoading"
-            @selection-change="selsChange"
-            style="width: 100%;"
-        >
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="type" label="类型" width="120" sortable></el-table-column>
-            <el-table-column prop="name" label="名称" width="120" sortable></el-table-column>
-            <el-table-column prop="totalNum" label="优惠劵总数量" width="120" sortable></el-table-column>
-            <el-table-column prop="oddNum" label="优惠券剩余数量" width="120" sortable></el-table-column>
-            <el-table-column prop="useType" label="使用范围" width="120" sortable></el-table-column>
-            <el-table-column prop="useKey" label="对应商品" width="120" sortable></el-table-column>
-            <el-table-column prop="maxMoney" label="达标金额" width="120" sortable></el-table-column>
-            <el-table-column prop="preFee" label="减免金额" width="120" sortable></el-table-column>
-            <el-table-column prop="num" label="达标数量" width="120" sortable></el-table-column>
-            <el-table-column prop="discount" label="优惠折扣" width="120" sortable></el-table-column>
-            <el-table-column prop="describeText" label="优惠描述" width="120" sortable></el-table-column>
-            <el-table-column prop="startTime" label="开始时间" width="120" sortable></el-table-column>
-            <el-table-column prop="endTime" label="结束时间" width="120" sortable></el-table-column>
-            <el-table-column
-                prop="status"
-                label="状态"
-                width="100"
-                :formatter="formatStatus"
-                sortable
-            ></el-table-column>
-            <el-table-column label="操作" width="150">
-                <template scope="scope">
-                    <el-button size="small" @click="editClick(scope.$index, scope.row)">编辑</el-button>
-                    <el-button
-                        type="danger"
-                        size="small"
-                        @click="delClick(scope.$index, scope.row)"
-                    >删除</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-        <!--工具条-->
-        <el-col :span="24" class="toolbar">
-            <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
-            <el-pagination
-                layout="prev, pager, next"
-                @current-change="handleCurrentChange"
-                :page-size="20"
-                :total="total"
-                style="float:right;"
-            ></el-pagination>
-        </el-col>
-        <!--新增、编辑界面-->
-        <Dialog :dialogData="dialogData" ref="GoodsDialog" @emitSaveFn="saveFn">
-            <ShopCouponForm slot="dialogContent" :propsData="propsData">我是呵呵</ShopCouponForm>
-        </Dialog>
-    </section>
+  <!-- 商户优惠列表 -->
+  <section>
+    <!--工具条-->
+    <TableQuery :queryObj="queryObj" @queryListFn="queryListFn" @addFn="addFn"></TableQuery>
+    <!--列表-->
+    <el-table
+      :data="dataList"
+      highlight-current-row
+      v-loading="listLoading"
+      @selection-change="selsChange"
+      style="width: 100%;"
+    >
+      <el-table-column type="selection" width="55"></el-table-column>
+      <el-table-column prop="type" label="类型" width="120" :formatter="formatType" sortable></el-table-column>
+      <el-table-column prop="name" label="名称" width="180" sortable></el-table-column>
+      <el-table-column prop="totalNum" label="优惠劵总数量" width="100" sortable></el-table-column>
+      <el-table-column prop="oddNum" label="优惠券剩余数量" width="100" sortable></el-table-column>
+      <el-table-column prop="useType" label="使用范围" width="120" sortable></el-table-column>
+      <el-table-column prop="useKey" label="对应商品" width="120" sortable></el-table-column>
+      <el-table-column prop="maxMoney" label="达标金额" width="120" sortable></el-table-column>
+      <el-table-column prop="preFee" label="减免金额" width="120" sortable></el-table-column>
+      <el-table-column prop="num" label="达标数量" width="120" sortable></el-table-column>
+      <el-table-column prop="discount" label="优惠折扣" width="120" sortable></el-table-column>
+      <el-table-column prop="describeText" label="优惠描述" width="180" sortable></el-table-column>
+      <el-table-column prop="startTime" label="开始时间" width="160" :formatter="formatDate" sortable></el-table-column>
+      <el-table-column prop="endTime" label="结束时间" width="160" :formatter="formatEndDate" sortable></el-table-column>
+      <el-table-column prop="status" label="状态" width="100" :formatter="formatStatus" sortable></el-table-column>
+      <el-table-column label="操作" width="150">
+        <template scope="scope">
+          <el-button size="small" @click="editClick(scope.$index, scope.row)">编辑</el-button>
+          <el-button type="danger" size="small" @click="delClick(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!--工具条-->
+    <el-col :span="24" class="toolbar">
+      <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
+      <el-pagination
+        layout="prev, pager, next"
+        @current-change="handleCurrentChange"
+        :page-size="20"
+        :total="total"
+        style="float:right;"
+      ></el-pagination>
+    </el-col>
+    <!--新增、编辑界面-->
+    <Dialog :dialogData="dialogData" ref="GoodsDialog" @emitSaveFn="saveFn">
+      <ShopCouponForm slot="dialogContent" :propsData="propsData" :statusList="queryObj.selectList" :typeList="typeList" :useTypeList="useTypeList">我是呵呵</ShopCouponForm>
+    </Dialog>
+  </section>
 </template>
 
 <script>
-// import util from "@/common/js/util.js";
+import Util from "@/common/js/util.js";
 import Api from "@/common/api/api.js";
 import ShopCouponForm from "@/components/form/ShopCouponForm.vue";
 import Dialog from "@/components/dialog/Dialog.vue";
@@ -71,7 +61,7 @@ export default {
   components: {
     Dialog,
     ShopCouponForm,
-    TableQuery,
+    TableQuery
   },
   data() {
     return {
@@ -80,12 +70,43 @@ export default {
       //查询条件
       queryObj: {
         searchKey: "",
-        searchText: "名称查询"
+        searchText: "名称查询",
+        showSelect: true,
+        selectKey: "0",
+        selectList: [
+          {
+            value: "0",
+            label: "正常"
+          },
+          {
+            value: "-1",
+            label: "删除"
+          }
+        ]
       },
       dialogData: {
         title: "新增优惠", //显示弹框
-        half:true,//弹框宽度
+        half: true //弹框宽度
       }, //新增优惠
+      //类型集合
+      typeList: [
+        {
+          value: "0",
+          label: "满金额立减金额"
+        },
+        {
+          value: "1",
+          label: "满金额折扣"
+        },
+        {
+          value: "2",
+          label: "满件数立减金额"
+        },
+        {
+          value: "3",
+          label: "满件数折扣"
+        }
+      ],
       dataList: [], //数据集合
       total: 0, //总共数据
       page: 1, //页
@@ -99,24 +120,59 @@ export default {
         name: null,
         startTime: null,
         endTime: null,
-        totalNum:0,
-        oddNum:0,
-        useType:"0",
-        useKey:null,
+        totalNum: 0,
+        oddNum: 0,
+        useType: "0",
+        useKey: null,
         maxMoney: null,
         preFee: null,
         num: null,
         discount: null,
         type: null,
         describeText: null,
-        status: "0",
-      }
+        status: "0"
+      },
+      //优惠使用范围
+      useTypeList: [
+        {
+          label: "全部商品",
+          value: "0"
+        },
+        {
+          label: "非活动商品",
+          value: "1"
+        },
+        {
+          label: "某类商品",
+          value: "2"
+        },
+        {
+          label: "某个商品",
+          value: "3"
+        }
+      ],
     };
   },
   methods: {
-    //性别显示转换
+    //状态显示转换
     formatStatus: function(row) {
-      return row.sex == 1 ? "男" : row.sex == 0 ? "女" : "未知";
+      return Util.formatStatus(row.status, this.queryObj.selectList);
+    },
+    
+    /**
+     * 格式化类型
+     */
+    formatType: function(row) {
+      return Util.formatStatus(row.type, this.typeList);
+    },
+    /**
+     * 日期转化
+     */
+    formatDate: function(row) {
+      return Util.formatDate.format(row.startTime, "yyyy-MM-dd hh:mm:ss");
+    },
+    formatEndDate: function(row) {
+      return Util.formatDate.format(row.endTime, "yyyy-MM-dd hh:mm:ss");
     },
     handleCurrentChange(val) {
       this.page = val;
@@ -128,7 +184,7 @@ export default {
       this.listLoading = true;
       Api.shopCouponList(
         {
-          name: this.queryObj.searchKey,
+          name: this.queryObj.searchKey
         },
         resp => {
           that.btnLoad = false;

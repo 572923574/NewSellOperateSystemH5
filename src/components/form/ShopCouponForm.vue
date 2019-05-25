@@ -94,8 +94,8 @@
         <!-- 优惠达成条件：满多少钱、满多少件 -->
         <div class="rowItemLabel">{{Label.condition}}</div>
         <el-radio-group v-model="condition" class="conditionClass">
-          <el-radio-button label="1">{{Label.maxMoney}}</el-radio-button>
-          <el-radio-button label="2">{{Label.num}}</el-radio-button>
+          <el-radio-button :disabled="propsData.type >= 2" label="1">{{Label.maxMoney}}</el-radio-button>
+          <el-radio-button :disabled="propsData.type < 2" label="2">{{Label.num}}</el-radio-button>
         </el-radio-group>
         <el-input
           v-if="condition ==1"
@@ -116,8 +116,14 @@
         <!-- 优惠金额、折扣 -->
         <div class="rowItemLabel">{{Label.content}}</div>
         <el-radio-group v-model="content" class="conditionClass">
-          <el-radio-button label="1">{{Label.preFee}}</el-radio-button>
-          <el-radio-button label="2">{{Label.discount}}</el-radio-button>
+          <el-radio-button
+            label="1"
+            :disabled="propsData.type == '1' || propsData.type == '3'"
+          >{{Label.preFee}}</el-radio-button>
+          <el-radio-button
+            label="2"
+            :disabled="propsData.type == '0' || propsData.type == '2'"
+          >{{Label.discount}}</el-radio-button>
         </el-radio-group>
         <el-input
           v-if="content ==1"
@@ -239,51 +245,10 @@ export default {
         totalNum: "请输入优惠券优惠券总数量",
         oddNum: "请输入优惠券优惠券剩余数量"
       },
-      //状态集合
-      statusList: [
-        {
-          value: "0",
-          label: "正常"
-        },
-        {
-          value: "1",
-          label: "禁用"
-        },
-        {
-          value: "-1",
-          label: "删除"
-        }
-      ],
-      typeList: [
-        {
-          label: "满减优惠",
-          value: "0"
-        }
-      ],
-      useTypeList: [
-        {
-          label: "全部商品",
-          value: "0"
-        },
-        {
-          label: "非活动商品",
-          value: "1"
-        },
-        {
-          label: "某类商品",
-          value: "2"
-        },
-        {
-          label: "某个商品",
-          value: "3"
-        }
-      ],
-      condition: 1, //1满金额，2满件数
-      content: 1 //1优惠金额，2优惠折扣
     };
   },
 
-  props: ["propsData"],
+  props: ["propsData", "typeList", "useTypeList", "statusList"],
   computed: {
     useKeyList: {
       get() {
@@ -303,6 +268,26 @@ export default {
       set(newValue) {
         return newValue;
       }
+    },
+    /**
+       * 0:满金额立减金额，
+        1:满金额折扣，
+        2:满件数立减金额，
+        3：满件数折扣
+       */
+    condition: function() {
+      let condition = "2";
+      if (this.propsData.type == "0" || this.propsData.type == "1") {
+        condition = "1";
+      }
+      return condition;
+    },
+    content: function() {
+      let content = "2";
+      if (this.propsData.type == "0" || this.propsData.type == "2") {
+        content = "1";
+      }
+      return content;
     }
   },
   watch: {

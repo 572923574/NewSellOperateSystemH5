@@ -12,16 +12,16 @@
       style="width: 100%;"
     >
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column prop="type" label="类型" width="120" sortable></el-table-column>
-      <el-table-column prop="name" label="名称" width="120" sortable></el-table-column>
-      <el-table-column prop="maxMoney" label="达标金额" width="120" sortable></el-table-column>
-      <el-table-column prop="preFee" label="减免金额" width="120" sortable></el-table-column>
-      <el-table-column prop="num" label="达标数量" width="120" sortable></el-table-column>
-      <el-table-column prop="discount" label="优惠折扣" width="120" sortable></el-table-column>
-      <el-table-column prop="describeText" label="优惠描述" width="120" sortable></el-table-column>
-      <el-table-column prop="startTime" label="开始时间" width="120" :formatter="formatDate" sortable></el-table-column>
-      <el-table-column prop="endTime" label="结束时间" width="120" :formatter="formatEndDate" sortable></el-table-column>
-      <el-table-column prop="status" label="状态" width="100" :formatter="formatStatus" sortable></el-table-column>
+      <el-table-column prop="type" label="类型" width="120" :formatter="formatType" sortable></el-table-column>
+      <el-table-column prop="name" label="名称" width="180" sortable></el-table-column>
+      <el-table-column prop="maxMoney" label="达标金额" width="100" sortable></el-table-column>
+      <el-table-column prop="preFee" label="减免金额" width="100" sortable></el-table-column>
+      <el-table-column prop="num" label="达标数量" width="100" sortable></el-table-column>
+      <el-table-column prop="discount" label="优惠折扣" width="100" sortable></el-table-column>
+      <el-table-column prop="describeText" label="优惠描述" width="180" sortable></el-table-column>
+      <el-table-column prop="startTime" label="开始时间" width="160" :formatter="formatDate" sortable></el-table-column>
+      <el-table-column prop="endTime" label="结束时间" width="160" :formatter="formatEndDate" sortable></el-table-column>
+      <el-table-column prop="status" label="状态" width="80" :formatter="formatStatus" sortable></el-table-column>
       <el-table-column label="操作" width="150">
         <template scope="scope">
           <el-button size="small" @click="editClick(scope.$index, scope.row)">编辑</el-button>
@@ -42,7 +42,7 @@
     </el-col>
     <!--新增、编辑界面-->
     <Dialog :dialogData="dialogData" ref="GoodsDialog" @emitSaveFn="saveFn">
-      <ShopsPreferencetialForm slot="dialogContent" :propsData="propsData">我是呵呵</ShopsPreferencetialForm>
+      <ShopsPreferencetialForm slot="dialogContent" :propsData="propsData" :typeList="typeList">我是呵呵</ShopsPreferencetialForm>
     </Dialog>
   </section>
 </template>
@@ -66,8 +66,39 @@ export default {
       //查询条件
       queryObj: {
         searchKey: "",
-        searchText: "名称查询"
+        searchText: "名称查询",
+        showSelect: true,
+        selectKey: "0",
+        selectList: [
+          {
+            value: "0",
+            label: "正常"
+          },
+          {
+            value: "-1",
+            label: "删除"
+          }
+        ]
       },
+      //类型集合
+      typeList: [
+        {
+          value: "0",
+          label: "满金额立减金额"
+        },
+        {
+          value: "1",
+          label: "满金额折扣"
+        },
+        {
+          value: "2",
+          label: "满件数立减金额"
+        },
+        {
+          value: "3",
+          label: "满件数折扣"
+        }
+      ],
       dialogData: {
         title: "新增优惠", //显示弹框
         half: true //弹框宽度
@@ -101,13 +132,19 @@ export default {
       return Util.formatStatus(row.status, this.queryObj.selectList);
     },
     /**
+     * 格式化类型
+     */
+    formatType: function(row) {
+      return Util.formatStatus(row.type, this.typeList);
+    },
+    /**
      * 日期转化
      */
     formatDate: function(row) {
-      return Util.formatDate.format(row.startTime,'yyyy-MM-dd hh:mm:ss');
+      return Util.formatDate.format(row.startTime, "yyyy-MM-dd hh:mm:ss");
     },
     formatEndDate: function(row) {
-      return Util.formatDate.format(row.endTime,'yyyy-MM-dd hh:mm:ss');
+      return Util.formatDate.format(row.endTime, "yyyy-MM-dd hh:mm:ss");
     },
     handleCurrentChange(val) {
       this.page = val;
@@ -119,7 +156,8 @@ export default {
       this.listLoading = true;
       Api.shopPreferentialList(
         {
-          name: this.queryObj.searchKey
+          name: this.queryObj.searchKey,
+          status: this.queryObj.selectKey
         },
         resp => {
           that.btnLoad = false;

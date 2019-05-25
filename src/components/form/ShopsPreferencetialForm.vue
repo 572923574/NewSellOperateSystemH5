@@ -1,133 +1,143 @@
 <template>
-    <!-- 新增编辑商户优惠 -->
-    <div class="allWidth">
-        <div class="formRow">
-            <div class="formRowItem">
-                <!-- 优惠类型 -->
-                <div class="rowItemLabel">{{Label.type}}</div>
-                <el-select
-                    class="nameInput rowInput"
-                    v-model="propsData.type"
-                    :placeholder="placeholderObj.type"
-                >
-                    <el-option
-                        v-for="type in typeList"
-                        :key="type.value"
-                        :label="type.label"
-                        :value="type.value"
-                    ></el-option>
-                </el-select>
-            </div>
-        </div>
-        <div class="formRow">
-            <div class="formRowItem">
-                <!-- 名称 -->
-                <div class="rowItemLabel">{{Label.name}}</div>
-                <el-input
-                    class="nameInput rowInput"
-                    v-model="propsData.name"
-                    :placeholder="placeholderObj.name"
-                ></el-input>
-            </div>
-        </div>
-        <div class="formRow">
-            <div class="formRowItem">
-                <!-- 优惠达成条件：满多少钱、满多少件 -->
-                <div class="rowItemLabel">{{Label.condition}}</div>
-                <el-radio-group v-model="condition" class="conditionClass">
-                    <el-radio-button label="1">{{Label.maxMoney}}</el-radio-button>
-                    <el-radio-button label="2">{{Label.num}}</el-radio-button>
-                </el-radio-group>
-                <el-input v-if="condition ==1"
-                    class="nameInput rowInput"
-                    v-model="propsData.maxMoney"
-                    :placeholder="placeholderObj.maxMoney"
-                ></el-input>
-                <el-input v-else
-                    class="nameInput rowInput"
-                    v-model="propsData.num"
-                    :placeholder="placeholderObj.num"
-                ></el-input>
-            </div>
-        </div>
-        <div class="formRow">
-            <div class="formRowItem">
-                <!-- 优惠金额、折扣 -->
-                <div class="rowItemLabel">{{Label.content}}</div>
-                <el-radio-group v-model="content" class="conditionClass">
-                    <el-radio-button label="1">{{Label.preFee}}</el-radio-button>
-                    <el-radio-button label="2">{{Label.discount}}</el-radio-button>
-                </el-radio-group>
-                <el-input v-if="content ==1"
-                    class="nameInput rowInput"
-                    v-model="propsData.preFee"
-                    :placeholder="placeholderObj.preFee"
-                ></el-input>
-                <el-input v-else
-                    class="nameInput rowInput"
-                    v-model="propsData.discount"
-                    :placeholder="placeholderObj.discount"
-                ></el-input>
-            </div>
-        </div>
-        <div class="formRow">
-            <div class="formRowItem">
-                <!-- 优惠开始时间 -->
-                <div class="rowItemLabel">{{Label.startTime}}</div>
-                <el-date-picker
-                    class="timeInput rowInput"
-                    v-model="propsData.startTime"
-                    type="date"
-                    :placeholder="placeholderObj.startTime"
-                    format="yyyy 年 MM 月 dd 日 HH:mm:ss"
-                    value-format="timestamp"
-                ></el-date-picker>
-            </div>
-        </div>
-        <div class="formRow">
-            <div class="formRowItem">
-                <!-- 优惠结束时间 -->
-                <div class="rowItemLabel">{{Label.endTime}}</div>
-                <el-date-picker
-                    class="timeInput rowInput"
-                    v-model="propsData.endTime"
-                    type="date"
-                    :placeholder="placeholderObj.endTime"
-                    format="yyyy 年 MM 月 dd 日 HH:mm:ss"
-                    value-format="timestamp"
-                ></el-date-picker>
-            </div>
-        </div>
-        <div class="formRow">
-            <div class="formRowItem">
-                <!-- 描述 -->
-                <div class="rowItemLabel">{{Label.describeText}}</div>
-                <el-input
-                    class="nameInput rowInput"
-                    v-model="propsData.describeText"
-                    :placeholder="placeholderObj.describeText"
-                ></el-input>
-            </div>
-        </div>
-        <div class="formRow" v-if="propsData.id">
-            <div class="formRowItem">
-                <!-- 状态 -->
-                <div class="rowItemLabel">{{Label.status}}</div>
-                <el-select
-                    class="nameInput rowInput"
-                    v-model="propsData.status"
-                    :placeholder="placeholderObj.status"
-                >
-                    <el-option
-                        v-for="item in statusList"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                    ></el-option>
-                </el-select>
-            </div>
-        </div>
+  <!-- 新增编辑商户优惠 -->
+  <div class="allWidth">
+    <div class="formRow">
+      <div class="formRowItem">
+        <!-- 优惠类型 -->
+        <div class="rowItemLabel">{{Label.type}}</div>
+        <el-select
+          class="nameInput rowInput"
+          v-model="propsData.type"
+          :placeholder="placeholderObj.type"
+        >
+          <el-option
+            v-for="type in typeList"
+            :key="type.value"
+            :label="type.label"
+            :value="type.value"
+          ></el-option>
+        </el-select>
+      </div>
     </div>
+    <div class="formRow">
+      <div class="formRowItem">
+        <!-- 名称 -->
+        <div class="rowItemLabel">{{Label.name}}</div>
+        <el-input
+          class="nameInput rowInput"
+          v-model="propsData.name"
+          :placeholder="placeholderObj.name"
+        ></el-input>
+      </div>
+    </div>
+    <div class="formRow">
+      <div class="formRowItem">
+        <!-- 优惠达成条件：满多少钱、满多少件 -->
+        <div class="rowItemLabel">{{Label.condition}}</div>
+        <el-radio-group v-model="condition" class="conditionClass">
+          <el-radio-button :disabled="propsData.type >= 2" label="1">{{Label.maxMoney}}</el-radio-button>
+          <el-radio-button :disabled="propsData.type < 2" label="2">{{Label.num}}</el-radio-button>
+        </el-radio-group>
+        <el-input
+          v-if="condition ==1"
+          class="nameInput rowInput"
+          v-model="propsData.maxMoney"
+          :placeholder="placeholderObj.maxMoney"
+        ></el-input>
+        <el-input
+          v-else
+          class="nameInput rowInput"
+          v-model="propsData.num"
+          :placeholder="placeholderObj.num"
+        ></el-input>
+      </div>
+    </div>
+    <div class="formRow">
+      <div class="formRowItem">
+        <!-- 优惠金额、折扣 -->
+        <div class="rowItemLabel">{{Label.content}}</div>
+        <el-radio-group v-model="content" class="conditionClass">
+          <el-radio-button
+            label="1"
+            :disabled="propsData.type == '1' || propsData.type == '3'"
+          >{{Label.preFee}}</el-radio-button>
+          <el-radio-button
+            label="2"
+            :disabled="propsData.type == '0' || propsData.type == '2'"
+          >{{Label.discount}}</el-radio-button>
+        </el-radio-group>
+        <el-input
+          v-if="content ==1"
+          class="nameInput rowInput"
+          v-model="propsData.preFee"
+          :placeholder="placeholderObj.preFee"
+        ></el-input>
+        <el-input
+          v-else
+          class="nameInput rowInput"
+          v-model="propsData.discount"
+          :placeholder="placeholderObj.discount"
+        ></el-input>
+      </div>
+    </div>
+    <div class="formRow">
+      <div class="formRowItem">
+        <!-- 优惠开始时间 -->
+        <div class="rowItemLabel">{{Label.startTime}}</div>
+        <el-date-picker
+          class="timeInput rowInput"
+          v-model="propsData.startTime"
+          type="date"
+          :placeholder="placeholderObj.startTime"
+          format="yyyy 年 MM 月 dd 日 HH:mm:ss"
+          value-format="timestamp"
+        ></el-date-picker>
+      </div>
+    </div>
+    <div class="formRow">
+      <div class="formRowItem">
+        <!-- 优惠结束时间 -->
+        <div class="rowItemLabel">{{Label.endTime}}</div>
+        <el-date-picker
+          class="timeInput rowInput"
+          v-model="propsData.endTime"
+          type="date"
+          :placeholder="placeholderObj.endTime"
+          format="yyyy 年 MM 月 dd 日 HH:mm:ss"
+          value-format="timestamp"
+        ></el-date-picker>
+      </div>
+    </div>
+    <div class="formRow">
+      <div class="formRowItem">
+        <!-- 描述 -->
+        <div class="rowItemLabel">{{Label.describeText}}</div>
+        <el-input
+          class="nameInput rowInput"
+          v-model="propsData.describeText"
+          :placeholder="placeholderObj.describeText"
+        ></el-input>
+      </div>
+    </div>
+    <div class="formRow" v-if="propsData.id">
+      <div class="formRowItem">
+        <!-- 状态 -->
+        <div class="rowItemLabel">{{Label.status}}</div>
+        <el-select
+          class="nameInput rowInput"
+          v-model="propsData.status"
+          :placeholder="placeholderObj.status"
+        >
+          <el-option
+            v-for="item in statusList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 // import Constant from "@/common/constant/constant.js";
@@ -182,20 +192,33 @@ export default {
           value: "-1",
           label: "删除"
         }
-      ],
-      typeList: [
-        {
-          label: "满减优惠",
-          value: "0"
-        }
-      ],
-      condition: 1, //1满金额，2满件数
-      content: 1 //1优惠金额，2优惠折扣
+      ]
     };
   },
 
-  props: ["propsData"],
-  computed: {},
+  props: ["propsData", "typeList"],
+  computed: {
+    /**
+       * 0:满金额立减金额，
+        1:满金额折扣，
+        2:满件数立减金额，
+        3：满件数折扣
+       */
+    condition: function() {
+      let condition = "2";
+      if (this.propsData.type == "0" || this.propsData.type == "1") {
+        condition = "1";
+      }
+      return condition;
+    },
+    content: function() {
+      let content = "2";
+      if (this.propsData.type == "0" || this.propsData.type == "2") {
+        content = "1";
+      }
+      return content;
+    }
+  },
   beforeMount: function() {
     // 默认选择优惠类型
     this.propsData.type = "0";
@@ -281,8 +304,8 @@ export default {
       float: left;
       margin: 0 10px;
     }
-    .rowInput.timeInput{
-        width: 250px;
+    .rowInput.timeInput {
+      width: 250px;
     }
 
     .optGroup,
