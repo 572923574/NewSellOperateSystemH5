@@ -71,7 +71,8 @@ export default {
         ]
       },
       dialogData: {
-        title: "新增商品类型" //显示弹框
+        title: "新增商品类型", //显示弹框
+        half: true //弹框宽度
       }, //新增商品
       dataList: [], //数据集合
       total: 0, //总共数据

@@ -1,8 +1,13 @@
 import axios from 'axios';
 import store from '@/store'
 
-let winUrl = window.document.location.origin + ":8080/mts-spa/spa"; //文跟路径winUrl = "https://dev.sentree.shop/mts-spa/spa";
-// winUrl = "https://dev.sentree.shop/mts-spa/spa";
+let localPath = "http://localhost";
+//文跟路径winUrl = "https://dev.sentree.shop/mts-spa/spa";
+let winUrl = "https://dev.sentree.shop/mts-spa/spa";
+if (localPath == window.document.location.origin) {
+    winUrl = window.document.location.origin + ":8080/mts-spa/spa"
+}
+
 function requestFn(method, url, data, callback, errorFn, that, loading) {
     let req = {
         body: {},
@@ -235,32 +240,32 @@ let Api = {
         requestFn(method, url, data, callback, error, that, loading);
     },
     passGetMoney:function (data, callback, error, that, loading, method) {
-        // 审核提现单
+        // 审核提现单 
         let url = "/getMoney/passGetMoney";
         requestFn(method, url, data, callback, error, that, loading);
     },
     orderList:function (data, callback, error, that, loading, method) {
-        // 查询提现列表
+        // 查询提 现列表
         let url = "/mallOrder/list";
         requestFn(method, url, data, callback, error, that, loading);
     },
     sendGoods:function (data, callback, error, that, loading, method) {
-        // 查询提现列表
+        // 查询提 现列表
         let url = "/mallOrder/sendGoods";
         requestFn(method, url, data, callback, error, that, loading);
     },
     shopCouponList:function (data, callback, error, that, loading, method) {
-        // 查询提现列表
+        // 查询提现列表 
         let url = "/shopCoupon/list";
         requestFn(method, url, data, callback, error, that, loading);
     },
     shopCouponCreate:function (data, callback, error, that, loading, method) {
-        // 查询提现列表
+        // 查询提现列表 
         let url = "/shopCoupon/edit";
         requestFn(method, url, data, callback, error, that, loading);
     },
     shopCouponDelete:function (data, callback, error, that, loading, method) {
-        // 查询提现列表
+        // 查询提现列表 
         let url = "/shopCoupon/deleteList";
         requestFn(method, url, data, callback, error, that, loading);
     },

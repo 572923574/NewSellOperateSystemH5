@@ -5,14 +5,14 @@
             <div class="formRowItem">
                 <!-- 编号 -->
                 <div class="rowItemLabel">{{Label.no}}</div>
-                <el-input class="nameInput rowInput" v-model="propsData.typeNo" :placeholder="placeholderObj.no"></el-input>
+                <SCInput class="nameInput rowInput" rules="required" v-model="propsData.typeNo" :placeholder="placeholderObj.no"></SCInput>
             </div>
         </div>
         <div class="formRow">
             <div class="formRowItem">
                 <!-- 名称 -->
                 <div class="rowItemLabel">{{Label.name}}</div>
-                <el-input class="nameInput rowInput" v-model="propsData.typeName" :placeholder="placeholderObj.name"></el-input>
+                <SCInput class="nameInput rowInput" rules="required" v-model="propsData.typeName" :placeholder="placeholderObj.name"></SCInput>
             </div>
         </div>
         <div class="formRow" v-if="propsData.id">
