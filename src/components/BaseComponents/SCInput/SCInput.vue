@@ -11,7 +11,7 @@
       @blur.native="inputBlurFn"
       :rules="rules"
     ></el-input>
-    <div class="errorMessage" v-if="showErrorMessage">{{errorMessage}}</div>
+    <div class="errorMessage" v-if="showErrorMessage" :style="{'height':bottomHeight+'px','line-height':bottomHeight+'px'}">{{errorMessage}}</div>
   </div>
 </template>
 <script>
@@ -45,14 +45,14 @@ export default {
     rules: { default: "" }
   },
   watch: {
-    inputData: function(inputData) {
+    inputData: function (inputData) {
       this.inputItem = inputData;
     },
     inputItem(val) {
       this.$emit("update:inputData", val);
     }
   },
-  mounted: function() {
+  mounted: function () {
     $(this.$el)
       .find("input")
       .on("blur", this.inputBlurFn);
@@ -61,7 +61,7 @@ export default {
     /**
      * 失去焦点时校验
      */
-    inputBlurFn: function() {
+    inputBlurFn: function () {
       let errorObj = this.$ValidatorFn(this.rules, this.inputItem);
       this.errorMessage = errorObj.errorMessage; //错误提示语
       this.showErrorMessage = errorObj.showErrorMessage; //校验是否失败
@@ -82,13 +82,15 @@ export default {
     // height: 40px;
   }
   .SCInputClass.errorBoder input {
-    border: 1px solid red;
+    border: 1px solid #e33f4c;
   }
   .errorMessage {
-    height: 20px;
-    line-height: 20px;
     font-size: 12px;
-    color: red;
+    color: #e33f4c;
+    width:100%;
+    text-align: left;
+font-family:MicrosoftYaHei;
+font-weight:400;
   }
 }
 .SCDivClassHeight {
