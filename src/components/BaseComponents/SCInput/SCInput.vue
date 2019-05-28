@@ -1,7 +1,11 @@
 <template>
-  <div :class="showErrorMessage?'SCInputDivClass SCDivClassHeight':'SCInputDivClass' ">
+  <div
+    :class="showErrorMessage?'SCInputDivClass SCDivClassHeight':'SCInputDivClass' "
+    :style="{'height':(inputHeight + bottomHeight)+'px'}"
+  >
     <el-input
       :class="showErrorMessage?'SCInputClass errorBoder':'SCInputClass' "
+      :style="{'height':inputHeight+'px'}"
       v-model="inputItem"
       :placeholder="placeholder"
       @blur.native="inputBlurFn"
@@ -25,6 +29,16 @@ export default {
     //输入框双向绑定的值
     inputData: {
       default: ""
+    },
+    //输入框默认高度
+    inputHeight: {
+      default: 46,
+      type: Number
+    },
+    //底部留白默认高度
+    bottomHeight: {
+      default: 30,
+      type: Number
     },
     placeholder: { default: "" },
     // 校验规则字符串 rules="required phone" 校验手机号码不为空
@@ -60,9 +74,12 @@ export default {
   height: 50px;
   .SCInputClass {
     input {
-      //   height: 30px;
+      height: 100%;
+      background: rgba(255, 255, 255, 1);
+      border: 1px solid rgba(211, 215, 225, 1);
+      border-radius: 4px;
     }
-    height: 40px;
+    // height: 40px;
   }
   .SCInputClass.errorBoder input {
     border: 1px solid red;
