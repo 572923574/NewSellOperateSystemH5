@@ -15,6 +15,7 @@
         :inputData.sync="Account.password"
         :placeholder="textObj.password"
         :inputHeight="46"
+        :inputType="'password'"
         :bottomHeight="30"
         rules="required"
       ></SCInput>
@@ -100,7 +101,7 @@ export default {
   box-sizing: border-box;
   .loginLogo {
     position: fixed;
-    right: 50%;
+    right: calc(50% + 150px);
     background: url("~@/assets/images/login/loginLo.png") no-repeat;
     z-index: 10;
     margin: auto auto;
@@ -118,7 +119,7 @@ export default {
     height: 634px;
   }
   .login-container {
-    margin-left: calc(50% + 20px);
+    margin-left: calc(50% + 40px);
     z-index: 11;
     position: relative;
     transform: translate(0, 190px);

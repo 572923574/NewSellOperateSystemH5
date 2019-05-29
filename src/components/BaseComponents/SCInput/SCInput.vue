@@ -6,6 +6,7 @@
     <el-input
       :class="showErrorMessage?'SCInputClass errorBoder':'SCInputClass' "
       :style="{'height':inputHeight+'px'}"
+      :type="inputType"
       v-model="inputItem"
       :placeholder="placeholder"
       @blur.native="inputBlurFn"
@@ -29,6 +30,10 @@ export default {
     //输入框双向绑定的值
     inputData: {
       default: ""
+    },
+    //输入框类型
+    inputType: {
+      default: 'text',
     },
     //输入框默认高度
     inputHeight: {

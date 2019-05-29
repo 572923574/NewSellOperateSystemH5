@@ -108,24 +108,24 @@ export default {
   },
   methods: {
     //退出登录
-    logout: function() {
+    logout: function () {
       var that = this;
       this.$confirm("确认退出吗?", "提示", {})
         .then(() => {
           that.goLogin();
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     // 退出登录，跳转页面
-    goLogin: function() {
-      Api.loginOut({}, () => {
-        this.$store.commit("setSpaAccount", {});
-        sessionStorage.clear();
-        this.$router.push({ path: "/Login" });
-      });
+    goLogin: function () {
+      //请求接口 清空数据库缓存
+      Api.loginOut();
+      this.$store.commit("setSpaAccount", {});
+      sessionStorage.clear();
+      this.$router.push({ path: "/Login" });
     },
     //折叠导航栏
-    collapseFn: function() {
+    collapseFn: function () {
       this.collapsed = !this.collapsed;
     },
     showMenu(i, status) {
@@ -140,7 +140,7 @@ export default {
       console.log(key, keyPath);
     }
   },
-  mounted() {}
+  mounted() { }
 };
 </script>
 
