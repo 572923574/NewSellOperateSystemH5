@@ -2,7 +2,8 @@
     <!-- 商户优惠列表 -->
     <section>
         <!--工具条-->
-        <TableQuery :queryObj="queryObj" @queryListFn="queryListFn" @addFn="addFn"></TableQuery>
+        <TableQuery ref="TableQuery" :rules="phoneRules" :queryObj="queryObj" @queryListFn="queryListFn"
+                    @addFn="addFn"></TableQuery>
         <!--列表-->
         <el-table
                 :data="dataList"
@@ -51,7 +52,7 @@
             ></el-table-column>
             <el-table-column
                     prop="afterPay"
-                    label="是否挂账"
+                    label="可挂账"
                     width="100"
                     :formatter="formatPay"
                     sortable
@@ -63,7 +64,6 @@
                     :formatter="formatStatus"
                     sortable
             ></el-table-column>
-            <el-table-column prop="memberAddress" label="地址" width="180" sortable></el-table-column>
             <el-table-column label="操作" width="150">
                 <template scope="scope">
                     <el-button size="small" @click="editClick(scope.$index, scope.row)">编辑</el-button>
@@ -77,10 +77,20 @@
                 </template>
             </el-table-column>
         </el-table>
-        <!--工具条-->
         <el-col :span="24" class="toolbar">
-            <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
+            <el-pagination
+                    @current-change="handleCurrentChange"
+                    :current-page.sync="pageNum"
+                    :page-size="20"
+                    layout="total, prev, pager, next"
+                    style="float:right;"
+                    :total="total"
+            ></el-pagination>
         </el-col>
+        <!--工具条-->
+        <!--        <el-col :span="24" class="toolbar">-->
+        <!--            <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>-->
+        <!--        </el-col>-->
         <!--新增、编辑界面-->
         <Dialog :dialogData="dialogData" ref="AccountDialog" @emitSaveFn="saveFn">
             <MemberForm slot="dialogContent" :accountData="accountData"></MemberForm>
@@ -103,6 +113,9 @@
         },
         data() {
             return {
+                phoneRules: 'phone',
+                pageNum: 1,
+                total: 0,
                 isShowDelBtn: false,
                 avatarUrl: null,
                 showCropper: true,
@@ -183,18 +196,22 @@
             };
         },
         methods: {
+            handleCurrentChange(val) {
+                this.pageNum = val;
+                this.queryListFnPage();
+            },
             //是否挂账
-            formatPay(row){
-                return row.afterPay == 0 && row.afterPay != '' ? "正常支付订单" : row.afterPay === 1 ? "挂账订单" : '';
+            formatPay(row) {
+                return row.afterPay == 0 && row.afterPay != '' ? "正常支付订单" : row.afterPay === 1 ? "挂账订单" : '否';
             },
             //金钱格式化
-            moneyFormat(row){
-                if(!row || (!row.totalMoney && row.totalMoney != 0)) return '';
-                return (''+ row.totalMoney).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+            moneyFormat(row) {
+                if (!row || (!row.totalMoney && row.totalMoney != 0)) return '';
+                return ('' + row.totalMoney).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
             },
-            moneyFormat1(row){
-                if(!row || (!row.balance && row.balance != 0)) return '';
-                return (''+ row.balance).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+            moneyFormat1(row) {
+                if (!row || (!row.balance && row.balance != 0)) return '';
+                return ('' + row.balance).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
             },
             //table中的时间格式化
             dateFormat(row, column, cellValue, index) {
@@ -203,7 +220,7 @@
                 const dateMat = new Date(daterc / 1000);
                 return util.formatDate.format(dateMat, 'yyyy-MM-dd hh:mm:ss');
             },
-             //角色显示转换
+            //角色显示转换
             formatRole(row) {
                 return row.role == 0 ? "超级管理员" : row.role == 1 ? "管理员" : row.role == 2 ? "操作员" : '未知';
             },
@@ -211,18 +228,51 @@
             formatStatus(row) {
                 return row.status == 0 ? "正常" : row.status == 1 ? "禁用" : row.status == -1 ? "删除" : '未知';
             },
+
             //查询账号列表
-            queryListFn() {
+
+            queryListFnPage() {
+                let isSerch = this.$refs.TableQuery.$children[0].$children[0].$children[0].$children[1].showErrorMessage;
+                if (!!isSerch) return;
                 let that = this;
                 this.listLoading = true;
                 Api.spaMemberList(
                     {
                         mobile: this.queryObj.searchKey,
+                        pageNum: this.pageNum,
                     },
                     resp => {
                         that.btnLoad = false;
                         if (resp.result == 0) {
                             this.refeshData(resp.body);
+                            this.total = resp.body.length;
+                            that.loading = false;
+                        }
+                        this.listLoading = false;
+                    },
+                    () => {
+                        that.btnLoad = false;
+                        this.listLoading = false;
+                    },
+                    that
+                );
+            },
+            queryListFn() {
+                this.pageNum = 1;
+                let isSerch = this.$refs.TableQuery.$children[0].$children[0].$children[0].$children[1].showErrorMessage;
+                if (!!isSerch) return;
+                let that = this;
+                this.listLoading = true;
+                Api.spaMemberList(
+                    {
+                        mobile: this.queryObj.searchKey,
+                        pageNum: this.pageNum,
+                    },
+                    resp => {
+                        that.btnLoad = false;
+                        if (resp.result == 0) {
+                            this.refeshData(resp.body);
+                            this.total = resp.body.length;
                             that.loading = false;
                         }
                         this.listLoading = false;
