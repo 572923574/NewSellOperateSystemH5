@@ -124,7 +124,7 @@
             <div class="spaImgDiv" v-for="(spaImg,index) in propsData.shopImgs" :key="index">
               <div class="imgDiv">
                 <img :src="spaImg.imgUrl" alt class="spaImg">
-                <div class="deleteImg" @click="deleteImg(spaImg,index)"></div>
+                <i class="deleteImg el-icon-close"  @click="deleteImg(spaImg,index)"></i>
               </div>
               <!-- 选择轮播图对应的商品类型 -->
               <el-select

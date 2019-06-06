@@ -5,22 +5,24 @@
       <div class="formRowItem">
         <!-- 编号 -->
         <div class="rowItemLabel">{{Label.no}}</div>
-        <el-input
+        <SCInput
           class="nameInput rowInput"
-          v-model="propsData.no"
+          :inputData.sync="propsData.no"
+          rules="required"
           :placeholder="placeholderObj.no"
-        ></el-input>
+        ></SCInput>
       </div>
     </div>
     <div class="formRow">
       <div class="formRowItem">
         <!-- 名称 -->
         <div class="rowItemLabel">{{Label.name}}</div>
-        <el-input
+        <SCInput
           class="nameInput rowInput"
-          v-model="propsData.name"
+          :inputData.sync="propsData.name"
+          rules="required"
           :placeholder="placeholderObj.name"
-        ></el-input>
+        ></SCInput>
       </div>
     </div>
 
@@ -47,79 +49,86 @@
       <div class="formRowItem">
         <!-- 初始销售数量 -->
         <div class="rowItemLabel">{{Label.beginSaledNum}}</div>
-        <el-input
+        <SCInput
           class="nameInput rowInput"
-          v-model="propsData.beginSaledNum"
+          rules="required posPattern"
+          :inputData.sync="propsData.beginSaledNum"
           :placeholder="placeholderObj.beginSaledNum"
-        ></el-input>
+        ></SCInput>
       </div>
     </div>
     <div class="formRow" v-if="!!propsData.id">
       <div class="formRowItem">
         <!-- 已售数量 -->
         <div class="rowItemLabel">{{Label.saleNum}}</div>
-        <el-input
+        <SCInput
           class="nameInput rowInput"
-          v-model="propsData.saleNum"
+          :inputData.sync="propsData.saleNum"
+          rules="required posPattern"
           :placeholder="placeholderObj.saleNum"
           :disabled="!!propsData.id"
-        ></el-input>
+        ></SCInput>
       </div>
     </div>
     <div class="formRow">
       <div class="formRowItem">
         <!-- 库存数量 -->
         <div class="rowItemLabel">{{Label.num}}</div>
-        <el-input
+        <SCInput
           class="nameInput rowInput"
-          v-model="propsData.num"
+          :inputData.sync="propsData.num"
+          rules="required posPattern"
           :placeholder="!!propsData.id?placeholderObj.num:placeholderObj.numStart"
           :disabled="!!propsData.id"
-        ></el-input>
+        ></SCInput>
       </div>
     </div>
     <div class="formRow">
       <div class="formRowItem">
         <!-- 商品进货价 -->
         <div class="rowItemLabel">{{Label.buyingPrice}}</div>
-        <el-input
+        <SCInput
           class="nameInput rowInput"
-          v-model="propsData.buyingPrice"
+          rules="required doubleNumber"
+          :inputData.sync="propsData.buyingPrice"
           :placeholder="placeholderObj.buyingPrice"
-        ></el-input>
+        ></SCInput>
       </div>
     </div>
     <div class="formRow">
       <div class="formRowItem">
         <!-- 商品成本价 -->
         <div class="rowItemLabel">{{Label.costPrice}}</div>
-        <el-input
+        <SCInput
           class="nameInput rowInput"
-          v-model="propsData.costPrice"
+          rules="required doubleNumber"
+          :inputData.sync="propsData.costPrice"
           :placeholder="placeholderObj.costPrice"
-        ></el-input>
+        ></SCInput>
       </div>
     </div>
     <div class="formRow">
       <div class="formRowItem">
         <!-- 商品原价 -->
         <div class="rowItemLabel">{{Label.salePrice}}</div>
-        <el-input
+        <SCInput
           class="nameInput rowInput"
-          v-model="propsData.salePrice"
+          rules="required doubleNumber"
+          :inputData.sync="propsData.salePrice"
           :placeholder="placeholderObj.salePrice"
-        ></el-input>
+        ></SCInput>
       </div>
     </div>
     <div class="formRow">
       <div class="formRowItem">
         <!-- 商品优惠售价 -->
         <div class="rowItemLabel">{{Label.preferencePrice}}</div>
-        <el-input
+        <SCInput
           class="nameInput rowInput"
-          v-model="propsData.preferencePrice"
+          rules="required doubleNumber"
+          :inputData.sync="propsData.preferencePrice"
           :placeholder="placeholderObj.preferencePrice"
-        ></el-input>
+        ></SCInput>
       </div>
     </div>
     <div class="formRow" v-if="propsData.id">
@@ -172,11 +181,12 @@
         <div class="rowItemLabel">
           <el-checkbox v-model="propsData.shareEnable" @change="shareEnableChange">启用分享立减</el-checkbox>
         </div>
-        <el-input
+        <SCInput
           class="nameInput rowInput"
-          v-model="propsData.shareReduce"
+          :inputData.sync="propsData.shareReduce"
+          rules="required doubleNumber"
           :placeholder="placeholderObj.shareReduce"
-        ></el-input>元
+        ></SCInput>元
       </div>
     </div>
     <div class="formRow activityRow">
@@ -185,11 +195,12 @@
         <div class="rowItemLabel">
           <el-checkbox v-model="propsData.activityEnable" @change="activityEnableChange">启用限时抢购</el-checkbox>
         </div>
-        <el-input
+        <SCInput
           class="nameInput rowInput"
-          v-model="propsData.activityPrice"
+          :inputData.sync="propsData.activityPrice"
+          rules="required doubleNumber"
           :placeholder="placeholderObj.activityPrice"
-        ></el-input>元
+        ></SCInput>元
       </div>
     </div>
     <!-- 团购 -->
@@ -202,24 +213,26 @@
             @change="groupBuyingEnableChange"
           >启用团购方案</el-checkbox>
         </div>
-        <el-input
+        <SCInput
           class="nameInput rowInput groupBuyingNumber"
-          v-model="propsData.groupBuyingNumber"
+          :inputData.sync="propsData.groupBuyingNumber"
+          rules="required posPattern"
           :placeholder="placeholderObj.groupBuyingNumber"
-        ></el-input>
+        ></SCInput>
         <div class="groupText">人团购价</div>
-        <el-input
+        <SCInput
           class="nameInput rowInput groupBuyingPrice"
-          v-model="propsData.groupBuyingPrice"
+          :inputData.sync="propsData.groupBuyingPrice"
+          rules="required doubleNumber"
           :placeholder="placeholderObj.groupBuyingPrice"
-        ></el-input>
-
+        ></SCInput>
         <div class="groupText">元,</div>
-        <el-input
+        <SCInput
           class="nameInput rowInput groupBuyingTime"
-          v-model="propsData.groupBuyingTime"
+          :inputData.sync="propsData.groupBuyingTime"
+          rules="required posPattern"
           :placeholder="placeholderObj.groupBuyingTime"
-        ></el-input>
+        ></SCInput>
         <div class="groupText">小时内成团,否则</div>
         <el-radio-group v-model="propsData.groupBuyingOverTime" class="groupBuyingOverTimeClass">
           <el-radio-button label="0">自动成团</el-radio-button>
@@ -231,14 +244,15 @@
       <div class="formRowItem">
         <!-- 描述 -->
         <div class="rowItemLabel">{{Label.describeText}}</div>
-        <el-input
+        <SCInput
           class="nameInput rowInput describeText"
-          v-model="propsData.describeText"
+          :inputData.sync="propsData.describeText"
           type="textarea"
+          rules="required"
           maxlength="20"
           rows="1"
           :placeholder="placeholderObj.describeText"
-        ></el-input>
+        ></SCInput>
       </div>
     </div>
     <div class="formRow imageRow">
@@ -261,7 +275,7 @@
               :key="index"
             >
               <img :src="spaImg.imgUrl" alt class="spaImg">
-              <div class="deleteImg" @click="deleteImg(spaImg,index)"></div>
+               <i class="deleteImg el-icon-close"  @click="deleteImg(spaImg,index)"></i>
             </div>
           </div>
         </div>
@@ -287,7 +301,7 @@
               :key="index"
             >
               <img :src="spaImg.imgUrl" alt class="spaImg">
-              <div class="deleteImg" @click="deleteDetailImg(spaImg,index)"></div>
+              <i class="deleteImg el-icon-close"  @click="deleteDetailImg(spaImg,index)"></i>
             </div>
           </div>
         </div>
@@ -377,9 +391,43 @@ export default {
     };
   },
 
-  props: ["propsData"],
+  props: {
+    propsData: {
+      default: {
+        id: null,
+        eid: null,
+        appid: null,
+        name: null,
+        no: null,
+        barCode: null,
+        beginSaledNum: 0, //初始销售数量
+        saleNum: null, //已售数量
+        typeId: null,
+        num: null,
+        buyingPrice: null,
+        costPrice: null,
+        salePrice: null,
+        preferencePrice: null,
+        status: "0",
+        describeText: "请输入商品描述",
+        goodsImgs: [], //商品主图集合
+        goodsDetailImgs: [], //商品详情图集合
+        activityEnable: false, //是否开启抢购
+        activityPrice: "", //活动价、抢购价
+        discountStartTime: "", //营销开始时间
+        discountEndTime: "", //营销结束时间
+        shareEnable: false, //启用分享立减
+        shareReduce: 0, //分享立减
+        groupBuyingEnable: false, //启用团购
+        groupBuyingNumber: 2, //团购人数
+        groupBuyingPrice: 99, //团购价格,
+        groupBuyingTime: 24, //小时,
+        groupBuyingOverTime: "0" //团购超时 0:自动成团，1:自动退款
+      }
+    }
+  },
   computed: {
-    goodsTypeList: function() {
+    goodsTypeList: function () {
       // 商品大类
       let meta = this.$store.state.spaAccount.meta;
       meta = meta || {
@@ -388,18 +436,18 @@ export default {
       return meta.goodsTypeList;
     }
   },
-  beforeMount: function() {
+  beforeMount: function () {
     // 获取单位、规格
     // this.unitList = Constant.unitList;
     // this.specList = Constant.specList;
   },
   methods: {
-    xiuxiuFn: function() {
+    xiuxiuFn: function () {
       this.type = 1;
       this.pixel = "1500:1500";
       this.$refs.xiuxiu.xiuxiuShow();
     },
-    xiuxiuDetailFn: function() {
+    xiuxiuDetailFn: function () {
       this.type = 2;
       this.pixel = "";
       this.$refs.xiuxiu.xiuxiuShow();
@@ -504,14 +552,6 @@ export default {
           position: relative;
           .spaImg {
             width: 150px;
-          }
-          .deleteImg {
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            width: 20px;
-            height: 20px;
-            background-color: red;
           }
         }
       }

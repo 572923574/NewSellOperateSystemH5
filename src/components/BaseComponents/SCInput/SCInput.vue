@@ -5,19 +5,21 @@
   >
     <el-input
       :class="showErrorMessage?'SCInputClass errorBoder':'SCInputClass' "
-      :style="{'height':inputHeight+'px'}"
+      :style="{'height':inputHeight+'px','line-height':inputHeight+'px'}"
       :type="inputType"
       v-model="inputItem"
       :placeholder="placeholder"
       @blur.native="inputBlurFn"
       :rules="rules"
     ></el-input>
-    <div class="errorMessage" v-if="showErrorMessage" :style="{'height':bottomHeight+'px','line-height':bottomHeight+'px'}">{{errorMessage}}</div>
+    <div
+      class="errorMessage"
+      v-if="showErrorMessage"
+      :style="{'height':bottomHeight+'px','line-height':bottomHeight+'px'}"
+    >{{errorMessage}}</div>
   </div>
 </template>
 <script>
-// 校验文件 方法
-// import ValidatorFn from "@/common/js/validator";
 export default {
   data() {
     return {
@@ -37,12 +39,12 @@ export default {
     },
     //输入框默认高度
     inputHeight: {
-      default: 46,
+      default: 40,
       type: Number
     },
     //底部留白默认高度
     bottomHeight: {
-      default: 30,
+      default: 20,
       type: Number
     },
     placeholder: { default: "" },
@@ -58,6 +60,7 @@ export default {
     }
   },
   mounted: function () {
+    this.inputItem = this.inputData;
     $(this.$el)
       .find("input")
       .on("blur", this.inputBlurFn);
@@ -92,10 +95,10 @@ export default {
   .errorMessage {
     font-size: 12px;
     color: #e33f4c;
-    width:100%;
+    width: 100%;
     text-align: left;
-font-family:MicrosoftYaHei;
-font-weight:400;
+    font-family: MicrosoftYaHei;
+    font-weight: 400;
   }
 }
 .SCDivClassHeight {

@@ -52,13 +52,13 @@
             <el-radio-button label="1">不要物流发货</el-radio-button>
           </el-radio-group>
         </div>
-        <el-input
+        <SCInput
           class="flowNoDiv"
           v-model.number="order.flowNo"
           v-if="sendGoodsType == 0"
           placeholder="请输入快递/物流单号"
-          autofocus
-        ></el-input>
+          rules="required posPattern"
+        ></SCInput>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogData.showDialogData = false">取 消</el-button>

@@ -12,7 +12,7 @@
     >
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="no" label="编号" width="120" sortable></el-table-column>
-      <el-table-column prop="name" label="名称" width="120" sortable></el-table-column>
+      <el-table-column prop="name" label="名称" sortable></el-table-column>
       <el-table-column prop="buyingPrice" label="进货价" width="120" sortable></el-table-column>
       <el-table-column prop="costPrice" label="成本价" width="120" sortable></el-table-column>
       <el-table-column prop="salePrice" label="销售原价" width="120" sortable></el-table-column>
@@ -20,7 +20,7 @@
       <el-table-column prop="num" label="库存数量" width="120" sortable></el-table-column>
       <el-table-column prop="saleNum" label="已售数量" width="120" sortable></el-table-column>
       <el-table-column prop="status" label="状态" width="100" :formatter="formatStatus" sortable></el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" width="100">
         <template scope="scope">
           <el-button size="small" @click="editClick(scope.$index, scope.row)">编辑</el-button>
         </template>
@@ -28,7 +28,12 @@
     </el-table>
     <!--工具条-->
     <el-col :span="24" class="toolbar">
-      <el-button type="danger" @click="batchRemove" :disabled="sels.length===0" v-if="queryObj.selectKey !='-1'">批量删除</el-button>
+      <el-button
+        type="danger"
+        @click="batchRemove"
+        :disabled="sels.length===0"
+        v-if="queryObj.selectKey !='-1'"
+      >批量删除</el-button>
       <el-pagination
         @current-change="handleCurrentChange"
         :current-page.sync="pageNum"
@@ -130,7 +135,7 @@ export default {
   },
   methods: {
     //性别显示转换
-    formatStatus: function(row) {
+    formatStatus: function (row) {
       return Util.formatStatus(row.status, this.queryObj.selectList);
     },
     handleCurrentChange(val) {
@@ -184,23 +189,22 @@ export default {
       );
     },
     //显示编辑界面
-    editClick: function(index, row) {
-      // 编辑
+    editClick: function (index, row) {
       this.dialogData.title = "编辑商品";
       this.propsData = Object.assign({}, JSON.parse(JSON.stringify(row)));
       this.$refs.GoodsDialog.show();
     },
     //显示新增界面
-    addFn: function() {
+    addFn: function () {
       this.dialogData.title = "新增商品";
       this.$refs.GoodsDialog.show();
       this.propsData = Object.assign({}, this.$options.data().propsData); //重置数组
     },
-    selsChange: function(sels) {
+    selsChange: function (sels) {
       this.sels = sels;
     },
     //批量删除
-    batchRemove: function() {
+    batchRemove: function () {
       this.$confirm("确认删除选中记录吗？", "提示", {
         type: "warning"
       })
@@ -223,7 +227,7 @@ export default {
             this
           );
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     //刷新数据
     refeshData(data) {

@@ -13,6 +13,8 @@ const validator = {
     intPattern: /^-?\d+$/,
     // 不为空
     required: /\S/,
+    //价格 数字或者小数
+    doubleNumber: /^\d+(\.\d+)?$/,
 
 
 }
@@ -24,14 +26,15 @@ const errorMessage = {
     // 电话号码
     phone: "请输入正确的手机号码",
     //正整数正则
-    posPattern: /^\d+$/,
+    posPattern: "请输入正确的数字",
     //负整数正则
     negPattern: /^-\d+$/,
     //整数正则
     intPattern: /^-?\d+$/,
     // 不为空
     required: "必填！不能为空！",
-
+    //价格
+    doubleNumber:"请输入正确数字",
 
 }
 const ValidatorFn = function (rules, value) {

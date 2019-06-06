@@ -66,7 +66,7 @@ export default {
   margin: 10px 0px;
   .querySelect {
     width: 150px;
-    margin: 0px 10px 10px 0px;
+    margin: 0px 10px 0px 0px;
   }
 }
 </style>

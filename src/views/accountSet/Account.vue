@@ -10,6 +10,8 @@
       v-loading="listLoading"
       @selection-change="selsChange"
       style="width: 100%;"
+      
+      height="calc(100% - 152px)"
     >
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="name" label="名称" width="120" sortable></el-table-column>

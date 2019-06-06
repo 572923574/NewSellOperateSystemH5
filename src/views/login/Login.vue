@@ -10,6 +10,8 @@
         :inputData.sync="Account.mobile"
         :placeholder="textObj.mobile"
         rules="required phone"
+        :inputHeight="46"
+        :bottomHeight="30"
       ></SCInput>
       <SCInput
         :inputData.sync="Account.password"

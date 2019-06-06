@@ -167,7 +167,8 @@
   right: 0px;
   width: 20px;
   height: 20px;
-  background-color: red;
+  color: red;
+  font-size: 20px;
 }
 #app .formPage {
   float: left;
