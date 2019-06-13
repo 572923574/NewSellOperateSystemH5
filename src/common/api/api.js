@@ -279,5 +279,11 @@ let Api = {
         let url = "/member/recommendPeopleUpdate";
         requestFn(method, url, data, callback, error, that, loading);
     },
+    getFlowInfo: function (data, callback, error, that, loading, method) {
+        // 获取物流信息
+        let url = "/FlowInfo/getFlowInfo";
+        requestFn(method, url, data, callback, error, that, loading);
+    },
+    
 }
 export default Api;

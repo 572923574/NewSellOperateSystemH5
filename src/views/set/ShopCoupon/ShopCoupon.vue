@@ -46,7 +46,7 @@
     </el-col>
     <!--新增、编辑界面-->
     <Dialog :dialogData="dialogData" ref="GoodsDialog" @emitSaveFn="saveFn">
-      <ShopCouponForm slot="dialogContent" :propsData="propsData" :statusList="queryObj.selectList" :typeList="typeList" :useTypeList="useTypeList">我是呵呵</ShopCouponForm>
+      <ShopCouponForm slot="dialogContent" :propsData="propsData" :statusList="queryObj.selectList" :typeList="typeList" :useTypeList="useTypeList"></ShopCouponForm>
     </Dialog>
   </section>
 </template>

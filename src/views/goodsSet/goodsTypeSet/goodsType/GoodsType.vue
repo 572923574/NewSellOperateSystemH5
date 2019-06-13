@@ -35,7 +35,7 @@
     </el-col>
     <!--新增、编辑界面-->
     <Dialog :dialogData="dialogData" ref="Dialog" @emitSaveFn="saveFn">
-      <eidtForm slot="dialogContent" :propsData="propsData">我是呵呵</eidtForm>
+      <eidtForm slot="dialogContent" :propsData="propsData"></eidtForm>
     </Dialog>
   </section>
 </template>

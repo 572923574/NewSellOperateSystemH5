@@ -73,6 +73,7 @@ export default {
       let errorObj = this.$ValidatorFn(this.rules, this.inputItem);
       this.errorMessage = errorObj.errorMessage; //错误提示语
       this.showErrorMessage = errorObj.showErrorMessage; //校验是否失败
+      this.$emit("inputChangeFn",this.inputItem)
     }
   }
 };

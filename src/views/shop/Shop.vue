@@ -38,7 +38,7 @@
     <!--新增、编辑界面-->
     <Dialog :dialogData="dialogData" ref="Dialog" @emitSaveFn="saveFn">
       <MobileHome slot="Mobile" :propsData="propsData">手机页面</MobileHome>
-      <eidtForm slot="dialogContent" :propsData="propsData">我是呵呵</eidtForm>
+      <eidtForm slot="dialogContent" :propsData="propsData"></eidtForm>
     </Dialog>
   </section>
 </template>

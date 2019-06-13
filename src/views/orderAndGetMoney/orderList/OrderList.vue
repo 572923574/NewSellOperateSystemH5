@@ -16,7 +16,7 @@
       <el-table-column prop="memberAddress.telNumber" label="购买人手机" width="120" sortable></el-table-column>
       <el-table-column prop="totalMoney" label="订单金额" width="120" sortable></el-table-column>
       <el-table-column prop="realFee" label="支付金额" width="120" sortable></el-table-column>
-      <el-table-column prop="flowNo" label="物流单号" width="120" sortable></el-table-column>
+      <el-table-column prop="flowNo" label="物流单号" width="150" sortable></el-table-column>
       <el-table-column prop="createTime" label="创建时间" width="160" sortable :formatter="formatDate"></el-table-column>
       <el-table-column prop="status" label="状态" width="100" :formatter="formatStatus" sortable></el-table-column>
       <el-table-column label="操作" width="150">
@@ -43,7 +43,12 @@
     </el-col>
 
     <!-- 发货界面 -->
-    <el-dialog :title="dialogData.title" :visible.sync="dialogData.showDialogData" width="30%">
+    <el-dialog
+      :title="dialogData.title"
+      :visible.sync="dialogData.showDialogData"
+      width="30%"
+      :close-on-click-modal="false"
+    >
       <div class="sendDialog">
         <!-- 是否需要发货 -->
         <div class="sendGoodsType">
@@ -58,6 +63,7 @@
           v-if="sendGoodsType == 0"
           placeholder="请输入快递/物流单号"
           rules="required posPattern"
+          @inputChangeFn="inputChangeFn"
         ></SCInput>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -65,7 +71,7 @@
         <el-button
           type="primary"
           @click="sendGoods"
-          :disabled="sendGoodsType == '0'&& !order.flowNo"
+          :disabled="sendGoodsType == '0' && !order.flowNo"
         >确 定 发 货</el-button>
       </span>
     </el-dialog>
@@ -84,6 +90,18 @@
         <el-table-column prop="num" sortable label="数量"></el-table-column>
         <el-table-column prop="totalMoney" sortable label="总价"></el-table-column>
       </el-table>
+      <div
+        class="flowDiv"
+        v-if="this.order.status != queryObj.selectList[2].value && this.order.status != queryObj.selectList[1].value"
+      >
+        <div class="flowTitle">{{textObj.flowTitle}}</div>
+        <div class="flowData">
+          <div class="flowInfoItem" v-for="(item,key) in flowData" :key="key">
+            <div class="flowTime">{{item.time}}</div>
+            <div class="flowContext">{{item.context}}</div>
+          </div>
+        </div>
+      </div>
     </el-dialog>
   </section>
 </template>
@@ -137,7 +155,8 @@ export default {
       },
       textObj: {
         totalMoney: "总金额:",
-        realFee: "实际支付:"
+        realFee: "实际支付:",
+        flowTitle: "物流信息:"
       },
       inOutDepotDetail: {
         title: "订单明细",
@@ -151,7 +170,8 @@ export default {
       sels: [], //列表选中列
       SendGoodsIndex: 0,
       sendGoodsType: 0, //0需要发货 需要快递单号,1不需要
-      order: {}
+      order: {},
+      flowData: [],//物流信息
     };
   },
 
@@ -159,17 +179,21 @@ export default {
     this.queryListFn();
   },
   methods: {
+    //输入框回调事件 输入订单号
+    inputChangeFn: function (value) {
+      this.order.flowNo = value;
+    },
     //状态显示转换
-    formatStatus: function(row) {
+    formatStatus: function (row) {
       return Util.formatStatus(row.status, this.queryObj.selectList);
     },
     /**
      * 日期转化
      */
-    formatDate: function(row) {
-      return Util.formatDate.format(row.createTime,'yyyy-MM-dd hh:mm:ss');
+    formatDate: function (row) {
+      return Util.formatDate.format(row.createTime, 'yyyy-MM-dd hh:mm:ss');
     },
-    formatNum: function(row) {
+    formatNum: function (row) {
       let goodsList = row.goodsList;
       let num = 0;
       goodsList.map(goods => {
@@ -210,7 +234,7 @@ export default {
     },
 
     //显示发货界面
-    showSendGoods: function(index, row) {
+    showSendGoods: function (index, row) {
       this.SendGoodsIndex = index;
       this.order = row;
       this.dialogData.title = row.name ? row.name : "" + "订单发货";
@@ -219,7 +243,7 @@ export default {
     /**
      * 发货
      */
-    sendGoods: function() {
+    sendGoods: function () {
       const loading = this.$loading({
         lock: true,
         text: "Loading",
@@ -236,11 +260,19 @@ export default {
     /**
      * 展示订单明细
      */
-    showDetail: function(index, row) {
+    showDetail: function (index, row) {
       this.inOutDepotDetail.show = true;
       this.inOutDepotDetail.title = row.id + "订单明细";
       this.inOutDepotDetails = row.goodsList;
       this.order = row;
+
+      //获取物流信息
+      if (this.order.flowNo) {
+
+        Api.getFlowInfo(this.order, res => {
+          this.flowData = res.body;
+        })
+      }
     }
   }
 };
@@ -255,6 +287,23 @@ export default {
     display: inline-block;
     min-width: 120px;
     line-height: 30px;
+  }
+}
+.flowDiv {
+  .flowData {
+    .flowInfoItem {
+        height: 30px;
+        line-height: 30px;
+      .flowTime {
+        float: left;
+        width: 50%;
+      }
+
+      .flowContext {
+        float: left;
+        width: 50%;
+      }
+    }
   }
 }
 </style>

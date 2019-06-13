@@ -46,7 +46,7 @@
     <!--新增、编辑商品界面-->
     <Dialog :dialogData="dialogData" ref="GoodsDialog" @emitSaveFn="saveFn">
       <MobileGoodsDetail slot="Mobile" :propsData="propsData">手机页面</MobileGoodsDetail>
-      <GoodsForm slot="dialogContent" :propsData="propsData">我是呵呵</GoodsForm>
+      <GoodsForm slot="dialogContent" :propsData="propsData"></GoodsForm>
     </Dialog>
   </section>
 </template>

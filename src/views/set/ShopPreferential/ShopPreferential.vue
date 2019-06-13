@@ -42,7 +42,7 @@
     </el-col>
     <!--新增、编辑界面-->
     <Dialog :dialogData="dialogData" ref="GoodsDialog" @emitSaveFn="saveFn">
-      <ShopsPreferencetialForm slot="dialogContent" :propsData="propsData" :typeList="typeList">我是呵呵</ShopsPreferencetialForm>
+      <ShopsPreferencetialForm slot="dialogContent" :propsData="propsData" :typeList="typeList"></ShopsPreferencetialForm>
     </Dialog>
   </section>
 </template>

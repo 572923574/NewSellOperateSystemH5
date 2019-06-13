@@ -8,7 +8,7 @@
 			<TableDemo :tableData="tableData" @emitTableFn="emitTableFn"></TableDemo>
 		</div>
 		<Dialog :dialogData="dialogData" ref="GoodsSubTypeDialog" @emitSaveFn="saveFn">
-			<GoodsSubTypeForm slot="dialogContent" :propsData="propsData">我是呵呵</GoodsSubTypeForm>
+			<GoodsSubTypeForm slot="dialogContent" :propsData="propsData"></GoodsSubTypeForm>
 		</Dialog>
 	</div>
 </template>
